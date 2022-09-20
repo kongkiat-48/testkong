@@ -17,9 +17,11 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $url = request()->segments();
         // dd($user);
-        return view('test.index',[
-            'name'  => $user->name
+        return view('app.home.index',[
+            'name'  => $user->name,
+            'url'   => $url
         ]);
     }
 }

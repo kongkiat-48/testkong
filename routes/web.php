@@ -25,6 +25,10 @@ Route::get('logout', 'Auth\LoginController@logout');
 Route::middleware(['auth'])->group(function() {
     Route::get('home', 'HomeController@index');
     
+    Route::prefix('table')->group(function (){
+        Route::get('','Table\TableController@index');
+    });
+
     Route::prefix('test')->group(function (){
         Route::get('','Test\KongkiatController@index');
     });

@@ -2,11 +2,18 @@
     <div class="container-xxl d-flex h-100">
       <ul class="menu-inner">
         <!-- Dashboards -->
-        {{-- {{dd(request()->segments())}} --}}
-        <li class="menu-item active">
-          <a href="javascript:void(0)" class="menu-link">
+        {{-- {{dd()}} --}}
+        <li class="menu-item {{$url[0] == 'home' ? 'active' : ''}}">
+          <a href="{{ url('/home') }}" class="menu-link">
             <i class="menu-icon tf-icons bx bx-home-circle"></i>
             <div data-i18n="หน้าแรก">หน้าแรก</div>
+          </a>
+        </li>
+
+        <li class="menu-item {{$url[0] == 'table' ? 'active' : ''}}">
+          <a href="{{ url('/table') }}" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-home-circle"></i>
+            <div data-i18n="ตารางข้อมูล">ตารางข้อมูล</div>
           </a>
         </li>
 

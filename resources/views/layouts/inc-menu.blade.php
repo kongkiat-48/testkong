@@ -18,17 +18,16 @@
         </li>
 
         <!-- Layouts -->
-        <li class="menu-item">
+        <li class="menu-item {{$url[0] == 'settings-system' ? 'active' : ''}}">
           <a href="javascript:void(0)" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bx-layout"></i>
-            <div data-i18n="ข้อมูล">ข้อมูล</div>
+            <i class="menu-icon tf-icons bx bxs-cog"></i>
+            <div data-i18n="ตั้งค่าระบบ">ตั้งค่าระบบ</div>
           </a>
-
           <ul class="menu-sub">
-            <li class="menu-item">
-              <a href="layouts-without-menu.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-menu"></i>
-                <div data-i18n="Without menu">Without menu</div>
+            <li class="menu-item {{isset($url[1]) == 'work-status' ? 'active' : ''}}">
+              <a href="{{ url('settings-system/work-status') }}" class="menu-link">
+                <i class='menu-icon tf-icons bx bxs-purchase-tag' ></i>
+                <div data-i18n="สถานะงาน">สถานะงาน</div>
               </a>
             </li>
             <li class="menu-item">
@@ -58,8 +57,15 @@
           </ul>
         </li>
 
-        <!-- Apps -->
         <li class="menu-item">
+            <a href="{{ url('/logout') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-log-out"></i>
+              <div data-i18n="ออกจากระบบ"></div>
+            </a>
+          </li>
+
+        <!-- Apps -->
+        {{-- <li class="menu-item">
           <a href="javascript:void(0)" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-customize"></i>
             <div data-i18n="Apps">Apps</div>
@@ -911,7 +917,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> --}}
       </ul>
     </div>
   </aside>

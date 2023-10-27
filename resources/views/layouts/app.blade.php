@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="light-style" dir="ltr" data-theme="theme-default" data-assets-path="assets/"
-    data-template="horizontal-menu-template">
-
+{{-- <html lang="en" class="light-style" dir="ltr" data-theme="theme-default" data-assets-path="assets/" data-template="horizontal-menu-template"> --}}
+<html lang="en" class="light-style" dir="ltr" data-theme="theme-default" data-assets-path="{{url ('assets')}}/" data-template="horizontal-menu-template">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

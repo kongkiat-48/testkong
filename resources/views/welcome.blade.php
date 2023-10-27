@@ -58,16 +58,16 @@
     <!-- Not Authorized -->
     <div class="container-xxl container-p-y">
         <div class="misc-wrapper">
-            
+
             @if (Route::has('login'))
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                     @auth
                     <h2 class="mb-2 mx-2">คุณได้เข้าสู่ระบบแล้ว</h2>
-                    <p class="mb-4 mx-2">
+                    {{-- <p class="mb-4 mx-2">
                         You do not have permission to view this page using the credentials that you have provided while login.
                         <br />
                         Please contact your site administrator.
-                    </p>
+                    </p> --}}
                     <a href="{{ url('/home') }}" class="btn btn-primary">Home</a>
                     @else
                         <h2 class="mb-2 mx-2">คุณยังไม่ได้เข้าสู่ระบบ</h2>
@@ -86,11 +86,11 @@
             @endif
 
 
-            <div class="mt-5">
+            {{-- <div class="mt-5">
                 <img src="../../assets/img/illustrations/girl-with-laptop-light.png" alt="page-misc-error-light"
                     width="450" class="img-fluid" data-app-dark-img="illustrations/girl-with-laptop-dark.png"
                     data-app-light-img="illustrations/girl-with-laptop-light.png" />
-            </div>
+            </div> --}}
         </div>
 
         <!-- /Not Authorized -->

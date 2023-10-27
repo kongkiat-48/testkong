@@ -10,6 +10,7 @@ class TableController extends Controller
     public function index()
     {
         $url = request()->segments();
+        // dd($url);
         return view('app.table.index',[
             'url'   => $url
         ]);

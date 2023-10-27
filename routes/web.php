@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -22,14 +24,33 @@ Auth::routes();
 
 Route::get('logout', 'Auth\LoginController@logout');
 
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth'])->group(function () {
     Route::get('home', 'HomeController@index');
-    
-    Route::prefix('table')->group(function (){
-        Route::get('','Table\TableController@index');
+
+    Route::prefix('table')->group(function () {
+        Route::get('', 'Table\TableController@index');
     });
 
-    Route::prefix('test')->group(function (){
-        Route::get('','Test\KongkiatController@index');
+    Route::prefix('settings-system')->group(function () {
+        Route::prefix('/work-status')->group(function () {
+            Route::get('', 'Settings\SetStatusController@index');
+            Route::get('/table-work-status', 'Settings\SetStatusController@showDataStatus');
+            Route::post('/save-work-status', 'Settings\SetStatusController@saveDataWorkStatus');
+            Route::get('/show-edit-status/{statusID}','Settings\SetStatusController@showEditStatus');
+            Route::post('/edit-work-status/{statusID}','Settings\SetStatusController@editStatus');
+
+            Route::get('/table-flag-type', 'Settings\SetStatusController@showDataFlagType');
+        });
     });
+
+    Route::prefix('test')->group(function () {
+        Route::post('', 'Test\KongkiatController@index');
+    });
+});
+
+
+//Clear route cache:
+Route::get('/route-cache', function () {
+    Artisan::call('route:cache');
+    return 'Routes cache has been cleared';
 });

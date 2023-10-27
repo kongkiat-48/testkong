@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily'],
             'ignore_exceptions' => false,
         ],
 
@@ -49,9 +49,10 @@ return [
 
         'daily' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel.log'),
+            'path' => storage_path('logs/' . date('Y/m/') . 'laravel.log'), // add dynamic folder structure
             'level' => 'debug',
-            'days' => 14,
+            'days' => 31,
+            'permission' => 0777,
         ],
 
         'slack' => [

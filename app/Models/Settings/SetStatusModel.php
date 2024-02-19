@@ -64,7 +64,7 @@ class SetStatusModel extends Model
         $query = $this->statusWorkDB->table('flag_type')->where('deleted', 0);
 
         // คำสั่งเรียงลำดับ (Sorting)
-        $columns = ['ID', 'flag_name_th', 'flag_name_en', 'class'];
+        $columns = ['ID', 'flag_name', 'type_work'];
         $orderColumn = $columns[$request->input('order.0.column')];
         $orderDirection = $request->input('order.0.dir');
         $query->orderBy($orderColumn, $orderDirection);
@@ -74,7 +74,8 @@ class SetStatusModel extends Model
         if (!empty($searchValue)) {
             $query->where(function ($query) use ($columns, $searchValue) {
                 foreach ($columns as $column) {
-                    $query->orWhere('flag_name_th', 'like', '%' . $searchValue . '%');
+                    $query->orWhere('flag_name', 'like', '%' . $searchValue . '%');
+                    $query->orWhere('type_work', 'like', '%' . $searchValue . '%');
                 }
             });
         }
@@ -105,7 +106,7 @@ class SetStatusModel extends Model
             $saveToDB = $this->statusWorkDB->table('status_work')->insertGetId([
                 'status_name'   => $getData['statusName'],
                 'status_use'    => $getData['statusUse'],
-                'status'        => $getData['status'],
+                'status'        => $getData['statusWS'],
                 'flag_type'     => $getData['flagType'],
                 'created_user'  => Auth::user()->emp_code,
                 'created_at'    => Carbon::now()
@@ -139,7 +140,7 @@ class SetStatusModel extends Model
             $this->statusWorkDB->table('status_work')->where('ID',$statusID)->update([
                 'status_name'   => $dataEdit['edit_statusName'],
                 'status_use'    => $dataEdit['edit_statusUse'],
-                'status'        => $dataEdit['edit_status'],
+                'status'        => $dataEdit['edit_statusWS'],
                 'flag_type'     => $dataEdit['edit_flagType'],
                 'update_user'  => Auth::user()->emp_code,
                 'update_at'    => Carbon::now()
@@ -158,5 +159,38 @@ class SetStatusModel extends Model
         } finally {
             return $returnStatus;
         }
+    }
+
+    public function saveDataFlagType($getFlagType){
+        try {
+            // dd($getFlagType);
+            $saveToDB = $this->statusWorkDB->table('flag_type')->insertGetId([
+                'flag_name'   => $getFlagType['flagName'],
+                'type_work'    => $getFlagType['typeWork'],
+                'created_user'  => Auth::user()->emp_code,
+                'created_at'    => Carbon::now()
+            ]);
+            // dd($saveToDB);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                'ID'        => $saveToDB
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+
+            Log::info($returnStatus);
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function getflagID($flagID){
+        $getData = $this->statusWorkDB->table('flag_type')->where('ID',$flagID)->get();
+        // dd($getData);
+        return $getData;
     }
 }

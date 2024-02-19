@@ -34,12 +34,16 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('settings-system')->group(function () {
         Route::prefix('/work-status')->group(function () {
             Route::get('', 'Settings\SetStatusController@index');
+
             Route::get('/table-work-status', 'Settings\SetStatusController@showDataStatus');
             Route::post('/save-work-status', 'Settings\SetStatusController@saveDataWorkStatus');
             Route::get('/show-edit-status/{statusID}','Settings\SetStatusController@showEditStatus');
             Route::post('/edit-work-status/{statusID}','Settings\SetStatusController@editStatus');
 
             Route::get('/table-flag-type', 'Settings\SetStatusController@showDataFlagType');
+            Route::post('/save-flag-type','Settings\SetStatusController@saveDataFlagType');
+            Route::get('/show-edit-flag-type/{typeID}','Settings\SetStatusController@showEditFlagType');
+            Route::post('/edit-work-flag-type/{typeID}','Settings\SetStatusController@editFlagType');
         });
     });
 

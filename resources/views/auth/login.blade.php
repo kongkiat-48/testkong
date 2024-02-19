@@ -116,58 +116,32 @@
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">Welcome to Sneat! 👋</h4>
-                        <p class="mb-4">Please sign-in to your account and start the adventure</p>
+                        <h4 class="mb-2">Welcome to Web Service IT</h4>
+                        <p class="mt-4 text-warning">กรุณาเข้าสู่ระบบเพื่อใช้งาน.</p>
 
                         <form id="formAuthentication" method="POST" action="{{ route('login') }}">
                             @csrf
-
-                            {{-- <div class="row mb-3">
-                                <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    <strong>{{ session('error') }}</strong>
                                 </div>
-                            </div> --}}
+                            @endif
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email or UsernameV s</label>
-                                <input id="email" type="email"
-                                    class="form-control @error('email') is-invalid @enderror" name="email"
-                                    value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <label for="email" class="form-label">รหัสพนักงาน หรืออีเมล์</label>
+                                <input id="username" type="text"
+                                    class="form-control @error('username') is-invalid @enderror" name="username"
+                                    value="{{ old('username') }}" required autocomplete="username" autofocus>
 
-                                @error('email')
+                                @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
                             </div>
 
-                            {{-- <div class="row mb-3">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        required autocomplete="current-password">
-
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div> --}}
-
                             <div class="mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">Password</label>
+                                    <label class="form-label" for="password">รหัสผ่าน</label>
 
                                 </div>
                                 <div class="input-group input-group-merge">
@@ -182,15 +156,10 @@
                                     @enderror
                                 </div>
                             </div>
-
-
-
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
-                                    {{-- <button type="submit" class="btn btn-primary">
-                                        {{ __('Login') }}
-                                    </button> --}}
-                                    <button class="btn btn-primary" type="submit"><span class="tf-icons bx bx-log-in"></span>&nbsp;Sign in</button>
+                                    <button class="btn btn-primary" type="submit"><span
+                                            class="tf-icons bx bx-log-in"></span>&nbsp;Sign in</button>
                                 </div>
                             </div>
                         </form>

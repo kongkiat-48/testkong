@@ -107,12 +107,33 @@ $(function () {
 
             columns: [
                 { data: null, orderable: false, searchable: false, width: "1%", class: "text-nowrap" },
-                { data: "status_name", class: "text-nowrap" },
+                { data: "flag_name", class: "text-nowrap" },
+                // { data: "type_work", class: "text-nowrap" },
+                {
+                    render: function (data, type, full, row) {
+                        var $type_work = full['type_work'];
+                        var $type = {
+                            Complete: { title: 'Complete', class: 'bg-label-success' },
+                            Hold: { title: 'Hold', class: 'bg-label-warning' },
+                            Doing: { title: 'Doing', class: 'bg-label-primary' },
+                            Wating: { title: 'Wating', class: 'bg-label-warning' },
+                            Cancel: { title: 'Cancel', class: 'bg-label-danger' },
+                            Other: { title: 'Other', class: 'bg-label-info' },
+                        };
+                        if (typeof $type[$type_work] === 'undefined') {
+                            return '<span class="badge bg-label-secondary">Undefined</span>'
+                        }
+                        return (
+                            '<span class="badge ' + $type[$type_work].class + '">' + $type[$type_work].title + '</span>'
+                        );
+
+                    }
+                },
 
                 {
-                    data: 'id', orderable: false, searchable: false, width: "1%", class: "text-nowrap",
+                    data: 'ID', orderable: false, searchable: false, width: "1%", class: "text-nowrap",
                     render: function (data, type, row) {
-                        return '<button type="button" class="btn btn-icon btn- btn-label-warning btn-outline-warning" onclick="fcGetEdit(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
+                        return '<button type="button" class="btn btn-icon btn- btn-label-warning btn-outline-warning" onclick="fcGetEditFT(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
                     }
                 },
             ],
@@ -172,7 +193,7 @@ $(document).ready(function () {
                             message: 'ระบุชื่อ รายการสถานะ'
                         },
                         regexp: {
-                            regexp: /^[\p{L}0-9 ]+$/u,
+                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
                             message: 'ข้อมูลไม่ถูกต้อง'
                         }
                     }
@@ -184,7 +205,7 @@ $(document).ready(function () {
                         }
                     }
                 },
-                status: {
+                statusWS: {
                     validators: {
                         notEmpty: {
                             message: 'เลือกข้อมูล สถานะการใช้งาน'
@@ -254,6 +275,87 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () {
+    $("#saveFlagType").on("click", function (e) {
+        $('.fv-plugins-message-container.invalid-feedback').remove();
+        $('.is-invalid').removeClass('is-invalid');
+        var form = $("#formAddFlagType")[0];
+        var fv = FormValidation.formValidation(form, {
+            fields: {
+                flagName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'ระบุชื่อ ชื่อรายการรูปแบบสถานะงาน'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
+                            message: 'ข้อมูลไม่ถูกต้อง'
+                        }
+                    }
+                },
+                typeWork: {
+                    validators: {
+                        notEmpty: {
+                            message: 'เลือกข้อมูล รูปแบบของสถานะ'
+                        }
+                    }
+                },
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap5: new FormValidation.plugins.Bootstrap5({
+                    eleValidClass: '',
+                    rowSelector: '.col-6'
+                }),
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                autoFocus: new FormValidation.plugins.AutoFocus()
+            },
+        });
+        var formData = new FormData(form);
+        e.preventDefault();
+        fv.validate().then(function (status) {
+            if (status === 'Valid') {
+                $.ajax({
+                    url: "/settings-system/work-status/save-flag-type",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'บันทึกข้อมูลสำเร็จ',
+                                showConfirmButton: false,
+                                timer: 2500,
+                                willClose: function () {
+                                    location.reload();
+                                }
+                            });
+                            // $('#addStatus').modal('hidde');
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                                text: 'โปรดลองอีกครั้ง',
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
 function fcGetEdit(statusID) {
     $('.fv-plugins-message-container.invalid-feedback').remove();
     $('.is-invalid').removeClass('is-invalid');
@@ -267,7 +369,7 @@ function fcGetEdit(statusID) {
                         message: 'ระบุชื่อ รายการสถานะ'
                     },
                     regexp: {
-                        regexp: /^[\p{L}0-9 ]+$/u,
+                        regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
                         message: 'ข้อมูลไม่ถูกต้อง'
                     }
                 }
@@ -279,7 +381,7 @@ function fcGetEdit(statusID) {
                     }
                 }
             },
-            edit_status: {
+            edit_statusWS: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'
@@ -314,7 +416,7 @@ function fcGetEdit(statusID) {
             $('#edit_status').val(data[0].status).trigger('change');
             $('#edit_flagType').val(data[0].flag_type).trigger('change');
 
-            $('#editStatusModel').modal('show');
+            $('#editStatusModal').modal('show');
         },
         error: function (xhr, status, error) {
             console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
@@ -328,6 +430,101 @@ function fcGetEdit(statusID) {
             if (status === 'Valid') {
                 $.ajax({
                     url: '/settings-system/work-status/edit-work-status/' + statusID,
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        if (response.status === 200) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'บันทึกข้อมูลสำเร็จ',
+                                showConfirmButton: false,
+                                timer: 2500,
+                                willClose: function () {
+                                    location.reload();
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                                text: 'โปรดลองอีกครั้ง',
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
+                        });
+                    }
+                });
+            }
+        });
+    });
+}
+
+function fcGetEditFT(flagID) {
+    // alert(flagID)
+    $('.fv-plugins-message-container.invalid-feedback').remove();
+    $('.is-invalid').removeClass('is-invalid');
+
+    var form = $("#formEditFlagType")[0];
+    var fvEdit = new FormValidation.formValidation(form, {
+        fields: {
+            edit_flagName: {
+                validators: {
+                    notEmpty: {
+                        message: 'ระบุชื่อ ชื่อรายการรูปแบบสถานะงาน'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
+                        message: 'ข้อมูลไม่ถูกต้อง'
+                    }
+                }
+            },
+            edit_typeWork: {
+                validators: {
+                    notEmpty: {
+                        message: 'เลือกข้อมูล รูปแบบของสถานะ'
+                    }
+                }
+            },
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            bootstrap5: new FormValidation.plugins.Bootstrap5({
+                eleValidClass: '',
+                rowSelector: '.col-md-6'
+            }),
+        },
+        autoFocus: new FormValidation.plugins.AutoFocus()
+    });
+    $.ajax({
+        url: '/settings-system/work-status/show-edit-flag-type/' + flagID,
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            $('#edit_flagName').val(data[0].flag_name);
+            $('#edit_typeWork').val(data[0].type_work).trigger('change');
+
+            $('#editFlagTypeModal').modal('show');
+        },
+        error: function (xhr, status, error) {
+            console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+        }
+    });
+
+    $("#editFlagType").on("click", function (e) {
+        var formData = new FormData(form);
+        e.preventDefault();
+        fvEdit.validate().then(function (status) {
+            if (status === 'Valid') {
+                $.ajax({
+                    url: '/settings-system/work-status/edit-flag-type/' + flagID,
                     method: "POST",
                     data: formData,
                     contentType: false,

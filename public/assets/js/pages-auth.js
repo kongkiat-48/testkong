@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 message: 'Please enter name'
               },
               stringLength: {
-                min: 6,
+                min: 3,
                 message: 'name must be more than 6 characters'
               }
             }
@@ -25,11 +25,11 @@ document.addEventListener('DOMContentLoaded', function (e) {
           username: {
             validators: {
               notEmpty: {
-                message: 'Please enter username'
+                message: 'กรุณาระบุรหัสพนักงาน หรืออีเมล์'
               },
               stringLength: {
-                min: 6,
-                message: 'Username must be more than 6 characters'
+                min: 3,
+                message: 'ข้อมูลไม่ถูกต้อง'
               }
             }
           },
@@ -49,19 +49,19 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 message: 'Please enter email / username'
               },
               stringLength: {
-                min: 6,
-                message: 'Username must be more than 6 characters'
+                min: 3,
+                message: 'Username must be more than 3 characters'
               }
             }
           },
           password: {
             validators: {
               notEmpty: {
-                message: 'Please enter your password'
+                message: 'กรุณาระบุรหัสผ่าน'
               },
               stringLength: {
-                min: 6,
-                message: 'Password must be more than 6 characters'
+                min: 4,
+                message: 'ข้อมูลไม่ถูกต้อง'
               }
             }
           },
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function (e) {
                 message: 'The password and its confirm are not the same'
               },
               stringLength: {
-                min: 6,
+                min: 3,
                 message: 'Password must be more than 6 characters'
               }
             }

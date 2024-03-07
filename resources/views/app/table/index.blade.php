@@ -17,7 +17,7 @@
                         <th>Date</th>
                         <th>Salary</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>จัดการ</th>
                     </tr>
                 </thead>
             </table>
@@ -125,7 +125,7 @@
                         <th>Date</th>
                         <th>Salary</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>จัดการ</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -138,7 +138,7 @@
                         <th>Date</th>
                         <th>Salary</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>จัดการ</th>
                     </tr>
                 </tfoot>
             </table>
@@ -162,7 +162,7 @@
                         <th>Date</th>
                         <th>Salary</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>จัดการ</th>
                     </tr>
                 </thead>
             </table>

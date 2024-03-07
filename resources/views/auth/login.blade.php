@@ -116,16 +116,15 @@
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-2">Welcome to Web Service IT</h4>
-                        <p class="mt-4 text-warning">กรุณาเข้าสู่ระบบเพื่อใช้งาน.</p>
+                        <dir class="mx-auto">
+                            <h4 class="mb-2">Welcome to Web Service IT</h4>
+                        </dir>
+                        <div class="alert alert-warning" role="alert">
+                            กรุณาเข้าสู่ระบบเพื่อใช้งาน.
+                        </div>
 
                         <form id="formAuthentication" method="POST" action="{{ route('login') }}">
                             @csrf
-                            @if (session('error'))
-                                <div class="alert alert-danger">
-                                    <strong>{{ session('error') }}</strong>
-                                </div>
-                            @endif
                             <div class="mb-3">
                                 <label for="email" class="form-label">รหัสพนักงาน หรืออีเมล์</label>
                                 <input id="username" type="text"
@@ -156,10 +155,17 @@
                                     @enderror
                                 </div>
                             </div>
+                            @if (session('error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>{{ session('error') }} </strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                </div>
+                            @endif
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button class="btn btn-primary" type="submit"><span
-                                            class="tf-icons bx bx-log-in"></span>&nbsp;Sign in</button>
+                                            class="tf-icons bx bx-log-in"></span>&nbsp;เข้าสู้ระบบ</button>
                                 </div>
                             </div>
                         </form>

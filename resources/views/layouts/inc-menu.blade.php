@@ -1,71 +1,93 @@
 <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu bg-menu-theme flex-grow-0">
     <div class="container-xxl d-flex h-100">
-      <ul class="menu-inner">
-        <!-- Dashboards -->
-        {{-- {{dd()}} --}}
-        <li class="menu-item {{$url[0] == 'home' ? 'active' : ''}}">
-          <a href="{{ url('/home') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="หน้าแรก">หน้าแรก</div>
-          </a>
-        </li>
+        <ul class="menu-inner">
+            <!-- Dashboards -->
+            {{-- {{dd()}} --}}
+            <li class="menu-item {{ $url[0] == 'home' ? 'active' : '' }}">
+                <a href="{{ url('/home') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div data-i18n="หน้าแรก">หน้าแรก</div>
+                </a>
+            </li>
 
-        <li class="menu-item {{$url[0] == 'table' ? 'active' : ''}}">
-          <a href="{{ url('/table') }}" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-            <div data-i18n="ตารางข้อมูล">ตารางข้อมูล</div>
-          </a>
-        </li>
+            {{-- <li class="menu-item {{ $url[0] == 'table' ? 'active' : '' }}">
+                <a href="{{ url('/table') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div data-i18n="ตารางข้อมูล">ตารางข้อมูล</div>
+                </a>
+            </li> --}}
 
-        <!-- Layouts -->
-        <li class="menu-item {{$url[0] == 'settings-system' ? 'active' : ''}}">
-          <a href="javascript:void(0)" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons bx bxs-cog"></i>
-            <div data-i18n="ตั้งค่าระบบ">ตั้งค่าระบบ</div>
-          </a>
-          <ul class="menu-sub">
-            <li class="menu-item {{isset($url[1]) == 'work-status' ? 'active' : ''}}">
-              <a href="{{ url('settings-system/work-status') }}" class="menu-link">
-                <i class='menu-icon tf-icons bx bxs-purchase-tag' ></i>
-                <div data-i18n="สถานะงาน">สถานะงาน</div>
-              </a>
+            <li class="menu-item {{ $url[0] == 'table' ? 'active' : '' }}">
+                <a href="{{ url('/table') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div data-i18n="ตารางข้อมูล">ตารางข้อมูล</div>
+                </a>
             </li>
-            <li class="menu-item">
-              <a href="../vertical-menu-template/" class="menu-link" target="_blank">
-                <i class="menu-icon tf-icons bx bx-vertical-center"></i>
-                <div data-i18n="Vertical">Vertical</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="layouts-fluid.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-fullscreen"></i>
-                <div data-i18n="Fluid">Fluid</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="layouts-container.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-exit-fullscreen"></i>
-                <div data-i18n="Container">Container</div>
-              </a>
-            </li>
-            <li class="menu-item">
-              <a href="layouts-blank.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-square-rounded"></i>
-                <div data-i18n="Blank">Blank</div>
-              </a>
-            </li>
-          </ul>
-        </li>
 
-        <li class="menu-item">
-            <a href="{{ url('/logout') }}" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-log-out"></i>
-              <div data-i18n="ออกจากระบบ"></div>
-            </a>
-          </li>
+            <!-- Layouts -->
+            <li class="menu-item {{ $url[0] == 'settings-system' ? 'active' : '' }}">
+                <a href="javascript:void(0)" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bxs-cog"></i>
+                    <div data-i18n="ตั้งค่าระบบ">ตั้งค่าระบบ</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item {{ $urlSubLink == 'work-status' ? 'active' : '' }}">
+                        <a href="{{ url('settings-system/work-status') }}" class="menu-link">
+                            <i class='menu-icon tf-icons bx bxs-purchase-tag'></i>
+                            <div data-i18n="สถานะงาน">สถานะงาน</div>
+                        </a>
+                    </li>
+                    {{-- {{ dd($urlLink) }} --}}
+                    <li class="menu-item {{ $urlSubLink == 'menu' ? 'active' : '' }}">
+                        <a href="{{ url('settings-system/menu') }}" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-list-ul'></i>
+                            <div data-i18n="รายการเข้าถึงเมนู">รายการเข้าถึงเมนู</div>
+                        </a>
+                    </li>
 
-        <!-- Apps -->
-        {{-- <li class="menu-item">
+                    <li class="menu-item {{ $urlSubLink == 'about-company' ? 'active' : '' }}">
+                        <a href="{{ url('settings-system/about-company') }}" class="menu-link">
+                            <i class='menu-icon tf-icons bx bx-buildings'></i>
+                            <div data-i18n="กำหนดค่าภายในองค์กร">กำหนดค่าภายในองค์กร</div>
+                        </a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a href="../vertical-menu-template/" class="menu-link" target="_blank">
+                            <i class="menu-icon tf-icons bx bx-vertical-center"></i>
+                            <div data-i18n="Vertical">Vertical</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="layouts-fluid.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-fullscreen"></i>
+                            <div data-i18n="Fluid">Fluid</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="layouts-container.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-exit-fullscreen"></i>
+                            <div data-i18n="Container">Container</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="layouts-blank.html" class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-square-rounded"></i>
+                            <div data-i18n="Blank">Blank</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="menu-item">
+                <a href="{{ url('/logout') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-log-out"></i>
+                    <div data-i18n="ออกจากระบบ"></div>
+                </a>
+            </li>
+
+            <!-- Apps -->
+            {{-- <li class="menu-item">
           <a href="javascript:void(0)" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons bx bx-customize"></i>
             <div data-i18n="Apps">Apps</div>
@@ -918,6 +940,6 @@
             </li>
           </ul>
         </li> --}}
-      </ul>
+        </ul>
     </div>
-  </aside>
+</aside>

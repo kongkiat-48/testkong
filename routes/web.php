@@ -45,6 +45,22 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/show-edit-flag-type/{typeID}','Settings\SetStatusController@showEditFlagType');
             Route::post('/edit-work-flag-type/{typeID}','Settings\SetStatusController@editFlagType');
         });
+
+        Route::prefix('/menu')->group(function () {
+            Route::get('', 'Settings\MenuController@index');
+        });
+
+        Route::prefix('/about-company')->group(function () {
+            Route::get('', 'Settings\AboutCompanyController@index');
+
+            Route::get('/table-company', 'Settings\AboutCompanyController@showDataCompany');
+            Route::get('/table-department', 'Settings\AboutCompanyController@showDataDepartment');
+            Route::get('/table-group', 'Settings\AboutCompanyController@showDataGroup');
+
+            Route::post('/save-company', 'Settings\AboutCompanyController@saveDataCompany');
+            Route::post('/save-department', 'Settings\AboutCompanyController@saveDataDepartment');
+
+        });
     });
 
     Route::prefix('test')->group(function () {

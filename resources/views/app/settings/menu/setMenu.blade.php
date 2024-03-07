@@ -10,10 +10,6 @@
         </ol>
     </nav>
     <hr>
-    @include('app.settings.work-status.dialog.addStatus')
-    @include('app.settings.work-status.dialog.editStatus')
-    @include('app.settings.work-status.dialog.addFlagType')
-    @include('app.settings.work-status.dialog.editFlagType')
     {{-- @include('Customer.lead-telesale.dialog-asset-edit') --}}
     <div class="row">
         <div class="col-12">
@@ -45,10 +41,10 @@
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
-                                        <th class="text-center">รายการสถานะ</th>
-                                        <th class="text-center">รูปแบบการใช้งาน</th>
-                                        <th class="text-center">การใช้งานระบบ</th>
-                                        <th class="text-center">รูปแบบสถานะงาน</th>
+                                        <th>รายการสถานะ</th>
+                                        <th>รูปแบบการใช้งาน</th>
+                                        <th>การใช้งานระบบ</th>
+                                        <th>รูปแบบสถานะงาน</th>
                                         <th>จัดการ</th>
                                     </tr>
                                 </thead>
@@ -67,8 +63,8 @@
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
-                                        <th class="text-center">รายการสถานะ</th>
-                                        <th class="text-center">รูปแบบของสถานะ</th>
+                                        <th>รายการสถานะ</th>
+                                        <th>รูปแบบของสถานะ</th>
                                         {{-- <th>รูปแบบการใช้งาน</th>
                                         <th>การใช้งานระบบ</th>
                                         <th>รูปแบบสถานะงาน</th> --}}
@@ -85,5 +81,5 @@
     </div>
 @endsection
 @section('script')
-    <script type="text/javascript" src="{{ asset('/assets/custom/settings/status/status.js?v=') }}@php echo date("H:i:s") @endphp"></script>
+    {{-- <script type="text/javascript" src="{{ asset('/assets/custom/settings/status/status.js?v=') }}@php echo date("H:i:s") @endphp"></script> --}}
 @endsection

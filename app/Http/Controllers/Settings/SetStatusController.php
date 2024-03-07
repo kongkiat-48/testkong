@@ -3,16 +3,20 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\getDataMasterModel;
 use App\Models\Settings\SetStatusModel;
 use Illuminate\Http\Request;
 
 class SetStatusController extends Controller
 {
     private $setStatusModel;
+    private $getMaster;
 
     public function __construct()
     {
-        $this->setStatusModel = new SetStatusModel;
+        $this->setStatusModel   = new SetStatusModel;
+        $this->getMaster        = new getDataMasterModel;
+
     }
     /**
      * Display a listing of the resource.
@@ -21,12 +25,16 @@ class SetStatusController extends Controller
      */
     public function index()
     {
-        $url = request()->segments();
-        $urlName = "ตั้งค่าสถานะงาน";
+        $url        = request()->segments();
+        $urlName    = "ตั้งค่าสถานะงาน";
+        $urlSubLink = "work-status";
+        $getFlagType = $this->getMaster->getDataFlagType();
         // dd($url);
         return view('app.settings.work-status.setStatus', [
-            'url'       => $url,
-            'urlName'   => $urlName
+            'url'           => $url,
+            'urlName'       => $urlName,
+            'urlSubLink'    => $urlSubLink,
+            'flagType'      => $getFlagType
         ]);
     }
 

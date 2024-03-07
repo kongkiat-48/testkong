@@ -21,9 +21,9 @@ $(function () {
                     render: function (data, type, full, row) {
                         var $status_number = full['status_use'];
                         var $status = {
-                            1: { title: 'ใช้งานฝ่าย IT', class: 'bg-label-info' },
-                            2: { title: 'ใช้งานฝ่ายอาคาร', class: ' bg-label-warning' },
-                            3: { title: 'ใช้งานทุกระบบ', class: ' bg-label-success' },
+                            it: { title: 'ใช้งานฝ่าย IT', class: 'bg-label-info' },
+                            building: { title: 'ใช้งานฝ่ายอาคาร', class: ' bg-label-warning' },
+                            all: { title: 'ใช้งานทุกระบบ', class: ' bg-label-success' },
                         };
                         if (typeof $status[$status_number] === 'undefined') {
                             return '<span class="badge bg-label-secondary">Undefined</span>'
@@ -56,7 +56,7 @@ $(function () {
                         var $status = {
                             Complete: { title: 'ดำเนินงานเสร็จสิ้น', class: 'bg-label-success' },
                             Waiting: { title: 'อยู่ระหว่างดำเนินงาน', class: 'bg-label-warning' },
-                            Close: { title: 'ยกเลิกงาน / การแจ้ง', class: 'bg-label-danger' },
+                            Cancel: { title: 'ยกเลิกงาน / การแจ้ง', class: 'bg-label-danger' },
                             Other: { title: 'อื่น ๆ', class: 'bg-label-info' },
                         };
                         if (typeof $status[$status_number] === 'undefined') {

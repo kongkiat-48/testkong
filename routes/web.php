@@ -63,6 +63,12 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+
+    Route::prefix('getMaster')->group(function () {
+        Route::get('/get-company/{id}','Master\getDataMasterController@getDataCompany');
+        Route::get('/get-department/{id}','Master\getDataMasterController@getDataDepartment');
+    });
+
     Route::prefix('test')->group(function () {
         Route::post('', 'Test\KongkiatController@index');
     });

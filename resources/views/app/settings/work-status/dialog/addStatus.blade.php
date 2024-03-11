@@ -30,7 +30,7 @@
                         <div class="col-md-6">
                             <label class="form-label" for="flagType">รูปแบบสถานะงาน</label>
                             <select id="flagType" name="flagType" class="form-select select2" data-allow-clear="true">
-                                <option value="">กรุณาเลือก</option>
+                                <option value="">Select</option>
                                     @foreach ($flagType as $key => $value)
                                         <option value="{{ $value->type_work }}">
                                             {{ $value->flag_name }} / {{ $value->type_work }}</option>

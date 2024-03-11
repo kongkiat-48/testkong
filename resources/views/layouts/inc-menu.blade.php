@@ -28,24 +28,24 @@
             <li class="menu-item {{ $url[0] == 'settings-system' ? 'active' : '' }}">
                 <a href="javascript:void(0)" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bxs-cog"></i>
-                    <div data-i18n="ตั้งค่าระบบ">ตั้งค่าระบบ</div>
+                    <div data-i18n="ตั้งค่า">ตั้งค่า</div>
                 </a>
                 <ul class="menu-sub">
-                    <li class="menu-item {{ $urlSubLink == 'work-status' ? 'active' : '' }}">
+                    <li class="menu-item {{ @$urlSubLink == 'work-status' ? 'active' : '' }}">
                         <a href="{{ url('settings-system/work-status') }}" class="menu-link">
                             <i class='menu-icon tf-icons bx bxs-purchase-tag'></i>
                             <div data-i18n="สถานะงาน">สถานะงาน</div>
                         </a>
                     </li>
                     {{-- {{ dd($urlLink) }} --}}
-                    <li class="menu-item {{ $urlSubLink == 'menu' ? 'active' : '' }}">
+                    <li class="menu-item {{ @$urlSubLink == 'menu' ? 'active' : '' }}">
                         <a href="{{ url('settings-system/menu') }}" class="menu-link">
                             <i class='menu-icon tf-icons bx bx-list-ul'></i>
                             <div data-i18n="รายการเข้าถึงเมนู">รายการเข้าถึงเมนู</div>
                         </a>
                     </li>
 
-                    <li class="menu-item {{ $urlSubLink == 'about-company' ? 'active' : '' }}">
+                    <li class="menu-item {{ @$urlSubLink == 'about-company' ? 'active' : '' }}">
                         <a href="{{ url('settings-system/about-company') }}" class="menu-link">
                             <i class='menu-icon tf-icons bx bx-buildings'></i>
                             <div data-i18n="กำหนดค่าภายในองค์กร">กำหนดค่าภายในองค์กร</div>

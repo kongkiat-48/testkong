@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Models\Master\getDataMasterModel;
 use App\Models\Settings\AboutCompanyModel;
 use Illuminate\Http\Request;
 
 class AboutCompanyController extends Controller
 {
     private $aboutCompany;
+    private $getMaster;
 
     public function __construct()
     {
         $this->aboutCompany = new AboutCompanyModel;
+        $this->getMaster    = new getDataMasterModel;
     }
 
 
@@ -25,15 +28,19 @@ class AboutCompanyController extends Controller
     {
         $url = request()->segments();
         // dd($url);
-        $urlName = "กำหนดค่าภายในองค์กร";
-        $urlSubLink = "about-company";
+        $urlName        = "กำหนดค่าภายในองค์กร";
+        $urlSubLink     = "about-company";
+        $getCompany     = $this->getMaster->getDataCompany();
+        $getDepartment  = $this->getMaster->getDataDepartment();
+        // dd($getCompany);
         // $getFlagType = $this->getMaster->getDataFlagType();
         // dd($url);
         return view('app.settings.about-company.setCompany', [
-            'url'           => $url,
-            'urlName'       => $urlName,
-            'urlSubLink'    => $urlSubLink
-            // 'flagType'  => $getFlagType
+            'url'               => $url,
+            'urlName'           => $urlName,
+            'urlSubLink'        => $urlSubLink,
+            'getCompany'        => $getCompany,
+            'getDepartment'     => $getDepartment
         ]);
     }
 
@@ -62,10 +69,21 @@ class AboutCompanyController extends Controller
     {
         // dd($request->input());
         $this->validate($request, [
-            'companyNameTH', 'companyNameEN'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/',
+            'companyNameTH', 'companyNameEN'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
             'status'                            => 'required|integer',
         ]);
         $saveData = $this->aboutCompany->saveDataCompany($request->input());
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function saveDataDepartment(Request $request)
+    {
+        // dd($request->input());
+        $this->validate($request, [
+            'departmentName'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
+            'status','company'  => 'required|integer',
+        ]);
+        $saveData = $this->aboutCompany->saveDataDepartment($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 

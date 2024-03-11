@@ -63,7 +63,7 @@ class SetStatusController extends Controller
     {
         // dd($request->input());
         $this->validate($request, [
-            'statusName','statusUse','flagType'         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/',
+            'statusName','statusUse','flagType'         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
             'statusWS'                                  => 'required|integer',
         ]);
         $saveData = $this->setStatusModel->saveDataStatus($request->input());
@@ -73,7 +73,7 @@ class SetStatusController extends Controller
     public function saveDataFlagType(Request $request) {
         // dd($request->input());
         $this->validate($request, [
-            'flagName','typeWork'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/',
+            'flagName','typeWork'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
         ]);
         $saveData = $this->setStatusModel->saveDataFlagType($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
@@ -125,7 +125,7 @@ class SetStatusController extends Controller
 
     public function editStatus(Request $request,$statusID){
         $this->validate($request, [
-            'edit_statusName','edit_statusUse','edit_flagType'          => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/',
+            'edit_statusName','edit_statusUse','edit_flagType'          => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
             'edit_statusWS'                                             => 'required|integer',
         ]);
         $editData = $this->setStatusModel->editStatus($request->input(),$statusID);

@@ -193,7 +193,7 @@ $(document).ready(function () {
                             message: 'ระบุชื่อ รายการสถานะ'
                         },
                         regexp: {
-                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
+                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
                             message: 'ข้อมูลไม่ถูกต้อง'
                         }
                     }
@@ -288,7 +288,7 @@ $(document).ready(function () {
                             message: 'ระบุชื่อ ชื่อรายการรูปแบบสถานะงาน'
                         },
                         regexp: {
-                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
+                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
                             message: 'ข้อมูลไม่ถูกต้อง'
                         }
                     }
@@ -369,7 +369,7 @@ function fcGetEdit(statusID) {
                         message: 'ระบุชื่อ รายการสถานะ'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
+                        regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
                         message: 'ข้อมูลไม่ถูกต้อง'
                     }
                 }
@@ -481,7 +481,7 @@ function fcGetEditFT(flagID) {
                         message: 'ระบุชื่อ ชื่อรายการรูปแบบสถานะงาน'
                     },
                     regexp: {
-                        regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
+                        regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
                         message: 'ข้อมูลไม่ถูกต้อง'
                     }
                 }

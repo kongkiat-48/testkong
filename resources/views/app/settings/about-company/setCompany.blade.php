@@ -11,6 +11,8 @@
     </nav>
     <hr>
     @include('app.settings.about-company.dialog.addCompany')
+    @include('app.settings.about-company.dialog.addDepartment')
+    @include('app.settings.about-company.dialog.addGroup')
     <div class="row">
         <div class="col-12">
             <div class="nav-align-top mb-4">
@@ -58,7 +60,7 @@
                     <div class="tab-pane fade" id="list-department" role="tabpanel">
                         <div class="demo-inline-spacing text-end">
                             <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                data-bs-target="#addDepartment">
+                                data-bs-target="#addDepartmentModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการชื่อแผนกสังกัด / ฝ่าย
                             </button>
                         </div>
@@ -78,7 +80,7 @@
                     </div>
                     <div class="tab-pane fade" id="list-group" role="tabpanel">
                         <div class="demo-inline-spacing text-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addGroup">
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addGroupModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการชื่อแผนก
                             </button>
                         </div>

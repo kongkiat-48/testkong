@@ -73,7 +73,7 @@ $(function () {
             columns: [
                 { data: null, orderable: false, searchable: false, width: "1%", class: "text-nowrap" },
                 { data: "department_name", class: "text-nowrap" },
-                { data: "company_name", class: "text-nowrap" },
+                { data: "company_name_th", class: "text-nowrap" },
                 {
                     render: function (data, type, full, row) {
                         var $status_number = full['status'];
@@ -211,7 +211,7 @@ $(document).ready(function () {
                             message: 'ระบุชื่อ บริษัท (ภาษาไทย)'
                         },
                         regexp: {
-                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
+                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
                             message: 'ข้อมูลไม่ถูกต้อง'
                         }
                     }
@@ -222,7 +222,7 @@ $(document).ready(function () {
                             message: 'ระบุชื่อ บริษัท (ภาษาอังกฤษ)'
                         },
                         regexp: {
-                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/,
+                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
                             message: 'ข้อมูลไม่ถูกต้อง'
                         }
                     }
@@ -257,27 +257,19 @@ $(document).ready(function () {
                     contentType: false,
                     processData: false,
                     success: function (response) {
-                        if (response.status === 200) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'บันทึกข้อมูลสำเร็จ',
-                                showConfirmButton: false,
-                                timer: 2500,
-                                willClose: function () {
-                                    location.reload();
-                                }
-                            });
-                            // $('#addStatus').modal('hidde');
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
-                                text: 'โปรดลองอีกครั้ง',
-                            });
-                        }
+                        const isSuccessful = response.status === 200;
+                        const swalConfig = {
+                            icon: isSuccessful ? 'success' : 'error',
+                            title: isSuccessful ? 'บันทึกข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                            text: isSuccessful ? null : 'โปรดลองอีกครั้ง',
+                            showConfirmButton: false,
+                            timer: isSuccessful ? 2500 : undefined,
+                            willClose: isSuccessful ? () => location.reload() : undefined
+                        };
+
+                        Swal.fire(swalConfig);
                     },
-                    error: function (xhr, status, error) {
-                        console.log(xhr);
+                    error: function (xhr, textStatus, errorThrown) {
                         Swal.fire({
                             icon: 'error',
                             title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
@@ -288,4 +280,198 @@ $(document).ready(function () {
             }
         });
     });
+
+    $("#saveDepartment").on("click", function (e) {
+        $('.fv-plugins-message-container.invalid-feedback').remove();
+        $('.is-invalid').removeClass('is-invalid');
+        var form = $("#formAddDepartment")[0];
+        var fv = FormValidation.formValidation(form, {
+            fields: {
+                departmentName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'ระบุชื่อสังกัด / ฝ่าย'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
+                            message: 'ข้อมูลไม่ถูกต้อง'
+                        }
+                    }
+                },
+                company: {
+                    validators: {
+                        notEmpty: {
+                            message: 'เลือกข้อมูล บริษัท'
+                        }
+                    }
+                },
+                status: {
+                    validators: {
+                        notEmpty: {
+                            message: 'เลือกข้อมูล สถานะการใช้งาน'
+                        }
+                    }
+                },
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap5: new FormValidation.plugins.Bootstrap5({
+                    eleValidClass: '',
+                    rowSelector: '.col-md-6'
+                }),
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
+                autoFocus: new FormValidation.plugins.AutoFocus()
+            },
+        });
+        var formData = new FormData(form);
+        e.preventDefault();
+        fv.validate().then(function (status) {
+            if (status === 'Valid') {
+                $.ajax({
+                    url: "/settings-system/about-company/save-department",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        const isSuccessful = response.status === 200;
+                        const swalConfig = {
+                            icon: isSuccessful ? 'success' : 'error',
+                            title: isSuccessful ? 'บันทึกข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                            text: isSuccessful ? null : 'โปรดลองอีกครั้ง',
+                            showConfirmButton: false,
+                            timer: isSuccessful ? 2500 : undefined,
+                            willClose: isSuccessful ? () => location.reload() : undefined
+                        };
+
+                        Swal.fire(swalConfig);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    $("#saveGroup").on("click", function (e) {
+        $('.fv-plugins-message-container.invalid-feedback').remove();
+        $('.is-invalid').removeClass('is-invalid');
+        var form = $("#formAddGroup")[0];
+        var fv = FormValidation.formValidation(form, {
+            fields: {
+                groupName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'ระบุชื่อแผนก'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
+                            message: 'ข้อมูลไม่ถูกต้อง'
+                        }
+                    }
+                },
+                companyForGroup: {
+                    validators: {
+                        notEmpty: {
+                            message: 'เลือกข้อมูล บริษัท'
+                        }
+                    }
+                },
+                department: {
+                    validators: {
+                        notEmpty: {
+                            message: 'เลือกข้อมูล สังกัด / ฝ่าย'
+                        }
+                    }
+                },
+                statusForGroup: {
+                    validators: {
+                        notEmpty: {
+                            message: 'เลือกข้อมูล สถานะการใช้งาน'
+                        }
+                    }
+                },
+            },
+            plugins: {
+                trigger: new FormValidation.plugins.Trigger(),
+                bootstrap5: new FormValidation.plugins.Bootstrap5({
+                    eleValidClass: '',
+                    rowSelector: '.col-md-6'
+                }),
+                submitButton: new FormValidation.plugins.SubmitButton(),
+                autoFocus: new FormValidation.plugins.AutoFocus()
+            },
+        });
+        var formData = new FormData(form);
+        e.preventDefault();
+        fv.validate().then(function (status) {
+            if (status === 'Valid') {
+                $.ajax({
+                    url: "/settings-system/about-company/save-group",
+                    method: "POST",
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        const isSuccessful = response.status === 200;
+                        const swalConfig = {
+                            icon: isSuccessful ? 'success' : 'error',
+                            title: isSuccessful ? 'บันทึกข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                            text: isSuccessful ? null : 'โปรดลองอีกครั้ง',
+                            showConfirmButton: false,
+                            timer: isSuccessful ? 2500 : undefined,
+                            willClose: isSuccessful ? () => location.reload() : undefined
+                        };
+
+                        Swal.fire(swalConfig);
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
+                        });
+                    }
+                });
+            }
+        });
+    });
+
+    var originalCompany = $('#department').html();
+    $('#department').prop('disabled', true);
+    $('#companyForGroup').change(function () {
+        var companyID = $(this).val();
+        if (companyID) {
+            $.ajax({
+                url: '/getMaster/get-department/' + companyID,
+                type: 'GET',
+                type: 'GET',
+                dataType: 'json',
+                success: function (departmentsData) {
+                    var $departmentSelect = $('#department');
+                    $departmentSelect.empty().append('<option value="">Select</option>');
+
+                    $.each(departmentsData, function (index, department) {
+                        $departmentSelect.append($('<option>', {
+                            value: department.ID,
+                            text: department.departmentName
+                        }));
+                    });
+
+                    $departmentSelect.prop('disabled', false);
+                }
+            });
+        } else {
+            $('#department').html(originalCompany);
+            $('#department').prop('disabled', true);
+            $('#department').html('<option value="">Select</option>');
+        }
+    });
 });
+

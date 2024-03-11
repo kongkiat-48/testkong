@@ -61,9 +61,18 @@ class AboutCompanyModel extends Model
 
     public function getDataDepartment($request)
     {
-        $query = $this->getDatabase->table('tbm_department')->where('deleted', 0);
+        $query = $this->getDatabase->table('tbm_department AS depart')
+            ->leftJoin('tbm_company AS company', 'depart.company_id', '=', 'company.ID')
+            ->where('depart.deleted', 0)
+            ->where('company.deleted', 0)
+            ->select(
+                'depart.ID',
+                'depart.department_name',
+                'company.company_name_th',
+                'depart.status AS status'
+            );
         // คำสั่งเรียงลำดับ (Sorting)
-        $columns = ['ID', 'department_name', 'company_name', 'status'];
+        $columns = ['depart.ID', 'depart.department_name', 'company.company_name_th', 'depart.status'];
         $orderColumn = $columns[$request->input('order.0.column')];
         $orderDirection = $request->input('order.0.dir');
         $query->orderBy($orderColumn, $orderDirection);
@@ -73,8 +82,8 @@ class AboutCompanyModel extends Model
         if (!empty($searchValue)) {
             $query->where(function ($query) use ($columns, $searchValue) {
                 foreach ($columns as $column) {
-                    $query->orWhere('department_name', 'like', '%' . $searchValue . '%');
-                    $query->orWhere('company_name', 'like', '%' . $searchValue . '%');
+                    $query->orWhere('depart.department_name', 'like', '%' . $searchValue . '%');
+                    $query->orWhere('company.company_name_th', 'like', '%' . $searchValue . '%');
                 }
             });
         }
@@ -86,9 +95,9 @@ class AboutCompanyModel extends Model
 
         $data = $query->offset($start)
             ->limit($length)
-            ->orderBy('status', 'DESC')
+            ->orderBy('depart.status', 'DESC')
             ->get();
-
+        // dd($data);
         $output = [
             'draw' => $request->input('draw'),
             'recordsTotal' => $recordsTotal,
@@ -147,6 +156,34 @@ class AboutCompanyModel extends Model
             $saveToDB = $this->getDatabase->table('tbm_company')->insertGetId([
                 'company_name_th'   => $getData['companyNameTH'],
                 'company_name_en'   => $getData['companyNameEN'],
+                'status'            => $getData['status'],
+                'created_user'      => Auth::user()->emp_code,
+                'created_at'        => Carbon::now()
+            ]);
+            // dd($saveToDB);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                'ID'        => $saveToDB
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+            Log::info($returnStatus);
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function saveDataDepartment($getData)
+    {
+        try {
+            // dd(Auth::user()->emp_code);
+            $saveToDB = $this->getDatabase->table('tbm_department')->insertGetId([
+                'department_name'   => $getData['departmentName'],
+                'company_id'        => $getData['company'],
                 'status'            => $getData['status'],
                 'created_user'      => Auth::user()->emp_code,
                 'created_at'        => Carbon::now()

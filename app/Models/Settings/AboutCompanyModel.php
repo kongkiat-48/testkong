@@ -213,7 +213,7 @@ class AboutCompanyModel extends Model
 
     public function saveDataGroup($getData)
     {
-        // dd($getData);
+        // dd("ddd");
         try {
             // dd(Auth::user()->emp_code);
             $saveToDB = $this->getDatabase->table('tbm_group')->insertGetId([

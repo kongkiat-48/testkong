@@ -61,7 +61,7 @@ class SetStatusController extends Controller
 
     public function saveDataWorkStatus(Request $request)
     {
-        // dd($request->input());
+        dd($request->input());
         $this->validate($request, [
             'statusName','statusUse','flagType'         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
             'statusWS'                                  => 'required|integer',

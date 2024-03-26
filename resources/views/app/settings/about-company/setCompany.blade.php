@@ -10,9 +10,9 @@
         </ol>
     </nav>
     <hr>
-    @include('app.settings.about-company.dialog.addCompany')
-    @include('app.settings.about-company.dialog.addDepartment')
-    @include('app.settings.about-company.dialog.addGroup')
+    @include('app.settings.about-company.dialog.save.addCompany')
+    @include('app.settings.about-company.dialog.save.addDepartment')
+    @include('app.settings.about-company.dialog.save.addGroup')
     <div class="row">
         <div class="col-12">
             <div class="nav-align-top mb-4">
@@ -107,6 +107,7 @@
     </div>
 @endsection
 @section('script')
-    <script type="text/javascript"
-        src="{{ asset('/assets/custom/settings/aboutCompany/company.js?v=') }}@php echo date("H:i:s") @endphp"></script>
+    <script type="text/javascript" src="{{ asset('/assets/custom/settings/aboutCompany/company.js?v=') }}@php echo date("H:i:s") @endphp"></script>
+    <script type="text/javascript" src="{{ asset('/assets/custom/settings/aboutCompany/func_edit.js?v=') }}@php echo date("H:i:s") @endphp"></script>
+    <script type="text/javascript" src="{{ asset('/assets/custom/settings/aboutCompany/func_save.js?v=') }}@php echo date("H:i:s") @endphp"></script>
 @endsection

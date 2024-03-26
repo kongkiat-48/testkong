@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Master\getDataMasterModel;
 use App\Models\Settings\AboutCompanyModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AboutCompanyController extends Controller
 {
@@ -67,7 +68,6 @@ class AboutCompanyController extends Controller
 
     public function saveDataCompany(Request $request)
     {
-        // dd($request->input());
         $this->validate($request, [
             'companyNameTH', 'companyNameEN'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
             'status'                            => 'required|integer',

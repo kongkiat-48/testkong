@@ -66,4 +66,4 @@
 
 <script src="{{ asset('assets/vendor/libs/sweetalert2/sweetalert2.js') }}"></script>
 <script src="{{ asset('assets/js/extended-ui-sweetalert2.js') }}"></script>
-<script src="{{ asset('assets/custom/alert/fnAlert.js') }}"></script>
+<script src="{{ asset('assets/custom/other/other_func.js') }}"></script>

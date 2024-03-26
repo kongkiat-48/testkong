@@ -51,7 +51,6 @@ class getDataMasterModel extends Model
     public function getDataDepartment()
     {
         Log::info('getDataDepartment: Starting to retrieve departments.');
-
         try {
             $getDepartment = $this->getDatabase->table('tbm_department AS depart')
                 ->leftJoin('tbm_company AS company', 'depart.company_id', '=', 'company.ID')
@@ -66,7 +65,7 @@ class getDataMasterModel extends Model
                 ->get();
 
             Log::info('getDataDepartment: Successfully retrieved departments.');
-
+// dd($getDepartment);
             return $getDepartment;
         } catch (Exception $e) {
             Log::error('getDataDepartment: Failed to retrieve departments - ' . $e->getMessage());
@@ -99,7 +98,7 @@ class getDataMasterModel extends Model
         $returnDepartment = $this->getDatabase->table('tbm_department AS depart')
             ->leftJoin('tbm_company AS company', 'depart.company_id', '=', 'company.ID')
             ->select(
-                'company.ID',
+                'depart.ID',
                 'depart.department_name AS departmentName',
                 'company.company_name_th AS company_name_th'
             )

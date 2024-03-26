@@ -59,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
 
             Route::post('/save-company', 'Settings\AboutCompanyController@saveDataCompany');
             Route::post('/save-department', 'Settings\AboutCompanyController@saveDataDepartment');
+            Route::post('/save-group', 'Settings\AboutCompanyController@saveDataGroup');
 
         });
     });

@@ -3,6 +3,7 @@
 <html lang="en" class="light-style" dir="ltr" data-theme="theme-default" data-assets-path="{{url ('assets')}}/" data-template="horizontal-menu-template">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />

@@ -7,7 +7,7 @@
             </div>
             <hr>
             <form id="formAddGroup" class="form-block">
-                @csrf
+                {{-- @csrf --}}
                 <div class="modal-body">
 
                     <div class="row g-2">

@@ -131,7 +131,7 @@ $(function () {
                 { data: null, orderable: false, searchable: false, width: "1%", class: "text-nowrap" },
                 { data: "group_name", class: "text-nowrap" },
                 { data: "department_name", class: "text-nowrap" },
-                { data: "company_name", class: "text-nowrap" },
+                { data: "company_name_th", class: "text-nowrap" },
                 {
                     render: function (data, type, full, row) {
                         var $status_number = full['status'];
@@ -254,6 +254,9 @@ $(document).ready(function () {
                     url: "/settings-system/about-company/save-company",
                     method: "POST",
                     data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     contentType: false,
                     processData: false,
                     success: function (response) {
@@ -305,7 +308,7 @@ $(document).ready(function () {
                         }
                     }
                 },
-                status: {
+                statusForDep: {
                     validators: {
                         notEmpty: {
                             message: 'เลือกข้อมูล สถานะการใช้งาน'
@@ -320,7 +323,6 @@ $(document).ready(function () {
                     rowSelector: '.col-md-6'
                 }),
                 submitButton: new FormValidation.plugins.SubmitButton(),
-                // defaultSubmit: new FormValidation.plugins.DefaultSubmit(),
                 autoFocus: new FormValidation.plugins.AutoFocus()
             },
         });
@@ -332,34 +334,21 @@ $(document).ready(function () {
                     url: "/settings-system/about-company/save-department",
                     method: "POST",
                     data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        const isSuccessful = response.status === 200;
-                        const swalConfig = {
-                            icon: isSuccessful ? 'success' : 'error',
-                            title: isSuccessful ? 'บันทึกข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
-                            text: isSuccessful ? null : 'โปรดลองอีกครั้ง',
-                            showConfirmButton: false,
-                            timer: isSuccessful ? 2500 : undefined,
-                            willClose: isSuccessful ? () => location.reload() : undefined
-                        };
-
-                        Swal.fire(swalConfig);
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
-                    error: function (xhr, textStatus, errorThrown) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
-                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                        });
-                    }
-                });
+                    contentType: false,
+                    processData: false
+                }).done(function (response) {
+                    handleAjaxSaveResponse(response);
+                    closeAndResetModal("#addDepartmentModal", "#formAddDepartment");
+                }).fail(handleAjaxSaveError);
             }
         });
     });
 
     $("#saveGroup").on("click", function (e) {
+        e.preventDefault();
         $('.fv-plugins-message-container.invalid-feedback').remove();
         $('.is-invalid').removeClass('is-invalid');
         var form = $("#formAddGroup")[0];
@@ -409,36 +398,21 @@ $(document).ready(function () {
             },
         });
         var formData = new FormData(form);
-        e.preventDefault();
         fv.validate().then(function (status) {
             if (status === 'Valid') {
                 $.ajax({
                     url: "/settings-system/about-company/save-group",
                     method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: formData,
                     contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        const isSuccessful = response.status === 200;
-                        const swalConfig = {
-                            icon: isSuccessful ? 'success' : 'error',
-                            title: isSuccessful ? 'บันทึกข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
-                            text: isSuccessful ? null : 'โปรดลองอีกครั้ง',
-                            showConfirmButton: false,
-                            timer: isSuccessful ? 2500 : undefined,
-                            willClose: isSuccessful ? () => location.reload() : undefined
-                        };
-
-                        Swal.fire(swalConfig);
-                    },
-                    error: function (xhr, textStatus, errorThrown) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
-                            text: 'โปรดลองอีกครั้งหรือติดต่อผู้ดูแลระบบ',
-                        });
-                    }
-                });
+                    processData: false
+                }).done(function (response) {
+                    handleAjaxSaveResponse(response);
+                    closeAndResetModal("#addGroupModal", "#formAddGroup");
+                }).fail(handleAjaxSaveError);
             }
         });
     });
@@ -450,7 +424,6 @@ $(document).ready(function () {
         if (companyID) {
             $.ajax({
                 url: '/getMaster/get-department/' + companyID,
-                type: 'GET',
                 type: 'GET',
                 dataType: 'json',
                 success: function (departmentsData) {
@@ -474,4 +447,10 @@ $(document).ready(function () {
         }
     });
 });
+
+function reTable() {
+    $('.dt-settingCompany').DataTable().ajax.reload();
+    $('.dt-settingDepartment').DataTable().ajax.reload();
+    $('.dt-settingGroup').DataTable().ajax.reload();
+}
 

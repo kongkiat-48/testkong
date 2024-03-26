@@ -81,9 +81,20 @@ class AboutCompanyController extends Controller
         // dd($request->input());
         $this->validate($request, [
             'departmentName'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'status','company'  => 'required|integer',
+            'statusForDep','company'  => 'required|integer',
         ]);
         $saveData = $this->aboutCompany->saveDataDepartment($request->input());
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function saveDataGroup(Request $request)
+    {
+        // dd($request->input());
+        $this->validate($request, [
+            'groupName'                                         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
+            'companyForGroup','department','statusForGroup'     => 'required|integer',
+        ]);
+        $saveData = $this->aboutCompany->saveDataGroup($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 

@@ -9,7 +9,6 @@
             <form id="formAddCompany" class="form-block">
                 @csrf
                 <div class="modal-body">
-
                     <div class="row g-2">
                         <div class="col-md-6">
                             <label class="form-label" for="companyNameTH">ชื่อบริษัท (ภาษาไทย)</label>

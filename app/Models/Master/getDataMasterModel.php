@@ -2,9 +2,11 @@
 
 namespace App\Models\Master;
 
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class getDataMasterModel extends Model
 {
@@ -28,34 +30,48 @@ class getDataMasterModel extends Model
 
     public function getDataCompany()
     {
-        $getCompany = $this->getDatabase->table('tbm_company')
-            ->select(
-                'ID',
-                'company_name_th',
-                'company_name_en'
-            )
-            ->where('status',1)
-            ->where('deleted', 0)
-            ->get();
+        Log::info('getDataCompany: Retrieving companies from the database.');
+        try {
+            $getCompany = $this->getDatabase->table('tbm_company')
+                ->select('ID', 'company_name_th', 'company_name_en')
+                ->where('status', 1)
+                ->where('deleted', 0)
+                ->get();
 
-        return $getCompany;
+            Log::info('getDataCompany: Successfully retrieved companies.');
+
+            return $getCompany;
+        } catch (Exception $exception) {
+            Log::error('getDataCompany: Failed to retrieve companies - ' . $exception->getMessage());
+
+            throw $exception;
+        }
     }
 
     public function getDataDepartment()
     {
-        $getDepartment = $this->getDatabase->table('tbm_department AS depart')
-            ->leftJoin('tbm_company AS company', 'depart.company_id', '=', 'company.ID')
-            ->select(
-                'depart.ID',
-                'depart.department_name AS departmentName',
-                'company.company_name_th AS companyName'
-            )
-            ->where('depart.deleted', 0)
-            ->where('company.status',1)
-            ->where('company.deleted', 0)
-            ->get();
+        Log::info('getDataDepartment: Starting to retrieve departments.');
 
-        return $getDepartment;
+        try {
+            $getDepartment = $this->getDatabase->table('tbm_department AS depart')
+                ->leftJoin('tbm_company AS company', 'depart.company_id', '=', 'company.ID')
+                ->select(
+                    'depart.ID',
+                    'depart.department_name AS departmentName',
+                    'company.company_name_th AS companyName'
+                )
+                ->where('depart.deleted', 0)
+                ->where('company.status', 1)
+                ->where('company.deleted', 0)
+                ->get();
+
+            Log::info('getDataDepartment: Successfully retrieved departments.');
+
+            return $getDepartment;
+        } catch (Exception $e) {
+            Log::error('getDataDepartment: Failed to retrieve departments - ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function getDataCompanyForID($id)
@@ -88,7 +104,7 @@ class getDataMasterModel extends Model
                 'company.company_name_th AS company_name_th'
             )
             ->where('company.ID', $id)
-            ->where('depart.status',1)
+            ->where('depart.status', 1)
             ->where('depart.deleted', 0)
             ->where('company.deleted', 0)
             ->get();

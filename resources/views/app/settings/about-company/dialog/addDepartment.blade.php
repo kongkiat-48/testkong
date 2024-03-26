@@ -7,7 +7,6 @@
             </div>
             <hr>
             <form id="formAddDepartment" class="form-block">
-                @csrf
                 <div class="modal-body">
 
                     <div class="row g-2">
@@ -29,8 +28,8 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="status">สถานะการใช้งาน</label>
-                            <select id="status" name="status" class="form-select select2" data-allow-clear="true">
+                            <label class="form-label" for="statusForDep">สถานะการใช้งาน</label>
+                            <select id="statusForDep" name="statusForDep" class="form-select select2" data-allow-clear="true">
                                 <option value="">Select</option>
                                 <option value="1">กำลังใช้งาน</option>
                                 <option value="0">ปิดการใช้งาน</option>

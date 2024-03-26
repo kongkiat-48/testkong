@@ -110,9 +110,15 @@ class AboutCompanyModel extends Model
 
     public function getDataGroup($request)
     {
-        $query = $this->getDatabase->table('tbm_group')->where('deleted', 0);
+        $query = $this->getDatabase->table('tbm_group AS group')
+        ->leftJoin('tbm_department AS department', 'group.department_id', '=', 'department.ID')
+        ->leftJoin('tbm_company AS company', 'department.company_id', '=', 'company.ID')
+        ->select('group.ID', 'group.group_name', 'department.department_name', 'company.company_name_th', 'group.status AS status')
+        ->where('group.deleted', 0)
+        ->where('department.deleted', 0)
+        ->where('company.deleted', 0);
         // คำสั่งเรียงลำดับ (Sorting)
-        $columns = ['ID', 'group_name', 'department_name', 'company_name', 'status'];
+        $columns = ['group.ID', 'group.group_name', 'department.department_name', 'company.company_name_th', 'group.status'];
         $orderColumn = $columns[$request->input('order.0.column')];
         $orderDirection = $request->input('order.0.dir');
         $query->orderBy($orderColumn, $orderDirection);
@@ -122,9 +128,9 @@ class AboutCompanyModel extends Model
         if (!empty($searchValue)) {
             $query->where(function ($query) use ($columns, $searchValue) {
                 foreach ($columns as $column) {
-                    $query->orWhere('group_name', 'like', '%' . $searchValue . '%');
-                    $query->orWhere('department_name', 'like', '%' . $searchValue . '%');
-                    $query->orWhere('company_name', 'like', '%' . $searchValue . '%');
+                    $query->orWhere('group.group_name', 'like', '%' . $searchValue . '%');
+                    $query->orWhere('department.department_name', 'like', '%' . $searchValue . '%');
+                    $query->orWhere('company.company_name_th', 'like', '%' . $searchValue . '%');
                 }
             });
         }
@@ -184,7 +190,37 @@ class AboutCompanyModel extends Model
             $saveToDB = $this->getDatabase->table('tbm_department')->insertGetId([
                 'department_name'   => $getData['departmentName'],
                 'company_id'        => $getData['company'],
-                'status'            => $getData['status'],
+                'status'            => $getData['statusForDep'],
+                'created_user'      => Auth::user()->emp_code,
+                'created_at'        => Carbon::now()
+            ]);
+            // dd($saveToDB);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                'ID'        => $saveToDB
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+            Log::info($returnStatus);
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function saveDataGroup($getData)
+    {
+        // dd($getData);
+        try {
+            // dd(Auth::user()->emp_code);
+            $saveToDB = $this->getDatabase->table('tbm_group')->insertGetId([
+                'group_name'        => $getData['groupName'],
+                'company_id'        => $getData['companyForGroup'],
+                'department_id'     => $getData['department'],
+                'status'            => $getData['statusForGroup'],
                 'created_user'      => Auth::user()->emp_code,
                 'created_at'        => Carbon::now()
             ]);

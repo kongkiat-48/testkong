@@ -111,12 +111,12 @@ class AboutCompanyModel extends Model
     public function getDataGroup($request)
     {
         $query = $this->getDatabase->table('tbm_group AS group')
-        ->leftJoin('tbm_department AS department', 'group.department_id', '=', 'department.ID')
-        ->leftJoin('tbm_company AS company', 'department.company_id', '=', 'company.ID')
-        ->select('group.ID', 'group.group_name', 'department.department_name', 'company.company_name_th', 'group.status AS status')
-        ->where('group.deleted', 0)
-        ->where('department.deleted', 0)
-        ->where('company.deleted', 0);
+            ->leftJoin('tbm_department AS department', 'group.department_id', '=', 'department.ID')
+            ->leftJoin('tbm_company AS company', 'department.company_id', '=', 'company.ID')
+            ->select('group.ID', 'group.group_name', 'department.department_name', 'company.company_name_th', 'group.status AS status')
+            ->where('group.deleted', 0)
+            ->where('department.deleted', 0)
+            ->where('company.deleted', 0);
         // คำสั่งเรียงลำดับ (Sorting)
         $columns = ['group.ID', 'group.group_name', 'department.department_name', 'company.company_name_th', 'group.status'];
         $orderColumn = $columns[$request->input('order.0.column')];
@@ -178,6 +178,64 @@ class AboutCompanyModel extends Model
                 'message'   => $e->getMessage()
             ];
             Log::info($returnStatus);
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function showEditCompany($companyID)
+    {
+        $getData = $this->getDatabase->table('tbm_company')->where('ID', $companyID)->get();
+        return $getData;
+    }
+
+    public function saveEditDataCompany($dataEdit, $companyID)
+    {
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_company')
+                ->where('ID', $companyID)
+                ->update([
+                    'company_name_th'   => $dataEdit['edit_companyNameTH'],
+                    'company_name_en'   => $dataEdit['edit_companyNameEN'],
+                    'status'            => $dataEdit['edit_status'],
+                    'update_user'      => Auth::user()->emp_code,
+                    'update_at'        => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $companyID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function deleteCompany($companyID)
+    {
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_company')
+                ->where('ID', $companyID)
+                ->update([
+                    'deleted'           => 1,
+                    'update_user'       => Auth::user()->emp_code,
+                    'update_at'         => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $companyID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
         } finally {
             return $returnStatus;
         }

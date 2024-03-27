@@ -11,6 +11,7 @@
     </nav>
     <hr>
     @include('app.settings.about-company.dialog.save.addCompany')
+    @include('app.settings.about-company.dialog.edit.editCompany')
     @include('app.settings.about-company.dialog.save.addDepartment')
     @include('app.settings.about-company.dialog.save.addGroup')
     <div class="row">

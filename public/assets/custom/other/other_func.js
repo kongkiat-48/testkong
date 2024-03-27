@@ -2,8 +2,7 @@ function handleAjaxSaveResponse(response) {
     const isSuccess = response.status === 200;
     Swal.fire({
         icon: isSuccess ? 'success' : 'error',
-        title: isSuccess ? 'บันทึกข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
-        text: isSuccess ? null : 'โปรดลองอีกครั้ง',
+        text: isSuccess ? 'บันทึกข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
         showConfirmButton: false,
         timer: isSuccess ? 2500 : undefined
     });
@@ -16,14 +15,42 @@ function handleAjaxEditResponse(response) {
     const isSuccess = response.status === 200;
     Swal.fire({
         icon: isSuccess ? 'success' : 'error',
-        title: isSuccess ? 'แก้ไขข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการแก้ไขข้อมูล',
-        text: isSuccess ? null : 'โปรดลองอีกครั้ง',
+        text: isSuccess ? 'แก้ไขข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการแก้ไขข้อมูล',
         showConfirmButton: false,
         timer: isSuccess ? 2500 : undefined
     });
     if (isSuccess) {
         reTable();
     }
+}
+
+function handleAjaxDeleteResponse(itemId, deleteUrl) {
+    Swal.fire({
+        text: "ยืนยันการลบข้อมูล",
+        icon: "question",
+        showCancelButton: true,
+        cancelButtonText: "ยกเลิก",
+        confirmButtonText: "ยืนยัน",
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            return postFormData(deleteUrl, itemId)
+                .then(response => {
+                    if (response.status === 200) {
+                        Swal.fire({
+                            text: "ลบข้อมูลสำเร็จ",
+                            icon: "success",
+                            confirmButtonText: "ตกลง",
+                        });
+                        reTable();
+                    } else {
+                        throw new Error(response.message);
+                    }
+                })
+                .catch(() => {
+                    handleAjaxSaveError();
+                });
+        },
+    });
 }
 
 function handleAjaxSaveError(xhr, textStatus, errorThrown) {
@@ -81,4 +108,8 @@ function postFormData(url, formData) {
         contentType: false,
         processData: false
     });
+}
+
+function getFromData(url) {
+    return;
 }

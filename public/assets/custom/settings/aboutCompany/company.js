@@ -36,7 +36,8 @@ $(function () {
                 {
                     data: 'id', orderable: false, searchable: false, width: "1%", class: "text-nowrap",
                     render: function (data, type, row) {
-                        return '<button type="button" class="btn btn-icon btn- btn-label-warning btn-outline-warning" onclick="funcEditCompany(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
+                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="funcEditCompany(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button> '+
+                        '<button type="button" class="btn btn-icon btn-label-danger btn-outline-danger" onclick="funcDeleteCompany(' + row.ID + ')"><span class="tf-icons bx bx-trash"></span></button>';
                     }
                 },
             ],
@@ -93,7 +94,7 @@ $(function () {
                 {
                     data: 'id', orderable: false, searchable: false, width: "1%", class: "text-nowrap",
                     render: function (data, type, row) {
-                        return '<button type="button" class="btn btn-icon btn- btn-label-warning btn-outline-warning" onclick="fcGetEdit(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
+                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="fcGetEdit(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
                     }
                 },
             ],
@@ -151,7 +152,7 @@ $(function () {
                 {
                     data: 'id', orderable: false, searchable: false, width: "1%", class: "text-nowrap",
                     render: function (data, type, row) {
-                        return '<button type="button" class="btn btn-icon btn- btn-label-warning btn-outline-warning" onclick="fcGetEdit(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
+                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="fcGetEdit(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
                     }
                 },
             ],

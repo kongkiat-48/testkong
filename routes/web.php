@@ -58,7 +58,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/table-group', 'Settings\AboutCompanyController@showDataGroup');
 
             Route::post('/save-company', 'Settings\AboutCompanyController@saveDataCompany');
-
+            Route::get('/show-edit-company/{companyID}','Settings\AboutCompanyController@showEditCompany');
+            Route::post('/edit-company/{companyID}','Settings\AboutCompanyController@editCompany');
+            Route::post('/delete-company/{companyID}','Settings\AboutCompanyController@deleteCompany');
 
             Route::post('/save-department', 'Settings\AboutCompanyController@saveDataDepartment');
             Route::post('/save-group', 'Settings\AboutCompanyController@saveDataGroup');

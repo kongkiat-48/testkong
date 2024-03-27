@@ -81,7 +81,7 @@ class AboutCompanyController extends Controller
         // dd($request->input());
         $this->validate($request, [
             'departmentName'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'statusForDep','company'  => 'required|integer',
+            'statusForDep', 'company'  => 'required|integer',
         ]);
         $saveData = $this->aboutCompany->saveDataDepartment($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
@@ -92,7 +92,7 @@ class AboutCompanyController extends Controller
         // dd($request->input());
         $this->validate($request, [
             'groupName'                                         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'companyForGroup','department','statusForGroup'     => 'required|integer',
+            'companyForGroup', 'department', 'statusForGroup'     => 'required|integer',
         ]);
         $saveData = $this->aboutCompany->saveDataGroup($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
@@ -136,6 +136,31 @@ class AboutCompanyController extends Controller
     public function edit($id)
     {
         //
+    }
+
+    public function showEditCompany($companyID)
+    {
+        $getCompany = $this->aboutCompany->showEditCompany($companyID);
+        // dd($getCompany);
+        return response()->json($getCompany);
+    }
+
+    public function editCompany(Request $request, $companyID)
+    {
+        // dd($request->input(),$companyID);
+        $this->validate($request, [
+            'edit_companyNameTH', 'edit_companyNameEN'  => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
+            'edit_status'                               => 'required|integer',
+        ]);
+        $saveData = $this->aboutCompany->saveEditDataCompany($request->input(), $companyID);
+
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function deleteCompany($companyID)
+    {
+        $deletedData = $this->aboutCompany->deleteCompany($companyID);
+        return response()->json(['status' => $deletedData['status'], 'message' => $deletedData['message']]);
     }
 
     /**

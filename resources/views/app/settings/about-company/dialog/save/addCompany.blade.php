@@ -1,5 +1,5 @@
-<div class="modal fade" id="addCompanyModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+{{-- <div class="modal fade" id="addCompanyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document"> --}}
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">เพิ่มรายการชื่อบรัษัท</h5>
@@ -23,8 +23,8 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label class="form-label" for="status">สถานะการใช้งาน</label>
-                            <select id="status" name="status" class="form-select select2" data-allow-clear="true">
+                            <label class="form-label" for="statusOfCompany">สถานะการใช้งาน</label>
+                            <select id="statusOfCompany" name="statusOfCompany" class="form-select select2" data-allow-clear="true">
                                 <option value="">Select</option>
                                 <option value="1">กำลังใช้งาน</option>
                                 <option value="0">ปิดการใช้งาน</option>
@@ -34,14 +34,16 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-label-danger" data-bs-dismiss="modal"> ปิด</button>
+                    <button type="button" class="btn btn-label-danger" data-bs-dismiss="modal"><i class='menu-icon tf-icons bx bx-window-close'></i> ปิด</button>
 
                     <button type="submit" name="saveCompany" id="saveCompany"
-                        class="btn btn-success btn-form-block-overlay">บันทึกข้อมูล</button>
+                        class="btn btn-success btn-form-block-overlay"><i class='menu-icon tf-icons bx bxs-save'></i> บันทึกข้อมูล</button>
                 </div>
             </form>
 
         </div>
-    </div>
-</div>
+    {{-- </div>
+</div> --}}
+
+<script type="text/javascript" src="{{ asset('/assets/custom/settings/aboutCompany/func_save.js?v=') }}@php echo date("H:i:s") @endphp"></script>
 

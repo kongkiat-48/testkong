@@ -36,8 +36,8 @@ $(function () {
                 {
                     data: 'id', orderable: false, searchable: false, width: "1%", class: "text-nowrap",
                     render: function (data, type, row) {
-                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="funcEditCompany(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button> '+
-                        '<button type="button" class="btn btn-icon btn-label-danger btn-outline-danger" onclick="funcDeleteCompany(' + row.ID + ')"><span class="tf-icons bx bx-trash"></span></button>';
+                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="funcEditCompany(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button> ' +
+                            '<button type="button" class="btn btn-icon btn-label-danger btn-outline-danger" onclick="funcDeleteCompany(' + row.ID + ')"><span class="tf-icons bx bx-trash"></span></button>';
                     }
                 },
             ],
@@ -94,7 +94,8 @@ $(function () {
                 {
                     data: 'id', orderable: false, searchable: false, width: "1%", class: "text-nowrap",
                     render: function (data, type, row) {
-                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="fcGetEdit(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
+                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="funcEditDepartment(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button> ' +
+                            '<button type="button" class="btn btn-icon btn-label-danger btn-outline-danger" onclick="funcDeleteDepartment(' + row.ID + ')"><span class="tf-icons bx bx-trash"></span></button>';
                     }
                 },
             ],
@@ -152,7 +153,8 @@ $(function () {
                 {
                     data: 'id', orderable: false, searchable: false, width: "1%", class: "text-nowrap",
                     render: function (data, type, row) {
-                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="fcGetEdit(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button>';
+                        return '<button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="funcEditGroup(' + row.ID + ')"><span class="tf-icons bx bx-edit-alt"></span></button> ' +
+                            '<button type="button" class="btn btn-icon btn-label-danger btn-outline-danger" onclick="funcDeleteGroup(' + row.ID + ')"><span class="tf-icons bx bx-trash"></span></button>';
                     }
                 },
             ],
@@ -185,3 +187,44 @@ function reTable() {
     $('.dt-settingGroup').DataTable().ajax.reload();
 }
 
+$(document).ready(function () {
+    $('#AddCompanyModal').click(function () {
+        showModalWithAjax('#companyModal', '/settings-system/about-company/company-modal', ['#statusOfCompany']);
+    });
+
+    $('#AddDepartmentModal').click(function () {
+        showModalWithAjax('#departmentModal', '/settings-system/about-company/department-modal', ['#company', '#statusForDep']);
+    });
+
+    $('#AddGroupModal').click(function () {
+        showModalWithAjax('#groupModal', '/settings-system/about-company/group-modal', ['#companyForGroup', '#department','#statusForGroup']);
+    });
+
+
+
+});
+
+function funcEditCompany(companyID) {
+    showModalWithAjax('#editCompanyModal', '/settings-system/about-company/show-edit-company/' + companyID, ['#edit_status']);
+}
+
+function funcDeleteCompany(companyID) {
+    handleAjaxDeleteResponse(companyID, "/settings-system/about-company/delete-company/" + companyID);
+}
+
+function funcEditDepartment(departmentID) {
+    showModalWithAjax('#editDepartmentModal', '/settings-system/about-company/show-edit-department/' + departmentID, ['#edit_company', '#edit_statusForDep']);
+}
+
+function funcDeleteDepartment(departmentID) {
+    handleAjaxDeleteResponse(departmentID, "/settings-system/about-company/delete-department/" + departmentID);
+}
+
+function funcEditGroup(groupID){
+    // alert(groupID)
+    showModalWithAjax('#editGroupModal', '/settings-system/about-company/show-edit-group/' + groupID, ['#edit_companyForGroup', '#edit_department','#edit_statusForGroup']);
+}
+
+function funcDeleteGroup(groupID){
+    handleAjaxDeleteResponse(groupID, "/settings-system/about-company/delete-group/" + groupID);
+}

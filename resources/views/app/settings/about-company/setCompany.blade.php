@@ -10,10 +10,44 @@
         </ol>
     </nav>
     <hr>
-    @include('app.settings.about-company.dialog.save.addCompany')
-    @include('app.settings.about-company.dialog.edit.editCompany')
-    @include('app.settings.about-company.dialog.save.addDepartment')
-    @include('app.settings.about-company.dialog.save.addGroup')
+    <div class="modal fade" id="companyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="departmentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="groupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="editCompanyModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="editDepartmentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="editGroupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+
+
     <div class="row">
         <div class="col-12">
             <div class="nav-align-top mb-4">
@@ -40,7 +74,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="list-company" role="tabpanel">
                         <div class="demo-inline-spacing text-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
+                            <button type="button" class="btn btn-info" id="AddCompanyModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการชื่อบริษัท
                             </button>
                         </div>
@@ -60,8 +94,7 @@
                     </div>
                     <div class="tab-pane fade" id="list-department" role="tabpanel">
                         <div class="demo-inline-spacing text-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                data-bs-target="#addDepartmentModal">
+                            <button type="button" class="btn btn-info" id="AddDepartmentModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการชื่อแผนกสังกัด / ฝ่าย
                             </button>
                         </div>
@@ -81,7 +114,7 @@
                     </div>
                     <div class="tab-pane fade" id="list-group" role="tabpanel">
                         <div class="demo-inline-spacing text-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#addGroupModal">
+                            <button type="button" class="btn btn-info" id="AddGroupModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการชื่อแผนก
                             </button>
                         </div>
@@ -109,6 +142,4 @@
 @endsection
 @section('script')
     <script type="text/javascript" src="{{ asset('/assets/custom/settings/aboutCompany/company.js?v=') }}@php echo date("H:i:s") @endphp"></script>
-    <script type="text/javascript" src="{{ asset('/assets/custom/settings/aboutCompany/func_edit.js?v=') }}@php echo date("H:i:s") @endphp"></script>
-    <script type="text/javascript" src="{{ asset('/assets/custom/settings/aboutCompany/func_save.js?v=') }}@php echo date("H:i:s") @endphp"></script>
 @endsection

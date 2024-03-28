@@ -162,7 +162,7 @@ class AboutCompanyModel extends Model
             $saveToDB = $this->getDatabase->table('tbm_company')->insertGetId([
                 'company_name_th'   => $getData['companyNameTH'],
                 'company_name_en'   => $getData['companyNameEN'],
-                'status'            => $getData['status'],
+                'status'            => $getData['statusOfCompany'],
                 'created_user'      => Auth::user()->emp_code,
                 'created_at'        => Carbon::now()
             ]);
@@ -269,6 +269,64 @@ class AboutCompanyModel extends Model
         }
     }
 
+    public function showEditDepartment($departmentID)
+    {
+        $getData = $this->getDatabase->table('tbm_department')->where('ID', $departmentID)->get();
+        return $getData;
+    }
+
+    public function saveEditDataDepartment($dataEdit, $departmentID)
+    {
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_department')
+                ->where('ID', $departmentID)
+                ->update([
+                    'department_name'   => $dataEdit['edit_departmentName'],
+                    'company_id'        => $dataEdit['edit_company'],
+                    'status'            => $dataEdit['edit_statusForDep'],
+                    'update_user'      => Auth::user()->emp_code,
+                    'update_at'        => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $departmentID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function deleteDepartment($departmentID)
+    {
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_department')
+                ->where('ID', $departmentID)
+                ->update([
+                    'deleted'           => 1,
+                    'update_user'       => Auth::user()->emp_code,
+                    'update_at'         => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $departmentID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
     public function saveDataGroup($getData)
     {
         // dd("ddd");
@@ -294,6 +352,65 @@ class AboutCompanyModel extends Model
                 'message'   => $e->getMessage()
             ];
             Log::info($returnStatus);
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function showEditGroup($groupID)
+    {
+        $getData = $this->getDatabase->table('tbm_group')->where('ID', $groupID)->get();
+        return $getData;
+    }
+
+    public function saveEditDataGroup($dataEdit, $groupID)
+    {
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_group')
+                ->where('ID', $groupID)
+                ->update([
+                    'group_name'        => $dataEdit['edit_groupName'],
+                    'company_id'        => $dataEdit['edit_companyForGroup'],
+                    'department_id'     => $dataEdit['edit_department'],
+                    'status'            => $dataEdit['edit_statusForGroup'],
+                    'update_user'      => Auth::user()->emp_code,
+                    'update_at'        => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $groupID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function deleteGroup($groupID)
+    {
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_group')
+                ->where('ID', $groupID)
+                ->update([
+                    'deleted'           => 1,
+                    'update_user'       => Auth::user()->emp_code,
+                    'update_at'         => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $groupID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
         } finally {
             return $returnStatus;
         }

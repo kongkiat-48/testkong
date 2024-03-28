@@ -31,8 +31,7 @@ class AboutCompanyController extends Controller
         // dd($url);
         $urlName        = "กำหนดค่าภายในองค์กร";
         $urlSubLink     = "about-company";
-        $getCompany     = $this->getMaster->getDataCompany();
-        $getDepartment  = $this->getMaster->getDataDepartment();
+
         // dd($getCompany);
         // $getFlagType = $this->getMaster->getDataFlagType();
         // dd($url);
@@ -40,9 +39,40 @@ class AboutCompanyController extends Controller
             'url'               => $url,
             'urlName'           => $urlName,
             'urlSubLink'        => $urlSubLink,
-            'getCompany'        => $getCompany,
-            'getDepartment'     => $getDepartment
         ]);
+    }
+
+    public function showCompanyModal()
+    {
+        if (request()->ajax()) {
+            return view('app.settings.about-company.dialog.save.addCompany');
+        }
+        return abort(404);
+    }
+
+    public function showDepartmentModal()
+    {
+        if (request()->ajax()) {
+            $getCompany     = $this->getMaster->getDataCompany();
+
+            return view('app.settings.about-company.dialog.save.addDepartment', [
+                'getCompany'        => $getCompany,
+            ]);
+        }
+        return abort(404);
+    }
+
+    public function showGroupModal()
+    {
+        if (request()->ajax()) {
+            $getCompany     = $this->getMaster->getDataCompany();
+            $getDepartment  = $this->getMaster->getDataDepartment();
+            return view('app.settings.about-company.dialog.save.addGroup', [
+                'getCompany'        => $getCompany,
+                'getDepartment'     => $getDepartment
+            ]);
+        }
+        return abort(404);
     }
 
     /**
@@ -70,7 +100,7 @@ class AboutCompanyController extends Controller
     {
         $this->validate($request, [
             'companyNameTH', 'companyNameEN'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'status'                            => 'required|integer',
+            'statusOfCompany'                            => 'required|integer',
         ]);
         $saveData = $this->aboutCompany->saveDataCompany($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
@@ -140,9 +170,16 @@ class AboutCompanyController extends Controller
 
     public function showEditCompany($companyID)
     {
-        $getCompany = $this->aboutCompany->showEditCompany($companyID);
-        // dd($getCompany);
-        return response()->json($getCompany);
+        // $getCompany = $this->aboutCompany->showEditCompany($companyID);
+        // // dd($getCompany);
+        // return response()->json($getCompany);
+        if (request()->ajax()) {
+            $returnData     =  $this->aboutCompany->showEditCompany($companyID);
+            return view('app.settings.about-company.dialog.edit.editCompany', [
+                'dataCompany'        => $returnData,
+            ]);
+        }
+        return abort(404);
     }
 
     public function editCompany(Request $request, $companyID)
@@ -160,6 +197,68 @@ class AboutCompanyController extends Controller
     public function deleteCompany($companyID)
     {
         $deletedData = $this->aboutCompany->deleteCompany($companyID);
+        return response()->json(['status' => $deletedData['status'], 'message' => $deletedData['message']]);
+    }
+
+    public function showEditDepartment($departmentID)
+    {
+        if (request()->ajax()) {
+            $getCompany     = $this->getMaster->getDataCompany();
+            $returnData     = $this->aboutCompany->showEditDepartment($departmentID);
+            return view('app.settings.about-company.dialog.edit.editDepartment', [
+                'getCompany'            => $getCompany,
+                'dataDepartment'        => $returnData
+            ]);
+        }
+        return abort(404);
+    }
+
+    public function editDepartment(Request $request, $departmentID)
+    {
+        // dd($request->input(),$departmentID);
+        $this->validate($request, [
+            'edit_departmentName' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
+            'edit_statusForDep', 'edit_company' => 'required|integer',
+        ]);
+        $saveData = $this->aboutCompany->saveEditDataDepartment($request->input(), $departmentID);
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function deleteDepartment($departmentID)
+    {
+        $deletedData = $this->aboutCompany->deleteDepartment($departmentID);
+        return response()->json(['status' => $deletedData['status'], 'message' => $deletedData['message']]);
+    }
+
+    public function showEditGroup($groupID)
+    {
+        if (request()->ajax()) {
+            $getCompany     = $this->getMaster->getDataCompany();
+            $getDepartment  = $this->getMaster->getDataDepartment();
+            $returnData     = $this->aboutCompany->showEditGroup($groupID);
+            return view('app.settings.about-company.dialog.edit.editGroup', [
+                'getCompany'            => $getCompany,
+                'getDepartment'         => $getDepartment,
+                'dataGroup'             => $returnData
+            ]);
+        }
+        return abort(404);
+    }
+
+    public function editGroup(Request $request, $groupID)
+    {
+        // dd($request->input(),$groupID);
+        $this->validate($request, [
+            'edit_groupName' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
+            'edit_statusForGroup', 'edit_companyForGroup', 'edit_department' => 'required|integer',
+        ]);
+        $saveData = $this->aboutCompany->saveEditDataGroup($request->input(), $groupID);
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function deleteGroup($groupID)
+    {
+        $deletedData = $this->aboutCompany->deleteGroup($groupID);
         return response()->json(['status' => $deletedData['status'], 'message' => $deletedData['message']]);
     }
 

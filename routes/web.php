@@ -53,6 +53,10 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/about-company')->group(function () {
             Route::get('', 'Settings\AboutCompanyController@index');
 
+            Route::get('/company-modal', 'Settings\AboutCompanyController@showCompanyModal');
+            Route::get('/department-modal', 'Settings\AboutCompanyController@showDepartmentModal');
+            Route::get('/group-modal', 'Settings\AboutCompanyController@showGroupModal');
+
             Route::get('/table-company', 'Settings\AboutCompanyController@showDataCompany');
             Route::get('/table-department', 'Settings\AboutCompanyController@showDataDepartment');
             Route::get('/table-group', 'Settings\AboutCompanyController@showDataGroup');
@@ -63,7 +67,14 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/delete-company/{companyID}','Settings\AboutCompanyController@deleteCompany');
 
             Route::post('/save-department', 'Settings\AboutCompanyController@saveDataDepartment');
+            Route::get('/show-edit-department/{departmentID}','Settings\AboutCompanyController@showEditDepartment');
+            Route::post('/edit-department/{departmentID}','Settings\AboutCompanyController@editDepartment');
+            Route::post('/delete-department/{departmentID}','Settings\AboutCompanyController@deleteDepartment');
+
             Route::post('/save-group', 'Settings\AboutCompanyController@saveDataGroup');
+            Route::get('/show-edit-group/{groupID}','Settings\AboutCompanyController@showEditGroup');
+            Route::post('/edit-group/{groupID}','Settings\AboutCompanyController@editGroup');
+            Route::post('/delete-group/{groupID}','Settings\AboutCompanyController@deleteGroup');
 
         });
     });

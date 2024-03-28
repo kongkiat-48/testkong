@@ -36,10 +36,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-label-danger" data-bs-dismiss="modal"> ปิด</button>
+                    <button type="button" class="btn btn-label-danger" data-bs-dismiss="modal"><i class='menu-icon tf-icons bx bx-window-close'></i> ปิด</button>
 
                     <button type="submit" name="saveFlagType" id="saveFlagType"
-                        class="btn btn-success btn-form-block-overlay-add-status">บันทึกข้อมูล</button>
+                        class="btn btn-success btn-form-block-overlay-add-status"><i class='menu-icon tf-icons bx bxs-save'></i> บันทึกข้อมูล</button>
                 </div>
             </form>
         </div>

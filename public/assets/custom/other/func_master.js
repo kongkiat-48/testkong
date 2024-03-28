@@ -110,6 +110,71 @@ function postFormData(url, formData) {
     });
 }
 
-function getFromData(url) {
-    return;
+function showModalWithAjax(modalId, url, select2Selectors) {
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (response) {
+            $(modalId + ' .modal-dialog').html(response);
+            initializeSelect2(select2Selectors, modalId);
+            $(modalId).modal('show');
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+function initializeSelect2(selectors, modalId) {
+    if (!Array.isArray(selectors)) {
+        console.error('initializeSelect2 expects the first argument to be an array of selectors.');
+        return;
+    }
+    if (!modalId || !$(modalId).length) {
+        console.error('initializeSelect2 expects a valid modalId as the second argument.');
+        return;
+    }
+
+    selectors.forEach(function (selector) {
+        var $selectElement = $(selector, modalId);
+        if ($selectElement.length) {
+            $selectElement.select2({
+                dropdownParent: $(modalId),
+                allowClear: true,
+                placeholder: "เลือกข้อมูล"
+            });
+        } else {
+            console.warn('Selector not found:', selector);
+        }
+    });
+}
+function mapSelectedCompanyDepartment(disabledElement, selectElement, disableStatus) {
+    var originalContent = $(disabledElement).html();
+    $(disabledElement).prop('disabled', disableStatus);
+    $(selectElement).on('change', function () {
+        var companyID = $(this).val();
+        var $departmentSelect = $(disabledElement);
+        $departmentSelect.prop('disabled', !companyID);
+
+        if (companyID) {
+            $.ajax({
+                url: '/getMaster/get-department/' + companyID,
+                type: 'GET',
+                dataType: 'json',
+                success: function (departmentsData) {
+                    $departmentSelect.empty().append('<option value="">Select</option>');
+                    departmentsData.forEach(function (department) {
+                        var optionElement = $('<option>').val(department.ID).text(department.departmentName);
+                        $departmentSelect.append(optionElement);
+                    });
+                },
+                error: function () {
+                    $departmentSelect.html(originalContent);
+                }
+            });
+        } else {
+            $departmentSelect.html(originalContent);
+            $departmentSelect.empty().append('<option value="">Select</option>');
+        }
+    });
 }

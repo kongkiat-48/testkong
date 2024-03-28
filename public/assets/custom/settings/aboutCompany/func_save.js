@@ -49,48 +49,48 @@ $(document).ready(function () {
 
 
 
-    var originalCompany = $('#department').html();
-    $('#department').prop('disabled', true);
-    $('#companyForGroup').change(function () {
-        var companyID = $(this).val();
-        if (companyID) {
-            $.ajax({
-                url: '/getMaster/get-department/' + companyID,
-                type: 'GET',
-                dataType: 'json',
-                success: function (departmentsData) {
-                    var $departmentSelect = $('#department');
-                    $departmentSelect.empty().append('<option value="">Select</option>');
+    // var originalCompany = $('#department').html();
+    // $('#department').prop('disabled', true);
+    // $('#companyForGroup').change(function () {
+    //     var companyID = $(this).val();
+    //     if (companyID) {
+    //         $.ajax({
+    //             url: '/getMaster/get-department/' + companyID,
+    //             type: 'GET',
+    //             dataType: 'json',
+    //             success: function (departmentsData) {
+    //                 var $departmentSelect = $('#department');
+    //                 $departmentSelect.empty().append('<option value="">Select</option>');
 
-                    $.each(departmentsData, function (index, department) {
-                        $departmentSelect.append($('<option>', {
-                            value: department.ID,
-                            text: department.departmentName
-                        }));
-                    });
+    //                 $.each(departmentsData, function (index, department) {
+    //                     $departmentSelect.append($('<option>', {
+    //                         value: department.ID,
+    //                         text: department.departmentName
+    //                     }));
+    //                 });
 
-                    $departmentSelect.prop('disabled', false);
-                }
-            });
-        } else {
-            $('#department').html(originalCompany);
-            $('#department').prop('disabled', true);
-            $('#department').html('<option value="">Select</option>');
-        }
-    });
+    //                 $departmentSelect.prop('disabled', false);
+    //             }
+    //         });
+    //     } else {
+    //         $('#department').html(originalCompany);
+    //         $('#department').prop('disabled', true);
+    //         $('#department').html('<option value="">Select</option>');
+    //     }
+    // });
 });
 
 function onSaveCompanySuccess(response) {
     handleAjaxSaveResponse(response);
-    closeAndResetModal("#addCompanyModal", "#formAddCompany");
+    closeAndResetModal("#companyModal", "#formAddCompany");
 }
 function onSaveDepartmentSuccess(response) {
     handleAjaxSaveResponse(response);
-    closeAndResetModal("#addDepartmentModal", "#formAddDepartment");
+    closeAndResetModal("#departmentModal", "#formAddDepartment");
 }
 function onSaveGroupSuccess(response) {
     handleAjaxSaveResponse(response);
-    closeAndResetModal("#addGroupModal", "#formAddGroup");
+    closeAndResetModal("#groupModal", "#formAddGroup");
 }
 
 function setupFormValidationCompany(formElement) {
@@ -118,7 +118,7 @@ function setupFormValidationCompany(formElement) {
                     }
                 }
             },
-            status: {
+            statusOfCompany: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'

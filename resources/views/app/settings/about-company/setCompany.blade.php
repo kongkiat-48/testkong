@@ -28,6 +28,12 @@
         </div>
     </div>
 
+    <div class="modal fade" id="prefixNameModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
     <div class="modal fade" id="editCompanyModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
 
@@ -41,6 +47,12 @@
     </div>
 
     <div class="modal fade" id="editGroupModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="editPrefixNameModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
 
         </div>
@@ -70,6 +82,13 @@
                             รายการชื่อแผนก
                         </button>
                     </li>
+
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#prefix-name" aria-controls="prefix-name" aria-selected="false">
+                            รายการคำนำหน้าชื่อ
+                        </button>
+                    </li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="list-company" role="tabpanel">
@@ -83,10 +102,10 @@
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
-                                        <th class="text-center">ชื่อบริษัท ภาษาไทย</th>
-                                        <th class="text-center">ชื่อบริษัท ภาษาอังกฤษ</th>
-                                        <th class="text-center">การใช้งานระบบ</th>
-                                        <th>จัดการ</th>
+                                        <th class="text-center">ชื่อบริษัท (ไทย)</th>
+                                        <th class="text-center">ชื่อบริษัท (อังกฤษ)</th>
+                                        <th class="text-center">สถานะการใช้งาน</th>
+                                        <th class="text-center">จัดการ</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -105,7 +124,7 @@
                                         <th>ลำดับ</th>
                                         <th class="text-center">ชื่อสังกัด / ฝ่าย</th>
                                         <th class="text-center">ชื่อบริษัท</th>
-                                        <th class="text-center">การใช้งานระบบ</th>
+                                        <th class="text-center">สถานะการใช้งาน</th>
                                         <th>จัดการ</th>
                                     </tr>
                                 </thead>
@@ -127,7 +146,28 @@
                                         <th class="text-center">ชื่อแผนก</th>
                                         <th class="text-center">ชื่อสังกัด / ฝ่าย</th>
                                         <th class="text-center">ชื่อบริษัท</th>
-                                        <th class="text-center">การใช้งานระบบ</th>
+                                        <th class="text-center">สถานะการใช้งาน</th>
+                                        <th>จัดการ</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="prefix-name" role="tabpanel">
+                        <div class="demo-inline-spacing text-end">
+                            <button type="button" class="btn btn-info" id="AddPrefixNameModal">
+                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการคำนำหน้าชื่อ
+                            </button>
+                        </div>
+                        <div class="text-nowrap">
+                            <table class="dt-settingPrefixName table table-bordered">
+                                <thead>
+                                    <tr>
+
+                                        <th>ลำดับ</th>
+                                        <th class="text-center">คำนำหน้าชื่อ</th>
+                                        <th class="text-center">สถานะการใช้งาน</th>
                                         <th>จัดการ</th>
                                     </tr>
                                 </thead>

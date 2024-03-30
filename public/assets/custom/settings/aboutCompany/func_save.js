@@ -47,37 +47,21 @@ $(document).ready(function () {
         });
     });
 
+    $("#savePrefixName").on("click", function (e) {
+        e.preventDefault();
+        removeValidationFeedback();
+        const form = $("#formAddPrefixName")[0];
+        const fv = setupFormValidationPrefixName(form);
+        const formData = new FormData(form);
 
-
-    // var originalCompany = $('#department').html();
-    // $('#department').prop('disabled', true);
-    // $('#companyForGroup').change(function () {
-    //     var companyID = $(this).val();
-    //     if (companyID) {
-    //         $.ajax({
-    //             url: '/getMaster/get-department/' + companyID,
-    //             type: 'GET',
-    //             dataType: 'json',
-    //             success: function (departmentsData) {
-    //                 var $departmentSelect = $('#department');
-    //                 $departmentSelect.empty().append('<option value="">Select</option>');
-
-    //                 $.each(departmentsData, function (index, department) {
-    //                     $departmentSelect.append($('<option>', {
-    //                         value: department.ID,
-    //                         text: department.departmentName
-    //                     }));
-    //                 });
-
-    //                 $departmentSelect.prop('disabled', false);
-    //             }
-    //         });
-    //     } else {
-    //         $('#department').html(originalCompany);
-    //         $('#department').prop('disabled', true);
-    //         $('#department').html('<option value="">Select</option>');
-    //     }
-    // });
+        fv.validate().then(function (status) {
+            if (status === 'Valid') {
+                postFormData("/settings-system/about-company/save-prefix-name", formData)
+                    .done(onSavePrefixNameSuccess)
+                    .fail(handleAjaxSaveError);
+            }
+        })
+    })
 });
 
 function onSaveCompanySuccess(response) {
@@ -91,6 +75,11 @@ function onSaveDepartmentSuccess(response) {
 function onSaveGroupSuccess(response) {
     handleAjaxSaveResponse(response);
     closeAndResetModal("#groupModal", "#formAddGroup");
+}
+
+function onSavePrefixNameSuccess(response) {
+    handleAjaxSaveResponse(response);
+    closeAndResetModal("#prefixNameModal", "#formAddPrefixName");
 }
 
 function setupFormValidationCompany(formElement) {
@@ -208,6 +197,40 @@ function setupFormValidationGroup(formElement) {
                 }
             },
             statusForGroup: {
+                validators: {
+                    notEmpty: {
+                        message: 'เลือกข้อมูล สถานะการใช้งาน'
+                    }
+                }
+            },
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            bootstrap5: new FormValidation.plugins.Bootstrap5({
+                eleValidClass: '',
+                rowSelector: '.col-md-6'
+            }),
+            submitButton: new FormValidation.plugins.SubmitButton(),
+            autoFocus: new FormValidation.plugins.AutoFocus()
+        },
+    });
+}
+
+function setupFormValidationPrefixName(formElement){
+    return FormValidation.formValidation(formElement, {
+        fields: {
+            prefixName: {
+                validators: {
+                    notEmpty: {
+                        message: 'ระบุคํานําหน้าชื่อ'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9ก-๏\s.]+$/u,
+                        message: 'ข้อมูลไม่ถูกต้อง'
+                    }
+                }
+            },
+            statusForPrefixName: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'

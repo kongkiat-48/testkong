@@ -75,6 +75,14 @@ class AboutCompanyController extends Controller
         return abort(404);
     }
 
+    public function showPrefixNameModal()
+    {
+        if (request()->ajax()) {
+            return view('app.settings.about-company.dialog.save.addPrefixName');
+        }
+        return abort(404);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -128,6 +136,17 @@ class AboutCompanyController extends Controller
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 
+    public function saveDataPrefixName(Request $request)
+    {
+        // dd($request->input());
+        $this->validate($request, [
+            'prefixName' => 'required|string|regex:/^[a-zA-Z0-9ก-๏.\s]+$/u',
+            'statusForPrefixName'                            => 'required|integer',
+        ]);
+        $saveData = $this->aboutCompany->saveDataPrefixName($request->input());
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -154,6 +173,12 @@ class AboutCompanyController extends Controller
     public function showDataGroup(Request $request)
     {
         $getDataToTable = $this->aboutCompany->getDataGroup($request);
+        return response()->json($getDataToTable);
+    }
+
+    public function showDataPrefixName(Request $request)
+    {
+        $getDataToTable = $this->aboutCompany->getDataPrefixName($request);
         return response()->json($getDataToTable);
     }
 
@@ -259,6 +284,34 @@ class AboutCompanyController extends Controller
     public function deleteGroup($groupID)
     {
         $deletedData = $this->aboutCompany->deleteGroup($groupID);
+        return response()->json(['status' => $deletedData['status'], 'message' => $deletedData['message']]);
+    }
+
+    public function showEditPrefixName($prefixNameID)
+    {
+        if (request()->ajax()) {
+            $returnData     = $this->aboutCompany->showEditPrefixName($prefixNameID);
+            return view('app.settings.about-company.dialog.edit.editPrefixName',[
+                'dataPrefixName'        => $returnData
+            ]);
+        }
+        return abort(404);
+    }
+
+    public function editPrefixName(Request $request, $prefixNameID)
+    {
+        // dd($request->input(),$prefixNameID);
+        $this->validate($request, [
+            'edit_prefixName' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
+            'edit_statusForPrefixName' => 'required|integer',
+        ]);
+        $saveData = $this->aboutCompany->saveEditDataPrefixName($request->input(), $prefixNameID);
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function deletePrefixName($prefixNameID)
+    {
+        $deletedData = $this->aboutCompany->deletePrefixName($prefixNameID);
         return response()->json(['status' => $deletedData['status'], 'message' => $deletedData['message']]);
     }
 

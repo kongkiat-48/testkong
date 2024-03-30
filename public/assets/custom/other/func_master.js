@@ -148,6 +148,29 @@ function initializeSelect2(selectors, modalId) {
         }
     });
 }
+function renderStatusBadge(data, type, full, row) {
+    const statusMap = {
+        1: { title: 'กำลังใช้งาน', className: 'bg-label-success' },
+        0: { title: 'ปิดการใช้งาน', className: 'bg-label-danger' }
+    };
+    const status = statusMap[data] || { title: 'Undefined', className: 'bg-label-secondary' };
+    return `<span class="badge ${status.className}">${status.title}</span>`;
+}
+
+function renderGroupActionButtons(data, type, row, useFunc) {
+    // console.log(useFunc)
+    const editFunction =  `funcEdit${useFunc}`;
+    const deleteFunction =  `funcDelete${useFunc}`;
+    return `
+    <button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="${editFunction}(${row.ID})">
+        <span class="tf-icons bx bx-edit-alt"></span>
+    </button>
+    <button type="button" class="btn btn-icon btn-label-danger btn-outline-danger" onclick="${deleteFunction}(${row.ID})">
+        <span class="tf-icons bx bx-trash"></span>
+    </button>
+`;
+}
+
 function mapSelectedCompanyDepartment(disabledElement, selectElement, disableStatus) {
     var originalContent = $(disabledElement).html();
     $(disabledElement).prop('disabled', disableStatus);

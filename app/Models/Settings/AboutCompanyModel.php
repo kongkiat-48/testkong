@@ -155,6 +155,44 @@ class AboutCompanyModel extends Model
         return $output;
     }
 
+    public function getDataPrefixName($request){
+        $query = $this->getDatabase->table('tbm_prefix_name')->where('deleted', 0);
+        // คำสั่งเรียงลำดับ (Sorting)
+        $columns = ['ID', 'prefix_name', 'status'];
+        $orderColumn = $columns[$request->input('order.0.column')];
+        $orderDirection = $request->input('order.0.dir');
+        $query->orderBy($orderColumn, $orderDirection);
+
+        // คำสั่งค้นหา (Searching)
+        $searchValue = $request->input('search.value');
+        if (!empty($searchValue)) {
+            $query->where(function ($query) use ($columns, $searchValue) {
+                foreach ($columns as $column) {
+                    $query->orWhere('prefix_name', 'like', '%' . $searchValue . '%');
+                }
+            });
+        }
+
+        $recordsTotal = $query->count();
+        // รับค่าที่ส่งมาจาก DataTables
+        $start = $request->input('start');
+        $length = $request->input('length');
+
+        $data = $query->offset($start)
+            ->limit($length)
+            ->orderBy('status', 'DESC')
+            ->get();
+
+        $output = [
+            'draw' => $request->input('draw'),
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsTotal, // หรือจำนวนรายการที่ผ่านการค้นหา
+            'data' => $data,
+        ];
+
+        return $output;
+    }
+
     public function saveDataCompany($getData)
     {
         try {
@@ -405,6 +443,88 @@ class AboutCompanyModel extends Model
                 'status'    => 200,
                 'message'   => 'Success',
                 // 'ID'        => $groupID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function saveDataPrefixName($getData)
+    {
+        try {
+            $saveToDB = $this->getDatabase->table('tbm_prefix_name')->insertGetId([
+                'prefix_name'   => $getData['prefixName'],
+                'status'        => $getData['statusForPrefixName'],
+                'created_user'  => Auth::user()->emp_code,
+                'created_at'    => Carbon::now()
+            ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                'ID'        => $saveToDB
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+            Log::info($returnStatus);
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function showEditPrefixName($prefixNameID)
+    {
+        $getData = $this->getDatabase->table('tbm_prefix_name')->where('ID', $prefixNameID)->get();
+        return $getData;
+    }
+
+    public function saveEditDataPrefixName($dataEdit, $prefixNameID)
+    {
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_prefix_name')
+                ->where('ID', $prefixNameID)
+                ->update([
+                    'prefix_name'   => $dataEdit['edit_prefixName'],
+                    'status'        => $dataEdit['edit_statusForPrefixName'],
+                    'update_user'   => Auth::user()->emp_code,
+                    'update_at'     => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $prefixNameID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function deletePrefixName($prefixNameID)
+    {
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_prefix_name')
+                ->where('ID', $prefixNameID)
+                ->update([
+                    'deleted'           => 1,
+                    'update_user'       => Auth::user()->emp_code,
+                    'update_at'         => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $prefixNameID
             ];
         } catch (Exception $e) {
             $returnStatus = [

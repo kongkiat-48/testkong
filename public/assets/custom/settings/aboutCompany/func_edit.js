@@ -202,3 +202,61 @@ function onSaveEditGroupSuccess(response) {
     handleAjaxEditResponse(response);
     closeAndResetModal("#editGroupModal", "#formEditGroup");
 }
+
+$(document).ready(function () {
+    $("#saveEditPrefixName").on("click", function (e) {
+        e.preventDefault();
+        removeValidationFeedback();
+        const form = $("#formEditPrefixName")[0];
+        const prefixID = $('#prefixID').val();
+        const fv = setupFormValidationEditPrefixName(form);
+        const formData = new FormData(form);
+
+        fv.validate().then(function (status) {
+            if (status === 'Valid') {
+                postFormData("/settings-system/about-company/edit-prefix-name/" + prefixID, formData)
+                    .done(onSaveEditPrefixSuccess)
+                    .fail(handleAjaxSaveError);
+            }
+        })
+    })
+});
+
+function setupFormValidationEditPrefixName(formElement) {
+    return FormValidation.formValidation(formElement, {
+        fields: {
+            edit_prefixName: {
+                validators: {
+                    notEmpty: {
+                        message: 'ระบุชื่อคํานําหน้า'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9ก-๏\s.]+$/u,
+                        message: 'ข้อมูลไม่ถูกต้อง'
+                    }
+                }
+            },
+            edit_statusForPrefixName: {
+                validators: {
+                    notEmpty: {
+                        message: 'เลือกข้อมูล สถานะการใช้งาน'
+                    }
+                }
+            },
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            bootstrap5: new FormValidation.plugins.Bootstrap5({
+                eleValidClass: '',
+                rowSelector: '.col-md-6'
+            }),
+            submitButton: new FormValidation.plugins.SubmitButton(),
+            autoFocus: new FormValidation.plugins.AutoFocus()
+        }
+    });
+}
+
+function onSaveEditPrefixSuccess(response) {
+    handleAjaxEditResponse(response);
+    closeAndResetModal("#editPrefixNameModal", "#formEditPrefixName");
+}

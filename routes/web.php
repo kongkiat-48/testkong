@@ -56,10 +56,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/company-modal', 'Settings\AboutCompanyController@showCompanyModal');
             Route::get('/department-modal', 'Settings\AboutCompanyController@showDepartmentModal');
             Route::get('/group-modal', 'Settings\AboutCompanyController@showGroupModal');
+            Route::get('/prefix-name-modal', 'Settings\AboutCompanyController@showPrefixNameModal');
 
             Route::get('/table-company', 'Settings\AboutCompanyController@showDataCompany');
             Route::get('/table-department', 'Settings\AboutCompanyController@showDataDepartment');
             Route::get('/table-group', 'Settings\AboutCompanyController@showDataGroup');
+            Route::get('/table-prefix-name', 'Settings\AboutCompanyController@showDataPrefixName');
 
             Route::post('/save-company', 'Settings\AboutCompanyController@saveDataCompany');
             Route::get('/show-edit-company/{companyID}','Settings\AboutCompanyController@showEditCompany');
@@ -75,6 +77,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/show-edit-group/{groupID}','Settings\AboutCompanyController@showEditGroup');
             Route::post('/edit-group/{groupID}','Settings\AboutCompanyController@editGroup');
             Route::post('/delete-group/{groupID}','Settings\AboutCompanyController@deleteGroup');
+
+            Route::post('/save-prefix-name', 'Settings\AboutCompanyController@saveDataPrefixName');
+            Route::get('/show-edit-prefix-name/{prefixNameID}','Settings\AboutCompanyController@showEditPrefixName');
+            Route::post('/edit-prefix-name/{prefixNameID}','Settings\AboutCompanyController@editPrefixName');
+            Route::post('/delete-prefix-name/{prefixNameID}','Settings\AboutCompanyController@deletePrefixName');
 
         });
     });

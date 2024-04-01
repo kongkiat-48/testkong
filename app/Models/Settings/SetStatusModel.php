@@ -16,14 +16,18 @@ class SetStatusModel extends Model
 
     public function __construct()
     {
-        $this->statusWorkDB = DB::connection('mysql');
+        $this->getDatabase = DB::connection('mysql');
     }
 
     public function gatDataStatus($request)
     {
-        $query = $this->statusWorkDB->table('status_work')->where('deleted', 0);
+        $query = $this->getDatabase->table('tbm_status_work AS statusWork')
+            ->leftJoin('tbm_flag_type AS flag', 'statusWork.flag_type', '=', 'flag.ID')
+            ->select('statusWork.ID', 'statusWork.status_name', 'statusWork.status_use', 'statusWork.status', 'flag.type_work')
+            ->where('statusWork.deleted', 0)
+            ->where('flag.deleted', 0);
         // คำสั่งเรียงลำดับ (Sorting)
-        $columns = ['ID', 'status_name', 'status_use', 'status', 'flag_type'];
+        $columns = ['statusWork.ID', 'statusWork.status_name', 'statusWork.status_use', 'statusWork.status', 'flag.type_work'];
         $orderColumn = $columns[$request->input('order.0.column')];
         $orderDirection = $request->input('order.0.dir');
         $query->orderBy($orderColumn, $orderDirection);
@@ -45,8 +49,8 @@ class SetStatusModel extends Model
 
         $data = $query->offset($start)
             ->limit($length)
-            ->orderBy('status','DESC')
-            ->orderBy('flag_type','DESC')
+            ->orderBy('status', 'DESC')
+            ->orderBy('flag_type', 'DESC')
             ->get();
 
         $output = [
@@ -56,12 +60,14 @@ class SetStatusModel extends Model
             'data' => $data,
         ];
 
+        // dd($output);
+
         return $output;
     }
 
     public function gatDataFlagType($request)
     {
-        $query = $this->statusWorkDB->table('flag_type')->where('deleted', 0);
+        $query = $this->getDatabase->table('tbm_flag_type')->where('deleted', 0);
 
         // คำสั่งเรียงลำดับ (Sorting)
         $columns = ['ID', 'flag_name', 'type_work'];
@@ -103,11 +109,11 @@ class SetStatusModel extends Model
     {
         try {
             // dd(Auth::user()->emp_code);
-            $saveToDB = $this->statusWorkDB->table('status_work')->insertGetId([
+            $saveToDB = $this->getDatabase->table('tbm_status_work')->insertGetId([
                 'status_name'   => $getData['statusName'],
                 'status_use'    => $getData['statusUse'],
-                'status'        => $getData['statusWS'],
                 'flag_type'     => $getData['flagType'],
+                'status'        => $getData['statusForStatus'],
                 'created_user'  => Auth::user()->emp_code,
                 'created_at'    => Carbon::now()
             ]);
@@ -115,32 +121,32 @@ class SetStatusModel extends Model
             $returnStatus = [
                 'status'    => 200,
                 'message'   => 'Success',
-                'ID'        => $saveToDB
+                // 'ID'        => $saveToDB
             ];
         } catch (Exception $e) {
             $returnStatus = [
                 'status'    => $e->getCode(),
                 'message'   => $e->getMessage()
             ];
-
-            Log::info($returnStatus);
         } finally {
             return $returnStatus;
         }
     }
 
-    public function getStatusID($statusID){
-        $getData = $this->statusWorkDB->table('status_work')->where('ID',$statusID)->get();
+    public function showEditStatus($statusID)
+    {
+        $getData = $this->getDatabase->table('tbm_status_work')->where('ID', $statusID)->get();
         // dd($getData);
         return $getData;
     }
 
-    public function editStatus($dataEdit,$statusID){
-        try{
-            $this->statusWorkDB->table('status_work')->where('ID',$statusID)->update([
+    public function editStatus($dataEdit, $statusID)
+    {
+        try {
+            $this->getDatabase->table('tbm_status_work')->where('ID', $statusID)->update([
                 'status_name'   => $dataEdit['edit_statusName'],
                 'status_use'    => $dataEdit['edit_statusUse'],
-                'status'        => $dataEdit['edit_statusWS'],
+                'status'        => $dataEdit['edit_statusForStatus'],
                 'flag_type'     => $dataEdit['edit_flagType'],
                 'update_user'  => Auth::user()->emp_code,
                 'update_at'    => Carbon::now()
@@ -155,16 +161,38 @@ class SetStatusModel extends Model
                 'status'    => $e->getCode(),
                 'message'   => $e->getMessage()
             ];
-            Log::info($returnStatus);
         } finally {
             return $returnStatus;
         }
     }
 
-    public function saveDataFlagType($getFlagType){
+    public function deleteStatus($statusID)
+    {
+        try {
+            $this->getDatabase->table('tbm_status_work')->where('ID', $statusID)->update([
+                'deleted'      => 1,
+                'update_user'       => Auth::user()->emp_code,
+                'update_at'         => Carbon::now()
+            ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Delete Success'
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function saveDataFlagType($getFlagType)
+    {
         try {
             // dd($getFlagType);
-            $saveToDB = $this->statusWorkDB->table('flag_type')->insertGetId([
+            $saveToDB = $this->getDatabase->table('tbm_flag_type')->insertGetId([
                 'flag_name'   => $getFlagType['flagName'],
                 'type_work'    => $getFlagType['typeWork'],
                 'created_user'  => Auth::user()->emp_code,
@@ -174,7 +202,7 @@ class SetStatusModel extends Model
             $returnStatus = [
                 'status'    => 200,
                 'message'   => 'Success',
-                'ID'        => $saveToDB
+                // 'ID'        => $saveToDB
             ];
         } catch (Exception $e) {
             $returnStatus = [
@@ -188,9 +216,56 @@ class SetStatusModel extends Model
         }
     }
 
-    public function getflagID($flagID){
-        $getData = $this->statusWorkDB->table('flag_type')->where('ID',$flagID)->get();
+    public function showEditFlagType($flagID)
+    {
+        $getData = $this->getDatabase->table('tbm_flag_type')->where('ID', $flagID)->get();
         // dd($getData);
         return $getData;
+    }
+
+    public function editFlagType($dataEdit, $flagID)
+    {
+        try {
+            $this->getDatabase->table('tbm_flag_type')->where('ID', $flagID)->update([
+                'flag_name'   => $dataEdit['edit_flagName'],
+                'type_work'    => $dataEdit['edit_typeWork'],
+                'update_user'  => Auth::user()->emp_code,
+                'update_at'    => Carbon::now()
+            ]);
+
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Edit Success'
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function deleteFlagType($flagID)
+    {
+        try {
+            $this->getDatabase->table('tbm_flag_type')->where('ID', $flagID)->update([
+                'deleted'           => 1,
+                'update_user'       => Auth::user()->emp_code,
+                'update_at'         => Carbon::now()
+            ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Delete Success'
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
     }
 }

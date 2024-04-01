@@ -21,7 +21,7 @@ class getDataMasterModel extends Model
 
     public function getDataFlagType()
     {
-        $getFlagType = $this->getDatabase->table('flag_type')
+        $getFlagType = $this->getDatabase->table('tbm_flag_type')
             ->select('flag_name', 'type_work', 'ID')
             ->where('deleted', 0)
             ->get();

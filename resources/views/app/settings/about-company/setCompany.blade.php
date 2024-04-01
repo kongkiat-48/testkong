@@ -1,15 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ url('/home') }}">หน้าแรก</a>
-            </li>
-            <li class="breadcrumb-item active">{{ $urlName }}</li>
-        </ol>
-    </nav>
-    <hr>
     <div class="modal fade" id="companyModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
 
@@ -58,8 +49,15 @@
         </div>
     </div>
 
-
-
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ url('/home') }}">หน้าแรก</a>
+            </li>
+            <li class="breadcrumb-item active">{{ $urlName }}</li>
+        </ol>
+    </nav>
+    <hr>
     <div class="row">
         <div class="col-12">
             <div class="nav-align-top mb-4">
@@ -92,7 +90,7 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="list-company" role="tabpanel">
-                        <div class="demo-inline-spacing text-end">
+                        <div class="inline-spacing text-end">
                             <button type="button" class="btn btn-info" id="AddCompanyModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการชื่อบริษัท
                             </button>
@@ -101,7 +99,7 @@
                             <table class="dt-settingCompany table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ลำดับ</th>
+                                        <th class="text-center">ลำดับ</th>
                                         <th class="text-center">ชื่อบริษัท (ไทย)</th>
                                         <th class="text-center">ชื่อบริษัท (อังกฤษ)</th>
                                         <th class="text-center">สถานะการใช้งาน</th>
@@ -112,7 +110,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="list-department" role="tabpanel">
-                        <div class="demo-inline-spacing text-end">
+                        <div class="inline-spacing text-end">
                             <button type="button" class="btn btn-info" id="AddDepartmentModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการชื่อแผนกสังกัด / ฝ่าย
                             </button>
@@ -121,7 +119,7 @@
                             <table class="dt-settingDepartment table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ลำดับ</th>
+                                        <th class="text-center">ลำดับ</th>
                                         <th class="text-center">ชื่อสังกัด / ฝ่าย</th>
                                         <th class="text-center">ชื่อบริษัท</th>
                                         <th class="text-center">สถานะการใช้งาน</th>
@@ -132,7 +130,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="list-group" role="tabpanel">
-                        <div class="demo-inline-spacing text-end">
+                        <div class="inline-spacing text-end">
                             <button type="button" class="btn btn-info" id="AddGroupModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการชื่อแผนก
                             </button>
@@ -142,7 +140,7 @@
                                 <thead>
                                     <tr>
 
-                                        <th>ลำดับ</th>
+                                        <th class="text-center">ลำดับ</th>
                                         <th class="text-center">ชื่อแผนก</th>
                                         <th class="text-center">ชื่อสังกัด / ฝ่าย</th>
                                         <th class="text-center">ชื่อบริษัท</th>
@@ -155,7 +153,7 @@
                     </div>
 
                     <div class="tab-pane fade" id="prefix-name" role="tabpanel">
-                        <div class="demo-inline-spacing text-end">
+                        <div class="inline-spacing text-end">
                             <button type="button" class="btn btn-info" id="AddPrefixNameModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการคำนำหน้าชื่อ
                             </button>
@@ -165,7 +163,7 @@
                                 <thead>
                                     <tr>
 
-                                        <th>ลำดับ</th>
+                                        <th class="text-center">ลำดับ</th>
                                         <th class="text-center">คำนำหน้าชื่อ</th>
                                         <th class="text-center">สถานะการใช้งาน</th>
                                         <th>จัดการ</th>

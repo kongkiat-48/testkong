@@ -157,10 +157,35 @@ function renderStatusBadge(data, type, full, row) {
     return `<span class="badge ${status.className}">${status.title}</span>`;
 }
 
+function renderStatusWorkBadge(data, type, full, row) {
+    const statusMap = {
+        all: { title: 'ใช้งานทั้งหมด', className: 'bg-label-success' },
+        it: { title: 'ใช้งานฝ่าย IT', className: 'bg-label-info' },
+        building: { title: 'ใช้งานฝ่ายอาคาร', className: 'bg-label-warning' },
+        hr: { title: 'ใช้งานฝ่าย HR', className: 'bg-label-primary' }
+    };
+    const status = statusMap[data] || { title: 'Undefined', className: 'bg-label-secondary' };
+    return `<span class="badge ${status.className}">${status.title}</span>`;
+}
+
+function renderStatusWorkTypeBadge(data, type, full, row) {
+    const statusMap = {
+        Complete: { title: 'ดำเนินงานเสร็จสิ้น', className: 'bg-label-success' },
+        Wating: { title: 'อยู่ระหว่างดำเนินงาน', className: 'bg-label-warning' },
+        Hold : { title: 'รอชั่วคราว', className: 'bg-label-warning' },
+        Doing : { title: 'กำลังดำเนินงาน', className: 'bg-label-primary' },
+        Cancel: { title: 'ยกเลิกงาน / ยกเลิกการแจ้ง', className: 'bg-label-danger' },
+        Other: { title: 'อื่น ๆ', className: 'bg-label-info' },
+    };
+    const status = statusMap[data] || { title: 'Undefined', className: 'bg-label-secondary' };
+    return `<span class="badge ${status.className}">${status.title}</span>`;
+}
+
+
 function renderGroupActionButtons(data, type, row, useFunc) {
     // console.log(useFunc)
-    const editFunction =  `funcEdit${useFunc}`;
-    const deleteFunction =  `funcDelete${useFunc}`;
+    const editFunction = `funcEdit${useFunc}`;
+    const deleteFunction = `funcDelete${useFunc}`;
     return `
     <button type="button" class="btn btn-icon btn-label-warning btn-outline-warning" onclick="${editFunction}(${row.ID})">
         <span class="tf-icons bx bx-edit-alt"></span>

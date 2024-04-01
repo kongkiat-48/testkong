@@ -30,7 +30,7 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="set-status" role="tabpanel">
-                        <div class="demo-inline-spacing text-end">
+                        <div class="inline-spacing text-end">
                             <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                 data-bs-target="#addStatusModal">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มสถานะการทำงาน
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="flag-type" role="tabpanel">
-                        <div class="demo-inline-spacing text-end">
+                        <div class="inline-spacing text-end">
                             <button type="button" class="btn btn-info" data-bs-toggle="modal"
                                 data-bs-target="#addFlagType">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการรูปแบบสถานะงาน

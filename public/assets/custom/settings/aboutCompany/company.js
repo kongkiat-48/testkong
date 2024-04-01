@@ -21,7 +21,6 @@ $(function () {
                     data: "status",
                     orderable: false,
                     searchable: false,
-
                     class: "text-center",
                     render: renderStatusBadge
                 },

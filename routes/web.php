@@ -35,15 +35,21 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/work-status')->group(function () {
             Route::get('', 'Settings\SetStatusController@index');
 
-            Route::get('/table-work-status', 'Settings\SetStatusController@showDataStatus');
-            Route::post('/save-work-status', 'Settings\SetStatusController@saveDataWorkStatus');
-            Route::get('/show-edit-status/{statusID}','Settings\SetStatusController@showEditStatus');
-            Route::post('/edit-work-status/{statusID}','Settings\SetStatusController@editStatus');
+            Route::get('/status-modal', 'Settings\SetStatusController@showStatusModal');
+            Route::get('/flag-type-modal', 'Settings\SetStatusController@showFlagTypeModal');
 
+            Route::get('/table-status', 'Settings\SetStatusController@showDataStatus');
             Route::get('/table-flag-type', 'Settings\SetStatusController@showDataFlagType');
-            Route::post('/save-flag-type','Settings\SetStatusController@saveDataFlagType');
-            Route::get('/show-edit-flag-type/{typeID}','Settings\SetStatusController@showEditFlagType');
-            Route::post('/edit-work-flag-type/{typeID}','Settings\SetStatusController@editFlagType');
+
+            Route::post('/save-status', 'Settings\SetStatusController@saveDataStatus');
+            Route::get('/show-edit-status/{statusID}','Settings\SetStatusController@showEditStatus');
+            Route::post('/edit-status/{statusID}','Settings\SetStatusController@editStatus');
+            Route::post('/delete-status/{statusID}','Settings\SetStatusController@deleteStatus');
+
+            Route::post('/save-flag-type', 'Settings\SetStatusController@saveDataFlagType');
+            Route::get('/show-edit-flag-type/{flagTypeID}','Settings\SetStatusController@showEditFlagType');
+            Route::post('/edit-flag-type/{flagTypeID}','Settings\SetStatusController@editFlagType');
+            Route::post('/delete-flag-type/{flagTypeID}','Settings\SetStatusController@deleteFlagType');
         });
 
         Route::prefix('/menu')->group(function () {

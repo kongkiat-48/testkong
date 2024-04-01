@@ -1,6 +1,30 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="modal fade" id="addStatusModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="editStatusModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="addFlagTypeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="editFlagTypeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -10,11 +34,6 @@
         </ol>
     </nav>
     <hr>
-    @include('app.settings.work-status.dialog.addStatus')
-    @include('app.settings.work-status.dialog.editStatus')
-    @include('app.settings.work-status.dialog.addFlagType')
-    @include('app.settings.work-status.dialog.editFlagType')
-    {{-- @include('Customer.lead-telesale.dialog-asset-edit') --}}
     <div class="row">
         <div class="col-12">
             <div class="nav-align-top mb-4">
@@ -22,7 +41,7 @@
                     <li class="nav-item">
                         <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                             data-bs-target="#set-status" aria-controls="set-status" aria-selected="true">
-                            รายการสถานะงาน
+                            รายการชื่อสถานะงาน
                         </button>
                     </li>
                     <li class="nav-item">
@@ -34,31 +53,30 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="set-status" role="tabpanel">
-                        <div class="demo-inline-spacing text-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                data-bs-target="#addStatusModal">
-                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มสถานะการทำงาน
+                        <div class="inline-spacing text-end">
+                            <button type="button" class="btn btn-info" id="addStatus">
+                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการสถานะงาน
                             </button>
                         </div>
                         <div class="text-nowrap">
                             <table class="dt-settingStatus table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ลำดับ</th>
+                                        <th class="text-center">ลำดับ</th>
                                         <th class="text-center">รายการสถานะ</th>
-                                        <th class="text-center">รูปแบบการใช้งาน</th>
+                                        <th class="text-center">รูปแบบการทำงาน</th>
                                         <th class="text-center">การใช้งานระบบ</th>
                                         <th class="text-center">รูปแบบสถานะงาน</th>
-                                        <th>จัดการ</th>
+                                        <th class="text-center">จัดการ</th>
                                     </tr>
                                 </thead>
                             </table>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="flag-type" role="tabpanel">
-                        <div class="demo-inline-spacing text-end">
-                            <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                                data-bs-target="#addFlagType">
+                        <div class="inline-spacing text-end">
+
+                            <button type="button" class="btn btn-info" id="addFlagType">
                                 <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการรูปแบบสถานะงาน
                             </button>
                         </div>
@@ -66,13 +84,13 @@
                             <table class="dt-settingFlagType table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ลำดับ</th>
+                                        <th class="text-center">ลำดับ</th>
                                         <th class="text-center">รายการสถานะ</th>
                                         <th class="text-center">รูปแบบของสถานะ</th>
                                         {{-- <th>รูปแบบการใช้งาน</th>
                                         <th>การใช้งานระบบ</th>
                                         <th>รูปแบบสถานะงาน</th> --}}
-                                        <th>จัดการ</th>
+                                        <th class="text-center">จัดการ</th>
                                     </tr>
                                 </thead>
                             </table>

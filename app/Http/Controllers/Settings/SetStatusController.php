@@ -16,7 +16,6 @@ class SetStatusController extends Controller
     {
         $this->setStatusModel   = new SetStatusModel;
         $this->getMaster        = new getDataMasterModel;
-
     }
     /**
      * Display a listing of the resource.
@@ -28,14 +27,34 @@ class SetStatusController extends Controller
         $url        = request()->segments();
         $urlName    = "ตั้งค่าสถานะงาน";
         $urlSubLink = "work-status";
-        $getFlagType = $this->getMaster->getDataFlagType();
+        // $getFlagType = $this->getMaster->getDataFlagType();
         // dd($url);
         return view('app.settings.work-status.setStatus', [
             'url'           => $url,
             'urlName'       => $urlName,
             'urlSubLink'    => $urlSubLink,
-            'flagType'      => $getFlagType
+            // 'flagType'      => $getFlagType
         ]);
+    }
+
+    public function showStatusModal()
+    {
+        if (request()->ajax()) {
+            $getFlagType     = $this->getMaster->getDataFlagType();
+
+            return view('app.settings.work-status.dialog.save.addStatus', [
+                'getFlagType'        => $getFlagType,
+            ]);
+        }
+        return abort(404);
+    }
+
+    public function showFlagTypeModal()
+    {
+        if (request()->ajax()) {
+            return view('app.settings.work-status.dialog.save.addFlagType');
+        }
+        return abort(404);
     }
 
     /**
@@ -59,24 +78,78 @@ class SetStatusController extends Controller
         //
     }
 
-    public function saveDataWorkStatus(Request $request)
+    public function saveDataStatus(Request $request)
     {
-        dd($request->input());
         $this->validate($request, [
-            'statusName','statusUse','flagType'         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'statusWS'                                  => 'required|integer',
+            'statusName', 'statusUse', 'flagType'         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
+            'statusForStatus'                             => 'required|integer',
         ]);
         $saveData = $this->setStatusModel->saveDataStatus($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 
-    public function saveDataFlagType(Request $request) {
-        // dd($request->input());
+    public function showEditStatus($statusID)
+    {
+        if (request()->ajax()) {
+            $getFlagType     = $this->getMaster->getDataFlagType();
+            $returnData = $this->setStatusModel->showEditStatus($statusID);
+            return view('app.settings.work-status.dialog.edit.editStatus', [
+                'getFlagType'        => $getFlagType,
+                'dataStatus'     => $returnData
+            ]);
+        }
+        return abort(404);
+    }
+
+    public function editStatus(Request $request, $statusID)
+    {
         $this->validate($request, [
-            'flagName','typeWork'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
+            'edit_statusName', 'edit_statusUse'        => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
+            'edit_statusForStatus','edit_flagType'                             => 'required|integer',
+        ]);
+        $saveData = $this->setStatusModel->editStatus($request->input(), $statusID);
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function deleteStatus($statusID)
+    {
+        $deleteData = $this->setStatusModel->deleteStatus($statusID);
+        return response()->json(['status' => $deleteData['status'], 'message' => $deleteData['message']]);
+    }
+
+    public function saveDataFlagType(Request $request)
+    {
+        $this->validate($request, [
+            'flagName', 'typeWork' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
         ]);
         $saveData = $this->setStatusModel->saveDataFlagType($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function showEditFlagType($flagTypeID){
+        if (request()->ajax()) {
+            $returnData = $this->setStatusModel->showEditFlagType($flagTypeID);
+            // dd($returnData);
+            return view('app.settings.work-status.dialog.edit.editFlagType', [
+                'dataFlagType'     => $returnData
+            ]);
+        }
+        return abort(404);
+    }
+
+    public function editFlagType(Request $request, $flagTypeID)
+    {
+        $this->validate($request, [
+            'edit_flagName', 'edit_typeWork' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
+        ]);
+        $saveData = $this->setStatusModel->editFlagType($request->input(), $flagTypeID);
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function deleteFlagType($flagTypeID)
+    {
+        $deleteData = $this->setStatusModel->deleteFlagType($flagTypeID);
+        return response()->json(['status' => $deleteData['status'], 'message' => $deleteData['message']]);
     }
 
     /**
@@ -111,37 +184,6 @@ class SetStatusController extends Controller
     public function edit($id)
     {
         //
-    }
-
-    public function showEditStatus($statusID){
-        // dd($statusID);
-        $getDataStatus = $this->setStatusModel->getStatusID($statusID);
-        if ($getDataStatus) {
-            return response()->json($getDataStatus);
-        } else {
-            return response()->json(['error' => 'ไม่พบข้อมูล'], 404);
-        }
-    }
-
-    public function editStatus(Request $request,$statusID){
-        $this->validate($request, [
-            'edit_statusName','edit_statusUse','edit_flagType'          => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'edit_statusWS'                                             => 'required|integer',
-        ]);
-        $editData = $this->setStatusModel->editStatus($request->input(),$statusID);
-        return response()->json(['status' => $editData['status'], 'message' => $editData['message']]);
-    }
-
-    public function showEditFlagType($flagID){
-        // dd($flagID);
-        $getDataStatus = $this->setStatusModel->getflagID($flagID);
-        if ($getDataStatus) {
-            // ถ้าพบข้อมูล
-            return response()->json($getDataStatus);
-        } else {
-            // ถ้าไม่พบข้อมูล
-            return response()->json(['error' => 'ไม่พบข้อมูล'], 404);
-        }
     }
 
     /**

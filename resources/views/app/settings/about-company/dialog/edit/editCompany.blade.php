@@ -20,8 +20,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label" for="edit_status">สถานะการใช้งาน</label>
-                    <select id="edit_status" name="edit_status" class="form-select select2" data-allow-clear="true">
+                    <label class="form-label" for="edit_statusOfCompany">สถานะการใช้งาน</label>
+                    <select id="edit_statusOfCompany" name="edit_statusOfCompany" class="form-select select2" data-allow-clear="true">
                         <option value="">Select</option>
                         <option value="1" @if ($dataCompany[0]->status == 1) selected @endif>กำลังใช้งาน</option>
                         <option value="0" @if ($dataCompany[0]->status == 0) selected @endif>ปิดการใช้งาน</option>

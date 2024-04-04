@@ -148,7 +148,7 @@ function setupFormValidationDepartment(formElement) {
                     }
                 }
             },
-            statusForDep: {
+            statusOfDepartment: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'
@@ -196,7 +196,7 @@ function setupFormValidationGroup(formElement) {
                     }
                 }
             },
-            statusForGroup: {
+            statusOfGroup: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'
@@ -230,7 +230,7 @@ function setupFormValidationPrefixName(formElement){
                     }
                 }
             },
-            statusForPrefixName: {
+            statusOfPrefixName: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'

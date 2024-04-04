@@ -3,20 +3,22 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Master\AllValidator;
 use App\Models\Master\getDataMasterModel;
 use App\Models\Settings\AboutCompanyModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class AboutCompanyController extends Controller
 {
     private $aboutCompany;
     private $getMaster;
+    private $funcValidator;
 
     public function __construct()
     {
         $this->aboutCompany = new AboutCompanyModel;
         $this->getMaster    = new getDataMasterModel;
+        $this->funcValidator = new AllValidator;
     }
 
 
@@ -106,43 +108,48 @@ class AboutCompanyController extends Controller
 
     public function saveDataCompany(Request $request)
     {
-        $this->validate($request, [
-            'companyNameTH', 'companyNameEN'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'statusOfCompany'                            => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcAddCompany');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->aboutCompany->saveDataCompany($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 
     public function saveDataDepartment(Request $request)
     {
-        // dd($request->input());
-        $this->validate($request, [
-            'departmentName'    => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'statusForDep', 'company'  => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcAddDepartment');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->aboutCompany->saveDataDepartment($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 
     public function saveDataGroup(Request $request)
     {
-        // dd($request->input());
-        $this->validate($request, [
-            'groupName'                                         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'companyForGroup', 'department', 'statusForGroup'     => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcAddGroup');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->aboutCompany->saveDataGroup($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 
     public function saveDataPrefixName(Request $request)
     {
-        // dd($request->input());
-        $this->validate($request, [
-            'prefixName' => 'required|string|regex:/^[a-zA-Z0-9ก-๏.\s]+$/u',
-            'statusForPrefixName'                            => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcAddPrefixName');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->aboutCompany->saveDataPrefixName($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
@@ -209,11 +216,12 @@ class AboutCompanyController extends Controller
 
     public function editCompany(Request $request, $companyID)
     {
-        // dd($request->input(),$companyID);
-        $this->validate($request, [
-            'edit_companyNameTH', 'edit_companyNameEN'  => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'edit_status'                               => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcEditCompany');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->aboutCompany->saveEditDataCompany($request->input(), $companyID);
 
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
@@ -240,11 +248,12 @@ class AboutCompanyController extends Controller
 
     public function editDepartment(Request $request, $departmentID)
     {
-        // dd($request->input(),$departmentID);
-        $this->validate($request, [
-            'edit_departmentName' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'edit_statusForDep', 'edit_company' => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcEditDepartment');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->aboutCompany->saveEditDataDepartment($request->input(), $departmentID);
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
@@ -259,8 +268,8 @@ class AboutCompanyController extends Controller
     {
         if (request()->ajax()) {
             $getCompany     = $this->getMaster->getDataCompany();
-            $getDepartment  = $this->getMaster->getDataDepartment();
             $returnData     = $this->aboutCompany->showEditGroup($groupID);
+            $getDepartment  = $this->getMaster->getDataDepartmentForID($returnData[0]->company_id);
             return view('app.settings.about-company.dialog.edit.editGroup', [
                 'getCompany'            => $getCompany,
                 'getDepartment'         => $getDepartment,
@@ -272,11 +281,12 @@ class AboutCompanyController extends Controller
 
     public function editGroup(Request $request, $groupID)
     {
-        // dd($request->input(),$groupID);
-        $this->validate($request, [
-            'edit_groupName' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s]+$/u',
-            'edit_statusForGroup', 'edit_companyForGroup', 'edit_department' => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcEditGroup');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->aboutCompany->saveEditDataGroup($request->input(), $groupID);
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
@@ -300,11 +310,12 @@ class AboutCompanyController extends Controller
 
     public function editPrefixName(Request $request, $prefixNameID)
     {
-        // dd($request->input(),$prefixNameID);
-        $this->validate($request, [
-            'edit_prefixName' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
-            'edit_statusForPrefixName' => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcEditPrefixName');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->aboutCompany->saveEditDataPrefixName($request->input(), $prefixNameID);
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }

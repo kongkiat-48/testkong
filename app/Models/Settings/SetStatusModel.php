@@ -113,7 +113,7 @@ class SetStatusModel extends Model
                 'status_name'   => $getData['statusName'],
                 'status_use'    => $getData['statusUse'],
                 'flag_type'     => $getData['flagType'],
-                'status'        => $getData['statusForStatus'],
+                'status'        => $getData['statusOfStatus'],
                 'created_user'  => Auth::user()->emp_code,
                 'created_at'    => Carbon::now()
             ]);
@@ -146,7 +146,7 @@ class SetStatusModel extends Model
             $this->getDatabase->table('tbm_status_work')->where('ID', $statusID)->update([
                 'status_name'   => $dataEdit['edit_statusName'],
                 'status_use'    => $dataEdit['edit_statusUse'],
-                'status'        => $dataEdit['edit_statusForStatus'],
+                'status'        => $dataEdit['edit_statusOfStatus'],
                 'flag_type'     => $dataEdit['edit_flagType'],
                 'update_user'  => Auth::user()->emp_code,
                 'update_at'    => Carbon::now()

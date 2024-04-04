@@ -65,7 +65,7 @@ function setupFormValidationStatus(formElement){
                     }
                 }
             },
-            statusForStatus: {
+            statusOfStatus: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'

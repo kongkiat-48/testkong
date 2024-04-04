@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Master\AllValidator;
 use App\Models\Master\getDataMasterModel;
 use App\Models\Settings\SetStatusModel;
 use Illuminate\Http\Request;
@@ -11,11 +12,13 @@ class SetStatusController extends Controller
 {
     private $setStatusModel;
     private $getMaster;
+    private $funcValidator;
 
     public function __construct()
     {
         $this->setStatusModel   = new SetStatusModel;
         $this->getMaster        = new getDataMasterModel;
+        $this->funcValidator    = new AllValidator;
     }
     /**
      * Display a listing of the resource.
@@ -80,10 +83,12 @@ class SetStatusController extends Controller
 
     public function saveDataStatus(Request $request)
     {
-        $this->validate($request, [
-            'statusName', 'statusUse', 'flagType'         => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
-            'statusForStatus'                             => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingWorkStatus($request->input(), 'funcAddStatus');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->setStatusModel->saveDataStatus($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
@@ -103,10 +108,11 @@ class SetStatusController extends Controller
 
     public function editStatus(Request $request, $statusID)
     {
-        $this->validate($request, [
-            'edit_statusName', 'edit_statusUse'        => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
-            'edit_statusForStatus','edit_flagType'                             => 'required|integer',
-        ]);
+        $validator = $this->funcValidator->validateSettingWorkStatus($request->input(), 'funcEditStatus');
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->setStatusModel->editStatus($request->input(), $statusID);
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
@@ -119,14 +125,17 @@ class SetStatusController extends Controller
 
     public function saveDataFlagType(Request $request)
     {
-        $this->validate($request, [
-            'flagName', 'typeWork' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
-        ]);
+        $validator = $this->funcValidator->validateSettingWorkStatus($request->input(), 'funcAddFlagType');
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->setStatusModel->saveDataFlagType($request->input());
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 
-    public function showEditFlagType($flagTypeID){
+    public function showEditFlagType($flagTypeID)
+    {
         if (request()->ajax()) {
             $returnData = $this->setStatusModel->showEditFlagType($flagTypeID);
             // dd($returnData);
@@ -139,9 +148,11 @@ class SetStatusController extends Controller
 
     public function editFlagType(Request $request, $flagTypeID)
     {
-        $this->validate($request, [
-            'edit_flagName', 'edit_typeWork' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
-        ]);
+        $validator = $this->funcValidator->validateSettingWorkStatus($request->input(), 'funcEditFlagType');
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
         $saveData = $this->setStatusModel->editFlagType($request->input(), $flagTypeID);
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }

@@ -202,21 +202,21 @@ $(document).ready(function () {
     });
 
     $('#AddDepartmentModal').click(function () {
-        showModalWithAjax('#departmentModal', '/settings-system/about-company/department-modal', ['#company', '#statusForDep']);
+        showModalWithAjax('#departmentModal', '/settings-system/about-company/department-modal', ['#company', '#statusOfDepartment']);
     });
 
     $('#AddGroupModal').click(function () {
-        showModalWithAjax('#groupModal', '/settings-system/about-company/group-modal', ['#companyForGroup', '#department', '#statusForGroup']);
+        showModalWithAjax('#groupModal', '/settings-system/about-company/group-modal', ['#companyForGroup', '#department', '#statusOfGroup']);
     });
 
     $('#AddPrefixNameModal').click(function () {
-        showModalWithAjax('#prefixNameModal', '/settings-system/about-company/prefix-name-modal', ['#statusForPrefixName']);
+        showModalWithAjax('#prefixNameModal', '/settings-system/about-company/prefix-name-modal', ['#statusOfPrefixName']);
     });
 
 });
 
 function funcEditCompany(companyID) {
-    showModalWithAjax('#editCompanyModal', '/settings-system/about-company/show-edit-company/' + companyID, ['#edit_status']);
+    showModalWithAjax('#editCompanyModal', '/settings-system/about-company/show-edit-company/' + companyID, ['#edit_statusOfCompany']);
 }
 
 function funcDeleteCompany(companyID) {
@@ -224,7 +224,7 @@ function funcDeleteCompany(companyID) {
 }
 
 function funcEditDepartment(departmentID) {
-    showModalWithAjax('#editDepartmentModal', '/settings-system/about-company/show-edit-department/' + departmentID, ['#edit_company', '#edit_statusForDep']);
+    showModalWithAjax('#editDepartmentModal', '/settings-system/about-company/show-edit-department/' + departmentID, ['#edit_company', '#edit_statusOfDepartment']);
 }
 
 function funcDeleteDepartment(departmentID) {
@@ -233,7 +233,7 @@ function funcDeleteDepartment(departmentID) {
 
 function funcEditGroup(groupID) {
     // alert(groupID)
-    showModalWithAjax('#editGroupModal', '/settings-system/about-company/show-edit-group/' + groupID, ['#edit_companyForGroup', '#edit_department', '#edit_statusForGroup']);
+    showModalWithAjax('#editGroupModal', '/settings-system/about-company/show-edit-group/' + groupID, ['#edit_companyForGroup', '#edit_department', '#edit_statusOfGroup']);
 }
 
 function funcDeleteGroup(groupID) {
@@ -241,7 +241,7 @@ function funcDeleteGroup(groupID) {
 }
 
 function funcEditPrefixName(prefixNameID) {
-    showModalWithAjax('#editPrefixNameModal', '/settings-system/about-company/show-edit-prefix-name/' + prefixNameID, ['#edit_statusForPrefixName']);
+    showModalWithAjax('#editPrefixNameModal', '/settings-system/about-company/show-edit-prefix-name/' + prefixNameID, ['#edit_statusOfPrefixName']);
 }
 
 function funcDeletePrefixName(prefixNameID) {

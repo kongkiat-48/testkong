@@ -26,8 +26,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label" for="edit_statusForDep">สถานะการใช้งาน</label>
-                    <select id="edit_statusForDep" name="edit_statusForDep" class="form-select select2"
+                    <label class="form-label" for="edit_statusOfDepartment">สถานะการใช้งาน</label>
+                    <select id="edit_statusOfDepartment" name="edit_statusOfDepartment" class="form-select select2"
                         data-allow-clear="true">
                         <option value="">Select</option>
                         <option value="1" @if ($dataDepartment[0]->status == 1) selected @endif>กำลังใช้งาน</option>

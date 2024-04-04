@@ -26,7 +26,7 @@
                         @endforeach
                     </select>
                 </div>
-
+{{-- {{ dd($getDepartment) }} --}}
                 <div class="col-md-6">
                     <label class="form-label" for="edit_department">สังกัด / ฝ่าย</label>
                     <select id="edit_department" name="edit_department" class="form-select select2"
@@ -42,8 +42,8 @@
 
 
                 <div class="col-md-6">
-                    <label class="form-label" for="edit_statusForGroup">สถานะการใช้งาน</label>
-                    <select id="edit_statusForGroup" name="edit_statusForGroup" class="form-select select2"
+                    <label class="form-label" for="edit_statusOfGroup">สถานะการใช้งาน</label>
+                    <select id="edit_statusOfGroup" name="edit_statusOfGroup" class="form-select select2"
                         data-allow-clear="true">
                         <option value="">Select</option>
                         <option value="1" @if ($dataGroup[0]->status == 1) selected @endif>กำลังใช้งาน</option>

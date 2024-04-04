@@ -15,8 +15,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label" for="statusForPrefixName">สถานะการใช้งาน</label>
-                    <select id="statusForPrefixName" name="statusForPrefixName" class="form-select select2"
+                    <label class="form-label" for="statusOfPrefixName">สถานะการใช้งาน</label>
+                    <select id="statusOfPrefixName" name="statusOfPrefixName" class="form-select select2"
                         data-allow-clear="true">
                         <option value="">Select</option>
                         <option value="1">กำลังใช้งาน</option>

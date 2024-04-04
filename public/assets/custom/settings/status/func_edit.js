@@ -45,7 +45,7 @@ function setupFormValidationEditStatus(formElement) {
                     }
                 }
             },
-            edit_statusForStatus: {
+            edit_statusOfStatus: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะ'

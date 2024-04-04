@@ -94,7 +94,7 @@ function reTable() {
 
 $(document).ready(function () {
     $('#addStatus').click(function () {
-        showModalWithAjax('#addStatusModal', '/settings-system/work-status/status-modal', ['#statusUse', '#flagType', '#statusForStatus']);
+        showModalWithAjax('#addStatusModal', '/settings-system/work-status/status-modal', ['#statusUse', '#flagType', '#statusOfStatus']);
     });
 
     $('#addFlagType').click(function () {
@@ -103,7 +103,7 @@ $(document).ready(function () {
 });
 
 function funcEditStatus(statusID) {
-    showModalWithAjax('#editStatusModal', '/settings-system/work-status/show-edit-status/' + statusID, ['#edit_statusUse', '#edit_flagType', '#edit_statusForStatus']);
+    showModalWithAjax('#editStatusModal', '/settings-system/work-status/show-edit-status/' + statusID, ['#edit_statusUse', '#edit_flagType', '#edit_statusOfStatus']);
 }
 
 function funcDeleteStatus(statusID) {

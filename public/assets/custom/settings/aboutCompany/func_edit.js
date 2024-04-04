@@ -42,7 +42,7 @@ function setupFormValidationEditCompany(formElement) {
                     }
                 }
             },
-            edit_status: {
+            edit_statusOfCompany: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'
@@ -107,7 +107,7 @@ function setupFormValidationEditDepartment(formElement) {
                     }
                 }
             },
-            edit_statusForDep: {
+            edit_statusOfDepartment: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'
@@ -178,7 +178,7 @@ function setupFormValidationEditGroup(formElement) {
                     }
                 }
             },
-            edit_statusForGroup: {
+            edit_statusOfGroup: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'
@@ -236,7 +236,7 @@ function setupFormValidationEditPrefixName(formElement) {
                     }
                 }
             },
-            edit_statusForPrefixName: {
+            edit_statusOfPrefixName: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'

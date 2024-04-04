@@ -40,8 +40,8 @@
 
 
                 <div class="col-md-6">
-                    <label class="form-label" for="statusForGroup">สถานะการใช้งาน</label>
-                    <select id="statusForGroup" name="statusForGroup" class="form-select select2"
+                    <label class="form-label" for="statusOfGroup">สถานะการใช้งาน</label>
+                    <select id="statusOfGroup" name="statusOfGroup" class="form-select select2"
                         data-allow-clear="true">
                         <option value="">Select</option>
                         <option value="1">กำลังใช้งาน</option>

@@ -235,7 +235,7 @@ class AboutCompanyModel extends Model
                 ->update([
                     'company_name_th'   => $dataEdit['edit_companyNameTH'],
                     'company_name_en'   => $dataEdit['edit_companyNameEN'],
-                    'status'            => $dataEdit['edit_status'],
+                    'status'            => $dataEdit['edit_statusOfCompany'],
                     'update_user'      => Auth::user()->emp_code,
                     'update_at'        => Carbon::now()
                 ]);
@@ -286,7 +286,7 @@ class AboutCompanyModel extends Model
             $saveToDB = $this->getDatabase->table('tbm_department')->insertGetId([
                 'department_name'   => $getData['departmentName'],
                 'company_id'        => $getData['company'],
-                'status'            => $getData['statusForDep'],
+                'status'            => $getData['statusOfDepartment'],
                 'created_user'      => Auth::user()->emp_code,
                 'created_at'        => Carbon::now()
             ]);
@@ -321,7 +321,7 @@ class AboutCompanyModel extends Model
                 ->update([
                     'department_name'   => $dataEdit['edit_departmentName'],
                     'company_id'        => $dataEdit['edit_company'],
-                    'status'            => $dataEdit['edit_statusForDep'],
+                    'status'            => $dataEdit['edit_statusOfDepartment'],
                     'update_user'      => Auth::user()->emp_code,
                     'update_at'        => Carbon::now()
                 ]);
@@ -374,7 +374,7 @@ class AboutCompanyModel extends Model
                 'group_name'        => $getData['groupName'],
                 'company_id'        => $getData['companyForGroup'],
                 'department_id'     => $getData['department'],
-                'status'            => $getData['statusForGroup'],
+                'status'            => $getData['statusOfGroup'],
                 'created_user'      => Auth::user()->emp_code,
                 'created_at'        => Carbon::now()
             ]);
@@ -410,7 +410,7 @@ class AboutCompanyModel extends Model
                     'group_name'        => $dataEdit['edit_groupName'],
                     'company_id'        => $dataEdit['edit_companyForGroup'],
                     'department_id'     => $dataEdit['edit_department'],
-                    'status'            => $dataEdit['edit_statusForGroup'],
+                    'status'            => $dataEdit['edit_statusOfGroup'],
                     'update_user'      => Auth::user()->emp_code,
                     'update_at'        => Carbon::now()
                 ]);
@@ -459,7 +459,7 @@ class AboutCompanyModel extends Model
         try {
             $saveToDB = $this->getDatabase->table('tbm_prefix_name')->insertGetId([
                 'prefix_name'   => $getData['prefixName'],
-                'status'        => $getData['statusForPrefixName'],
+                'status'        => $getData['statusOfPrefixName'],
                 'created_user'  => Auth::user()->emp_code,
                 'created_at'    => Carbon::now()
             ]);
@@ -492,7 +492,7 @@ class AboutCompanyModel extends Model
                 ->where('ID', $prefixNameID)
                 ->update([
                     'prefix_name'   => $dataEdit['edit_prefixName'],
-                    'status'        => $dataEdit['edit_statusForPrefixName'],
+                    'status'        => $dataEdit['edit_statusOfPrefixName'],
                     'update_user'   => Auth::user()->emp_code,
                     'update_at'     => Carbon::now()
                 ]);

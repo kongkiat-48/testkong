@@ -26,8 +26,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label" for="statusForDep">สถานะการใช้งาน</label>
-                    <select id="statusForDep" name="statusForDep" class="form-select select2" data-allow-clear="true">
+                    <label class="form-label" for="statusOfDepartment">สถานะการใช้งาน</label>
+                    <select id="statusOfDepartment" name="statusOfDepartment" class="form-select select2" data-allow-clear="true">
                         <option value="">Select</option>
                         <option value="1">กำลังใช้งาน</option>
                         <option value="0">ปิดการใช้งาน</option>

@@ -15,8 +15,8 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="form-label" for="edit_statusForPrefixName">สถานะการใช้งาน</label>
-                    <select id="edit_statusForPrefixName" name="edit_statusForPrefixName" class="form-select select2"
+                    <label class="form-label" for="edit_statusOfPrefixName">สถานะการใช้งาน</label>
+                    <select id="edit_statusOfPrefixName" name="edit_statusOfPrefixName" class="form-select select2"
                         data-allow-clear="true">
                         <option value="">Select</option>
                         <option value="1" @if ($dataPrefixName[0]->status == 1) selected @endif>กำลังใช้งาน</option>

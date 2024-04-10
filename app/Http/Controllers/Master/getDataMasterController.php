@@ -70,6 +70,41 @@ class getDataMasterController extends Controller
         return response()->json($getDataDepartment);
     }
 
+    public function getDataGroup($departmentID)
+    {
+        $getDataGroup = $this->masterModel->getDataGroupOfDepartment($departmentID);
+        // dd($getDataGroup);
+        return response()->json($getDataGroup);
+    }
+
+    public function getDataPrefixName()
+    {
+        $getDataPrefixName = $this->masterModel->getDataPrefixName();
+        // dd(response()->json($getDataPrefixName));
+        return response()->json($getDataPrefixName);
+    }
+
+    public function getDataProvince()
+    {
+        $getDataProvince = $this->masterModel->getDataProvince();
+
+        return response()->json($getDataProvince);
+    }
+
+    public function getDataAmphoe($provinceCode)
+    {
+        $getDataAmphoe = $this->masterModel->getDataAmphoe($provinceCode);
+        // dd($getDataAmphoe);
+        return response()->json($getDataAmphoe);
+    }
+
+    public function getDataTambon($aumphoeID)
+    {
+        $getDataTambon = $this->masterModel->getDataTambon($aumphoeID);
+        // dd($getDataTambon);
+        return response()->json($getDataTambon);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

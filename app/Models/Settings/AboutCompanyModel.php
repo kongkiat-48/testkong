@@ -193,6 +193,44 @@ class AboutCompanyModel extends Model
         return $output;
     }
 
+    public function getDataClassList($request){
+        $query = $this->getDatabase->table('tbm_class_list')->where('deleted', 0);
+        // คำสั่งเรียงลำดับ (Sorting)
+        $columns = ['ID', 'class_name', 'status'];
+        $orderColumn = $columns[$request->input('order.0.column')];
+        $orderDirection = $request->input('order.0.dir');
+        $query->orderBy($orderColumn, $orderDirection);
+
+        // คำสั่งค้นหา (Searching)
+        $searchValue = $request->input('search.value');
+        if (!empty($searchValue)) {
+            $query->where(function ($query) use ($columns, $searchValue) {
+                foreach ($columns as $column) {
+                    $query->orWhere('class_name', 'like', '%' . $searchValue . '%');
+                }
+            });
+        }
+
+        $recordsTotal = $query->count();
+        // รับค่าที่ส่งมาจาก DataTables
+        $start = $request->input('start');
+        $length = $request->input('length');
+
+        $data = $query->offset($start)
+            ->limit($length)
+            ->orderBy('status', 'DESC')
+            ->get();
+
+        $output = [
+            'draw' => $request->input('draw'),
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsTotal, // หรือจำนวนรายการที่ผ่านการค้นหา
+            'data' => $data,
+        ];
+
+        return $output;
+    }
+
     public function saveDataCompany($getData)
     {
         try {
@@ -525,6 +563,84 @@ class AboutCompanyModel extends Model
                 'status'    => 200,
                 'message'   => 'Success',
                 // 'ID'        => $prefixNameID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function saveDataClassList($getData){
+        try {
+            $saveToDB = $this->getDatabase->table('tbm_class_list')->insertGetId([
+                'class_name'   => $getData['className'],
+                'status'        => $getData['statusOfClassList'],
+                'created_user'  => Auth::user()->emp_code,
+                'created_at'    => Carbon::now()
+            ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                'ID'        => $saveToDB
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+            Log::info($returnStatus);
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function showEditClassList($classListID){
+        $getData = $this->getDatabase->table('tbm_class_list')->where('ID', $classListID)->get();
+        return $getData;
+    }
+
+    public function saveEditDataClassList($dataEdit, $classListID){
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_class_list')
+                ->where('ID', $classListID)
+                ->update([
+                    'class_name'   => $dataEdit['edit_className'],
+                    'status'        => $dataEdit['edit_statusOfClassList'],
+                    'update_user'   => Auth::user()->emp_code,
+                    'update_at'     => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $classListID
+            ];
+        } catch (Exception $e) {
+            $returnStatus = [
+                'status'    => $e->getCode(),
+                'message'   => $e->getMessage()
+            ];
+        } finally {
+            return $returnStatus;
+        }
+    }
+
+    public function deleteClassList($classListID){
+        try {
+            $updateToDB = $this->getDatabase->table('tbm_class_list')
+                ->where('ID', $classListID)
+                ->update([
+                    'deleted'           => 1,
+                    'update_user'       => Auth::user()->emp_code,
+                    'update_at'         => Carbon::now()
+                ]);
+            $returnStatus = [
+                'status'    => 200,
+                'message'   => 'Success',
+                // 'ID'        => $classListID
             ];
         } catch (Exception $e) {
             $returnStatus = [

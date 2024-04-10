@@ -34,7 +34,8 @@
     parallelUploads: 1,
     maxFilesize: 5,
     addRemoveLinks: true,
-    maxFiles: 1
+    maxFiles: 1,
+    acceptedFiles:'image/*'
   });
 
   // Multiple Dropzone

@@ -19,6 +19,60 @@ class getDataMasterModel extends Model
         $this->getDatabase = DB::connection('mysql');
     }
 
+    public function getDataPrefixName()
+    {
+        $getPrefixName = $this->getDatabase->table('tbm_prefix_name')
+            ->select('prefix_name', 'ID')
+            ->where('status', 1)
+            ->where('deleted', 0)
+            ->get();
+        return $getPrefixName;
+    }
+
+    public function getDataProvince()
+    {
+        $getProvince = $this->getDatabase->table('tbm_province')
+            ->select('province_code', 'province')
+            ->where('deleted', 0)
+            ->groupBy('province_code', 'province')
+            ->get();
+        return $getProvince;
+    }
+
+    public function getDataAmphoe($provinceCode)
+    {
+        $getAmphoe = $this->getDatabase->table('tbm_province')
+            ->select('amphoe_code', 'amphoe')
+            ->where('province_code', $provinceCode)
+            ->where('deleted', 0)
+            ->groupBy('amphoe_code', 'amphoe')
+            ->get();
+
+        return $getAmphoe;
+    }
+
+    public function getDataTambon($aumphoeCode)
+    {
+        $getTambon = $this->getDatabase->table('tbm_province')
+            ->select('id', 'tambon_code', 'tambon', 'zipcode')
+            ->where('amphoe_code', $aumphoeCode)
+            ->where('deleted', 0)
+            ->groupBy('id', 'tambon_code', 'tambon', 'zipcode')
+            ->get();
+
+        return $getTambon;
+    }
+
+    public function getClassList()
+    {
+        $getClassList = $this->getDatabase->table('tbm_class_list')
+            ->select('class_name', 'ID')
+            ->where('status', 1)
+            ->where('deleted', 0)
+            ->get();
+        return $getClassList;
+    }
+
     public function getDataFlagType()
     {
         $getFlagType = $this->getDatabase->table('tbm_flag_type')
@@ -65,7 +119,7 @@ class getDataMasterModel extends Model
                 ->get();
 
             Log::info('getDataDepartment: Successfully retrieved departments.');
-// dd($getDepartment);
+            // dd($getDepartment);
             return $getDepartment;
         } catch (Exception $e) {
             Log::error('getDataDepartment: Failed to retrieve departments - ' . $e->getMessage());
@@ -111,5 +165,16 @@ class getDataMasterModel extends Model
         // dd($returnDepartment);
 
         return $returnDepartment;
+    }
+
+    public function getDataGroupOfDepartment($departmentID)
+    {
+        $returnGroup = $this->getDatabase->table('tbm_group')
+            ->select('ID', 'group_name', 'department_id')
+            ->where('department_id', $departmentID)
+            ->where('deleted', 0)
+            ->where('status', 1)
+            ->get();
+        return $returnGroup;
     }
 }

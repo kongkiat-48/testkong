@@ -30,10 +30,10 @@
                     <label class="form-label" for="department">สังกัด / ฝ่าย</label>
                     <select id="department" name="department" class="form-select select2" data-allow-clear="true">
                         <option value="">Select</option>
-                        @foreach ($getDepartment as $key => $value)
+                        {{-- @foreach ($getDepartment as $key => $value)
                             <option value="{{ $value->ID }}">
                                 {{ $value->departmentName }}</option>
-                        @endforeach
+                        @endforeach --}}
                     </select>
                 </div>
 

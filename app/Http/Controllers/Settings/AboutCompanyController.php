@@ -85,6 +85,14 @@ class AboutCompanyController extends Controller
         return abort(404);
     }
 
+    public function showClassListModal()
+    {
+        if (request()->ajax()) {
+            return view('app.settings.about-company.dialog.save.addClassList');
+        }
+        return abort(404);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -154,6 +162,18 @@ class AboutCompanyController extends Controller
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
     }
 
+    public function saveDataClassList(Request $request)
+    {
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcAddClassList');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
+        $saveData = $this->aboutCompany->saveDataClassList($request->input());
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -186,6 +206,12 @@ class AboutCompanyController extends Controller
     public function showDataPrefixName(Request $request)
     {
         $getDataToTable = $this->aboutCompany->getDataPrefixName($request);
+        return response()->json($getDataToTable);
+    }
+
+    public function showDataClassList(Request $request)
+    {
+        $getDataToTable = $this->aboutCompany->getDataClassList($request);
         return response()->json($getDataToTable);
     }
 
@@ -323,6 +349,35 @@ class AboutCompanyController extends Controller
     public function deletePrefixName($prefixNameID)
     {
         $deletedData = $this->aboutCompany->deletePrefixName($prefixNameID);
+        return response()->json(['status' => $deletedData['status'], 'message' => $deletedData['message']]);
+    }
+
+    public function showEditClassList($classListID)
+    {
+        if (request()->ajax()) {
+            $returnData     = $this->aboutCompany->showEditClassList($classListID);
+            return view('app.settings.about-company.dialog.edit.editClassList',[
+                'dataClassList'         => $returnData
+            ]);
+        }
+        return abort(404);
+    }
+
+    public function editClassList(Request $request, $classListID)
+    {
+        $validator = $this->funcValidator->validateSettingAboutCompany($request->input(), 'funcEditClassList');
+
+        if ($validator->fails()) {
+            return response()->json(['status' => 400, 'message' => $validator->errors()], 400);
+        }
+
+        $saveData = $this->aboutCompany->saveEditDataClassList($request->input(), $classListID);
+        return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function deleteClassList($classListID)
+    {
+        $deletedData = $this->aboutCompany->deleteClassList($classListID);
         return response()->json(['status' => $deletedData['status'], 'message' => $deletedData['message']]);
     }
 

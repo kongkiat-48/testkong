@@ -116,7 +116,7 @@ function showModalWithAjax(modalId, url, select2Selectors) {
         method: 'GET',
         success: function (response) {
             $(modalId + ' .modal-dialog').html(response);
-            initializeSelect2(select2Selectors, modalId);
+            initializeSelectWithModal(select2Selectors, modalId);
             $(modalId).modal('show');
         },
         error: function (xhr, status, error) {
@@ -125,7 +125,7 @@ function showModalWithAjax(modalId, url, select2Selectors) {
     });
 }
 
-function initializeSelect2(selectors, modalId) {
+function initializeSelectWithModal(selectors, modalId) {
     if (!Array.isArray(selectors)) {
         console.error('initializeSelect2 expects the first argument to be an array of selectors.');
         return;
@@ -172,8 +172,8 @@ function renderStatusWorkTypeBadge(data, type, full, row) {
     const statusMap = {
         Complete: { title: 'ดำเนินงานเสร็จสิ้น', className: 'bg-label-success' },
         Wating: { title: 'อยู่ระหว่างดำเนินงาน', className: 'bg-label-warning' },
-        Hold : { title: 'รอชั่วคราว', className: 'bg-label-warning' },
-        Doing : { title: 'กำลังดำเนินงาน', className: 'bg-label-primary' },
+        Hold: { title: 'รอชั่วคราว', className: 'bg-label-warning' },
+        Doing: { title: 'กำลังดำเนินงาน', className: 'bg-label-primary' },
         Cancel: { title: 'ยกเลิกงาน / ยกเลิกการแจ้ง', className: 'bg-label-danger' },
         Other: { title: 'อื่น ๆ', className: 'bg-label-info' },
     };
@@ -215,14 +215,144 @@ function mapSelectedCompanyDepartment(disabledElement, selectElement, disableSta
                         var optionElement = $('<option>').val(department.ID).text(department.departmentName);
                         $departmentSelect.append(optionElement);
                     });
+
+                    $('#groupOfDepartment').prop('disabled', true);
+                    $('#groupOfDepartment').empty().append('<option value="">Select</option>');
+                    $('#mapIDGroup').val('');
                 },
                 error: function () {
                     $departmentSelect.html(originalContent);
                 }
             });
         } else {
+            $('#groupOfDepartment').prop('disabled', true);
+            $('#groupOfDepartment').empty().append('<option value="">Select</option>');
+            $('#mapIDGroup').val('');
             $departmentSelect.html(originalContent);
             $departmentSelect.empty().append('<option value="">Select</option>');
+        }
+    });
+}
+
+function mapSelectedDepartmentGroup(disabledElement, selectElement, disableStatus) {
+    var originalContent = $(disabledElement).html();
+    $(disabledElement).prop('disabled', disableStatus);
+    $(selectElement).on('change', function () {
+        var departmentID = $(this).val();
+        var $groupOfDepartmentSelect = $(disabledElement);
+        $groupOfDepartmentSelect.prop('disabled', !departmentID);
+
+        if (departmentID) {
+            $.ajax({
+                url: '/getMaster/get-group/' + departmentID,
+                type: 'GET',
+                dataType: 'json',
+                success: function (groupOfDepData) {
+                    $groupOfDepartmentSelect.empty().append('<option value="">Select</option>');
+                    groupOfDepData.forEach(function (group) {
+                        var optionElement = $('<option>').val(group.ID).text(group.group_name).data('getID', group.ID);
+                        $groupOfDepartmentSelect.append(optionElement);
+                    });
+
+                    $groupOfDepartmentSelect.on('change', function () {
+                        var getID = $(this).find('option:selected').data('getID');
+                        $('#mapIDGroup').val(getID);
+                    });
+                    $('#mapIDGroup').val('');
+                },
+                error: function () {
+                    $groupOfDepartmentSelect.html(originalContent);
+                }
+            });
+        } else {
+            $('#mapIDGroup').val('');
+            $groupOfDepartmentSelect.html(originalContent);
+            $groupOfDepartmentSelect.empty().append('<option value="">Select</option>');
+        }
+    });
+}
+
+function mapSelectedProvince(disabledAumphoe, selectElement, disableStatus) {
+    var originalContent = $(disabledAumphoe).html();
+    $(disabledAumphoe).prop('disabled', disableStatus);
+    $(selectElement).on('change', function () {
+        var provinceCode = $(this).val();
+        var $aumphoeSelect = $(disabledAumphoe);
+        $aumphoeSelect.prop('disabled', !provinceCode);
+
+        if (provinceCode) {
+            $.ajax({
+                url: '/getMaster/get-amphoe/' + provinceCode,
+                type: 'GET',
+                dataType: 'json',
+                success: function (amphoeData) {
+                    $aumphoeSelect.empty().append('<option value="">Select</option>');
+
+                    $('#tambon').prop('disabled', true);
+                    $('#tambon').empty().append('<option value="">Select</option>');
+                    $('#zipcode').val('');
+                    $('#mapIDProvince').val('');
+
+                    amphoeData.forEach(function (amphoe) {
+                        var optionElement = $('<option>').val(amphoe.amphoe_code).text(amphoe.amphoe);
+                        $aumphoeSelect.append(optionElement);
+                    });
+                },
+                error: function () {
+                    $aumphoeSelect.html(originalContent);
+                }
+            });
+        } else {
+            $aumphoeSelect.html(originalContent);
+            $('#tambon').prop('disabled', true);
+            $('#tambon').empty().append('<option value="">Select</option>');
+            $('#zipcode').val('');
+            $('#mapIDProvince').val('');
+
+            $aumphoeSelect.empty().append('<option value="">Select</option>');
+        }
+    });
+}
+
+function mapSelectedAumphoe(disabledTambon, selectElement, disableStatus) {
+    var originalContent = $(disabledTambon).html();
+    $(disabledTambon).prop('disabled', disableStatus);
+    $(selectElement).on('change', function () {
+        var aumphoeCode = $(this).val();
+        var $tambonSelect = $(disabledTambon);
+        $tambonSelect.prop('disabled', !aumphoeCode);
+
+        if (aumphoeCode) {
+            $.ajax({
+                url: '/getMaster/get-tambon/' + aumphoeCode,
+                type: 'GET',
+                dataType: 'json',
+                success: function (tambonData) {
+                    $tambonSelect.empty().append('<option value="">Select</option>');
+                    $('#zipcode').val('');
+                    $('#mapIDProvince').val('');
+
+                    tambonData.forEach(function (tambon) {
+                        var optionElement = $('<option>').val(tambon.id).text(tambon.tambon).data('zip', tambon.zipcode).data('id', tambon.id);
+                        $tambonSelect.append(optionElement);
+                    });
+
+                    $tambonSelect.on('change', function () {
+                        var selectedZipCode = $(this).find('option:selected').data('zip');
+                        var getID = $(this).find('option:selected').data('id');
+                        $('#zipcode').val(selectedZipCode);
+                        $('#mapIDProvince').val(getID);
+                    });
+                },
+                error: function () {
+                    $tambonSelect.html(originalContent);
+                }
+            });
+        } else {
+            $tambonSelect.html(originalContent);
+            $tambonSelect.empty().append('<option value="">Select</option>');
+            $('#zipcode').val('');
+            $('#mapIDProvince').val('');
         }
     });
 }

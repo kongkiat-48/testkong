@@ -25,6 +25,12 @@
         </div>
     </div>
 
+    <div class="modal fade" id="classListModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
     <div class="modal fade" id="editCompanyModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
 
@@ -44,6 +50,12 @@
     </div>
 
     <div class="modal fade" id="editPrefixNameModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="editClassListModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
 
         </div>
@@ -87,6 +99,14 @@
                             รายการคำนำหน้าชื่อ
                         </button>
                     </li>
+
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#class-list" aria-controls="class-list" aria-selected="false">
+                            รายการระดับตำแหน่ง
+                        </button>
+                    </li>
+
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="list-company" role="tabpanel">
@@ -165,6 +185,27 @@
 
                                         <th class="text-center">ลำดับ</th>
                                         <th class="text-center">คำนำหน้าชื่อ</th>
+                                        <th class="text-center">สถานะการใช้งาน</th>
+                                        <th>จัดการ</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="class-list" role="tabpanel">
+                        <div class="inline-spacing text-end">
+                            <button type="button" class="btn btn-info" id="AddClassListModal">
+                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการระดับตำแหน่งงาน
+                            </button>
+                        </div>
+                        <div class="text-nowrap">
+                            <table class="dt-settingClassList table table-bordered">
+                                <thead>
+                                    <tr>
+
+                                        <th class="text-center">ลำดับ</th>
+                                        <th class="text-center">ระดับตำแหน่งงาน</th>
                                         <th class="text-center">สถานะการใช้งาน</th>
                                         <th>จัดการ</th>
                                     </tr>

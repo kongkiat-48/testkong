@@ -61,6 +61,22 @@ $(document).ready(function () {
                     .fail(handleAjaxSaveError);
             }
         })
+    });
+
+    $('#saveClassList').on("click", function (e) {
+        e.preventDefault();
+        removeValidationFeedback();
+        const form = $("#formAddClassList")[0];
+        const fv = setupFormValidationClassList(form);
+        const formData = new FormData(form);
+
+        fv.validate().then(function (status) {
+            if (status === 'Valid') {
+                postFormData("/settings-system/about-company/save-class-list", formData)
+                    .done(onSaveClassListSuccess)
+                    .fail(handleAjaxSaveError);
+            }
+        })
     })
 });
 
@@ -80,6 +96,11 @@ function onSaveGroupSuccess(response) {
 function onSavePrefixNameSuccess(response) {
     handleAjaxSaveResponse(response);
     closeAndResetModal("#prefixNameModal", "#formAddPrefixName");
+}
+
+function onSaveClassListSuccess(response) {
+    handleAjaxSaveResponse(response);
+    closeAndResetModal("#classListModal", "#formAddClassList");
 }
 
 function setupFormValidationCompany(formElement) {
@@ -231,6 +252,40 @@ function setupFormValidationPrefixName(formElement){
                 }
             },
             statusOfPrefixName: {
+                validators: {
+                    notEmpty: {
+                        message: 'เลือกข้อมูล สถานะการใช้งาน'
+                    }
+                }
+            },
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            bootstrap5: new FormValidation.plugins.Bootstrap5({
+                eleValidClass: '',
+                rowSelector: '.col-md-6'
+            }),
+            submitButton: new FormValidation.plugins.SubmitButton(),
+            autoFocus: new FormValidation.plugins.AutoFocus()
+        },
+    });
+}
+
+function setupFormValidationClassList(formElement){
+    return FormValidation.formValidation(formElement, {
+        fields: {
+            className: {
+                validators: {
+                    notEmpty: {
+                        message: 'ระบุชื่อระดับตำแหน่ง'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9ก-๏\s.]+$/u,
+                        message: 'ข้อมูลไม่ถูกต้อง'
+                    }
+                }
+            },
+            statusOfClassList: {
                 validators: {
                     notEmpty: {
                         message: 'เลือกข้อมูล สถานะการใช้งาน'

@@ -93,6 +93,18 @@ class AllValidator extends Controller
                     'edit_statusOfPrefixName'    => 'required|integer',
                 ];
                 break;
+            case 'funcAddClassList':
+                $rules = [
+                    'className' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
+                    'statusOfClassList'    => 'required|integer',
+                ];
+                break;
+            case 'funcEditClassList':
+                $rules = [
+                    'edit_className' => 'required|string|regex:/^[a-zA-Z0-9ก-๏\s.]+$/u',
+                    'edit_statusOfClassList'    => 'required|integer',
+                ];
+                break;
         }
 
         return Validator::make($data, $rules);

@@ -260,3 +260,61 @@ function onSaveEditPrefixSuccess(response) {
     handleAjaxEditResponse(response);
     closeAndResetModal("#editPrefixNameModal", "#formEditPrefixName");
 }
+
+$(document).ready(function () {
+    $('#saveEditClassList').on("click", function (e) {
+        e.preventDefault();
+        removeValidationFeedback();
+        const form = $("#formEditClassList")[0];
+        const classListID = $('#classListID').val();
+        const fv = setupFormValidationEditClassList(form);
+        const formData = new FormData(form);
+
+        fv.validate().then(function (status) {
+            if (status === 'Valid') {
+                postFormData("/settings-system/about-company/edit-class-list/" + classListID, formData)
+                    .done(onSaveEditClassListSuccess)
+                    .fail(handleAjaxSaveError);
+            }
+        })
+    })
+})
+
+function setupFormValidationEditClassList(formElement){
+    return FormValidation.formValidation(formElement, {
+        fields: {
+            edit_classList: {
+                validators: {
+                    notEmpty: {
+                        message: 'ระบุชื่อระดับตำแหน่งาน'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-Z0-9ก-๏\s]+$/u,
+                        message: 'ข้อมูลไม่ถูกต้อง'
+                    }
+                }
+            },
+            edit_statusOfClassList: {
+                validators: {
+                    notEmpty: {
+                        message: 'เลือกข้อมูล สถานะการใช้งาน'
+                    }
+                }
+            },
+        },
+        plugins: {
+            trigger: new FormValidation.plugins.Trigger(),
+            bootstrap5: new FormValidation.plugins.Bootstrap5({
+                eleValidClass: '',
+                rowSelector: '.col-md-6'
+            }),
+            submitButton: new FormValidation.plugins.SubmitButton(),
+            autoFocus: new FormValidation.plugins.AutoFocus()
+        }
+    });
+}
+
+function onSaveEditClassListSuccess(response) {
+    handleAjaxEditResponse(response);
+    closeAndResetModal("#editClassListModal", "#formEditClassList");
+}

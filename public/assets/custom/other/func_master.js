@@ -148,6 +148,17 @@ function initializeSelectWithModal(selectors, modalId) {
         }
     });
 }
+
+function initializeDatePickers(pickerIds) {
+    pickerIds.forEach(function (pickerId) {
+        const pickerElement = document.querySelector('#' + pickerId);
+        if (pickerElement) {
+            pickerElement.flatpickr({
+                monthSelectorType: 'static'
+            });
+        }
+    });
+}
 function renderStatusBadge(data, type, full, row) {
     const statusMap = {
         1: { title: 'กำลังใช้งาน', className: 'bg-label-success' },

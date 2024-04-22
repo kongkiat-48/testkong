@@ -165,7 +165,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-8 offset-md-4">
                                     <button class="btn btn-primary" type="submit"><span
-                                            class="tf-icons bx bx-log-in"></span>&nbsp;เข้าสู้ระบบ</button>
+                                            class="tf-icons bx bx-log-in"></span>&nbsp;เข้าสู่ระบบ</button>
                                 </div>
                             </div>
                         </form>

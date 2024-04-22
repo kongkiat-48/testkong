@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('/add-employee')->group(function () {
             Route::get('', 'Employee\EmployeeController@addEmployee');
+            Route::post('/save-employee', 'Employee\EmployeeController@saveEmployee');
         });
     });
 

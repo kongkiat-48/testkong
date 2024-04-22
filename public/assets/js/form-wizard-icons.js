@@ -19,7 +19,7 @@ $(function () {
       var $this = $(this);
       $this.wrap('<div class="position-relative"></div>');
       $this.select2({
-        placeholder: 'Select value',
+        placeholder: 'เลือกข้อมูล',
         dropdownParent: $this.parent()
       });
     });

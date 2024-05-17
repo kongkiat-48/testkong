@@ -43,7 +43,7 @@
                                         <th>บริษัท</th>
                                         <th>สังกัด/ฝ่าย</th>
                                         <th>แผนก</th>
-                                        <th>ระดับการใช้งาน</th>
+                                        <th>สังกัดใช้งาน</th>
                                         <th>สถานะการใช้งาน</th>
                                         <th>จัดการ</th>
                                     </tr>
@@ -54,13 +54,20 @@
 
                     <div class="tab-pane fade" id="employee-disable" role="tabpanel">
                         <div class="text-nowrap">
-                            <table class="dt-settingStatus table table-bordered">
+                            <table class="dt-employee-disable table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>ลำดับ</th>
-                                        <th>รายการสถานะ</th>
-                                        <th>รูปแบบการใช้งาน</th>
-                                        <th>การใช้งานระบบ</th>
+                                        <th>รหัสพนักงาน</th>
+                                        <th>E-mail</th>
+                                        <th>ชื่อ - นามสกุล</th>
+                                        <th>ระดับตำแหน่ง</th>
+                                        <th>ตำแหน่งงาน</th>
+                                        <th>บริษัท</th>
+                                        <th>สังกัด/ฝ่าย</th>
+                                        <th>แผนก</th>
+                                        <th>สังกัดใช้งาน</th>
+                                        <th>สถานะการใช้งาน</th>
                                         <th>จัดการ</th>
                                     </tr>
                                 </thead>

@@ -187,4 +187,8 @@ class getDataMasterModel extends Model
             ->get();
         return $returnGroup;
     }
+
+    public function getGroupMapID($groupDepartment){
+        dd($groupDepartment);
+    }
 }

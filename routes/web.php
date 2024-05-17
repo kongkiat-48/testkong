@@ -35,7 +35,10 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/list-all-employee')->group(function () {
             Route::get('', 'Employee\EmployeeController@getAllEmployee');
             Route::get('/table-employee-current', 'Employee\EmployeeController@showDataEmployeeCurrent');
+            Route::get('/table-employee-disable', 'Employee\EmployeeController@showDataEmployeeDisable');
         });
+
+        Route::post('/delete-employee/{employeeID}', 'Employee\EmployeeController@deleteEmployee');
 
         Route::prefix('/edit-employee')->group(function () {
             Route::get('/show-edit-employee/{employeeID}', 'Employee\EmployeeController@showEditEmployee');

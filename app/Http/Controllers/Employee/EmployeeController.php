@@ -37,6 +37,13 @@ class EmployeeController extends Controller
         return response()->json($getDataToTable);
     }
 
+    public function showDataEmployeeDisable(Request $request)
+    {
+        $getDataToTable = $this->employeeModel->getDataEmployeeDisable($request);
+        // dd($getDataToTable);
+        return response()->json($getDataToTable);
+    }
+
     public function addEmployee()
     {
         $url        = request()->segments();
@@ -99,27 +106,33 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function editEmployee($employeeID, Request $request){
-        // dd($request->input()['tambon']);
+    public function editEmployee($employeeID, Request $request)
+    {
         try {
-            if(empty($request->input()['baseimg'])){
+            // dd($request->input());
+
+            $request->merge(['mapIDGroup' => $request->input()['groupOfDepartment']]);
+
+            if (empty($request->input()['baseimg'])) {
                 $request->merge(['baseimg' => $request->input()['log_img']]);
             }
-
             $getIDProvice = $this->masterModel->getProvinceID($request->input()['tambon']);
-
-            dd($getIDProvice);
-
-
-
-
-
-            dd($request->input());
+            if (COUNT($getIDProvice) == 0) {
+                $request->merge(['mapIDProvince' => $request->input()['mapIDProvince']]);
+            } else {
+                $request->merge(['mapIDProvince' => strval($getIDProvice[0]->id)]);
+            }
 
             $editData = $this->employeeModel->editEmployee($employeeID, $request->input());
             return response()->json(['status' => $editData['status'], 'message' => $editData['message']]);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
         }
+    }
+
+    public function deleteEmployee($employeeID)
+    {
+        $deleteData = $this->employeeModel->deleteEmployee($employeeID);
+        return response()->json(['status' => $deleteData['status'], 'message' => $deleteData['message']]);
     }
 }

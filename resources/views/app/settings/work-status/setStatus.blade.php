@@ -41,13 +41,13 @@
                     <li class="nav-item">
                         <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
                             data-bs-target="#set-status" aria-controls="set-status" aria-selected="true">
-                            รายการชื่อสถานะงาน
+                            รายการชื่อสถานะ
                         </button>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
                             data-bs-target="#flag-type" aria-controls="flag-type" aria-selected="false">
-                            รายการรูปแบบสถานะงาน
+                            รายการรูปแบบสถานะ
                         </button>
                     </li>
                 </ul>
@@ -55,7 +55,7 @@
                     <div class="tab-pane fade show active" id="set-status" role="tabpanel">
                         <div class="inline-spacing text-end">
                             <button type="button" class="btn btn-info" id="addStatus">
-                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการสถานะงาน
+                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการสถานะ
                             </button>
                         </div>
                         <div class="text-nowrap">
@@ -77,7 +77,7 @@
                         <div class="inline-spacing text-end">
 
                             <button type="button" class="btn btn-info" id="addFlagType">
-                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการรูปแบบสถานะงาน
+                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการรูปแบบสถานะ
                             </button>
                         </div>
                         <div class="text-nowrap">

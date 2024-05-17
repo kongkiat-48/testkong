@@ -34,7 +34,14 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('employee')->group(function () {
         Route::prefix('/list-all-employee')->group(function () {
             Route::get('', 'Employee\EmployeeController@getAllEmployee');
+            Route::get('/table-employee-current', 'Employee\EmployeeController@showDataEmployeeCurrent');
         });
+
+        Route::prefix('/edit-employee')->group(function () {
+            Route::get('/show-edit-employee/{employeeID}', 'Employee\EmployeeController@showEditEmployee');
+            Route::post('/save-edit-employee/{employeeID}', 'Employee\EmployeeController@editEmployee');
+        });
+
 
         Route::prefix('/add-employee')->group(function () {
             Route::get('', 'Employee\EmployeeController@addEmployee');
@@ -106,7 +113,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/show-edit-class-list/{classListID}', 'Settings\AboutCompanyController@showEditClassList');
             Route::post('/edit-class-list/{classListID}', 'Settings\AboutCompanyController@editClassList');
             Route::post('/delete-class-list/{classListID}', 'Settings\AboutCompanyController@deleteClassList');
-
         });
     });
 
@@ -119,7 +125,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/get-province', 'Master\getDataMasterController@getDataProvince');
         Route::get('/get-amphoe/{provinceID}', 'Master\getDataMasterController@getDataAmphoe');
         Route::get('/get-tambon/{aumphoeID}', 'Master\getDataMasterController@getDataTambon');
-
     });
 
     Route::prefix('test')->group(function () {

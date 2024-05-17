@@ -56,4 +56,5 @@
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/jquery-timepicker/jquery-timepicker.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/vendor/libs/pickr/pickr-themes.css') }}" />
 
-<link rel="stylesheet" href="../../assets/vendor/libs/dropzone/dropzone.css" />
+{{-- <link rel="stylesheet" href="../../assets/vendor/libs/dropzone/dropzone.css" /> --}}
+<link rel="stylesheet" href=" {{ asset('assets/vendor/libs/dropzone/dropzone.css') }}" />

@@ -95,15 +95,15 @@
 
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#prefix-name" aria-controls="prefix-name" aria-selected="false">
-                            รายการคำนำหน้าชื่อ
+                            data-bs-target="#class-list" aria-controls="class-list" aria-selected="false">
+                            รายการระดับตำแหน่ง
                         </button>
                     </li>
 
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#class-list" aria-controls="class-list" aria-selected="false">
-                            รายการระดับตำแหน่ง
+                            data-bs-target="#prefix-name" aria-controls="prefix-name" aria-selected="false">
+                            รายการคำนำหน้าชื่อ
                         </button>
                     </li>
 
@@ -172,27 +172,6 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="prefix-name" role="tabpanel">
-                        <div class="inline-spacing text-end">
-                            <button type="button" class="btn btn-info" id="AddPrefixNameModal">
-                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการคำนำหน้าชื่อ
-                            </button>
-                        </div>
-                        <div class="text-nowrap">
-                            <table class="dt-settingPrefixName table table-bordered">
-                                <thead>
-                                    <tr>
-
-                                        <th class="text-center">ลำดับ</th>
-                                        <th class="text-center">คำนำหน้าชื่อ</th>
-                                        <th class="text-center">สถานะการใช้งาน</th>
-                                        <th>จัดการ</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-
                     <div class="tab-pane fade" id="class-list" role="tabpanel">
                         <div class="inline-spacing text-end">
                             <button type="button" class="btn btn-info" id="AddClassListModal">
@@ -206,6 +185,27 @@
 
                                         <th class="text-center">ลำดับ</th>
                                         <th class="text-center">ระดับตำแหน่งงาน</th>
+                                        <th class="text-center">สถานะการใช้งาน</th>
+                                        <th>จัดการ</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="prefix-name" role="tabpanel">
+                        <div class="inline-spacing text-end">
+                            <button type="button" class="btn btn-info" id="AddPrefixNameModal">
+                                <i class='menu-icon tf-icons bx bxs-purchase-tag'></i> เพิ่มรายการคำนำหน้าชื่อ
+                            </button>
+                        </div>
+                        <div class="text-nowrap">
+                            <table class="dt-settingPrefixName table table-bordered">
+                                <thead>
+                                    <tr>
+
+                                        <th class="text-center">ลำดับ</th>
+                                        <th class="text-center">คำนำหน้าชื่อ</th>
                                         <th class="text-center">สถานะการใช้งาน</th>
                                         <th>จัดการ</th>
                                     </tr>

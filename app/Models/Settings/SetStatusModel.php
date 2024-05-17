@@ -125,7 +125,7 @@ class SetStatusModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -158,7 +158,7 @@ class SetStatusModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -180,7 +180,7 @@ class SetStatusModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -206,7 +206,7 @@ class SetStatusModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
 
@@ -239,7 +239,7 @@ class SetStatusModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -261,7 +261,7 @@ class SetStatusModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {

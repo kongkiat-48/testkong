@@ -6,10 +6,14 @@
             <li class="breadcrumb-item">
                 <a href="{{ url('/home') }}">หน้าแรก</a>
             </li>
+            <li class="breadcrumb-item">
+                <a href="{{ url('/employee/list-all-employee') }}">ข้อมูลพนักงาน</a>
+            </li>
             <li class="breadcrumb-item active">{{ $urlName }}</li>
         </ol>
     </nav>
     <hr>
+    {{-- {{ dd($dataEmployee->ID) }} --}}
     <div class="row g-2">
         <div class="col-md-3 col-sm-12">
             <div class="card mt-2">
@@ -17,7 +21,7 @@
                     <form action="/upload" class="dropzone needsclick" id="pic-employee">
                         <div class="dz-message needsclick">
                             อัพโหลดรูปพนักงาน
-                            <span class="note needsclick">(กรณีต้องการเพิ่มรูปภาพพนักงาน)</span>
+                            <span class="note needsclick">(กรณีต้องการแก้ไขรูปภาพพนักงาน)</span>
                         </div>
                         <div class="fallback">
                             <input name="file" type="file" />
@@ -29,6 +33,10 @@
         <div class="col-md-9 col-sm-12">
             <div class="bs-stepper wizard-vertical vertical wizard-vertical-icons-example mt-2">
                 <div class="bs-stepper-header">
+                    <div class="mx-auto">
+                        <img src="{{ $dataEmployee->img_base }}" alt="Employee Image" width="200px" height="200px" />
+                    </div>
+                    <hr>
                     <div class="step" data-target="#account-details-vertical">
                         <button type="button" class="step-trigger">
                             <span class="bs-stepper-circle">
@@ -55,7 +63,7 @@
                     <div class="line"></div>
                 </div>
                 <div class="bs-stepper-content">
-                    <form id="formAddEmployee" class="page-block" onSubmit="return false">
+                    <form id="formEditEmployee" class="page-block" onSubmit="return false">
                         <!-- Account Details -->
                         <div id="account-details-vertical" class="content">
                             <div class="content-header mb-3">
@@ -65,9 +73,11 @@
                             <div class="row g-2">
                                 <div class="col-md-6">
                                     <label class="form-label" for="employee_code">รหัสพนักงาน</label>
-                                    <input type="text" name="employee_code" id="employee_code" class="form-control" autocomplete="off">
+                                    <input type="text" name="employee_code" id="employee_code" class="form-control"
+                                        autocomplete="off" value="{{ $dataEmployee->employee_code }}">
                                 </div>
 
+                                {{-- {{ dd($dataEmployee->company_id) }} --}}
 
                                 <div class="col-md-6">
                                     <label class="form-label" for="company">บริษัท</label>
@@ -75,33 +85,47 @@
                                         data-allow-clear="true">
                                         <option value="">Select</option>
                                         @foreach ($dataCompany as $key => $value)
-                                            <option value="{{ $value->ID }}">
+                                            <option value="{{ $value->ID }}"
+                                                @if ($dataEmployee->company_id == $value->ID) selected @endif>
                                                 {{ $value->company_name_th }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="department">สังกัด / ฝ่าย</label>
-                                    <select id="department" name="department" class="form-select select2" autocomplete="off"
-                                        data-allow-clear="true">
+                                    <select id="department" name="department" class="form-select select2"
+                                        data-allow-clear="true" autocomplete="off">
                                         <option value="">Select</option>
+                                        @foreach ($getDepartment as $key => $value)
+                                            <option value="{{ $value->ID }}"
+                                                @if ($dataEmployee->department_id == $value->ID) selected @endif>
+                                                {{ $value->departmentName }}</option>
+                                        @endforeach
                                     </select>
+
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="groupOfDepartment">แผนก</label>
                                     <select id="groupOfDepartment" name="groupOfDepartment" class="form-select select2"
-                                        autocomplete="off" data-allow-clear="true">
+                                        autocomplete="off" data-allow-clear="true" autocomplete="off">
                                         <option value="">Select</option>
+                                        @foreach ($getGroup as $key => $value)
+                                            <option value="{{ $value->ID }}"
+                                                @if ($dataEmployee->group_id == $value->ID) selected @endif>
+                                                {{ $value->group_name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                <input type="text" name="mapIDGroup" id="mapIDGroup" readonly  autocomplete="off" >
+                                <input type="text" name="mapIDGroup" id="mapIDGroup"
+                                    value="{{ $dataEmployee->map_company }}" readonly autocomplete="off">
                                 <div class="col-md-6">
                                     <label class="form-label" for="positionClass">ระดับตําแหน่ง</label>
-                                    <select id="positionClass" name="positionClass" class="form-select select2" autocomplete="off"
-                                        data-allow-clear="true">
+                                    <select id="positionClass" name="positionClass" class="form-select select2"
+                                        autocomplete="off" data-allow-clear="true">
                                         <option value="">Select</option>
                                         @foreach ($dataClassList as $key => $value)
-                                            <option value="{{ $value->ID }}">
+                                            <option value="{{ $value->ID }}"
+                                                @if ($dataEmployee->class_id == $value->ID) selected @endif>
                                                 {{ $value->class_name }}</option>
                                         @endforeach
                                     </select>
@@ -109,18 +133,20 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="positionName">ตำแหน่ง</label>
                                     <input type="text" name="positionName" id="positionName" class="form-control"
-                                        autocomplete="off">
+                                        autocomplete="off" value="{{ $dataEmployee->position_name }}">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="dateStart">วันที่เริ่มทำงาน</label>
                                     <input type="text" class="form-control" autocomplete="off"
-                                        placeholder="YYYY-MM-DD" id="dateStart" name="dateStart" />
+                                        placeholder="YYYY-MM-DD" id="dateStart" name="dateStart"
+                                        value="{{ $dataEmployee->date_start_work }}" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="dateEnd">วันที่สิ้นสุดการทำงาน</label>
 
                                     <input type="text" class="form-control" autocomplete="off"
-                                        placeholder="YYYY-MM-DD" id="dateEnd" name="dateEnd" />
+                                        placeholder="YYYY-MM-DD" id="dateEnd" name="dateEnd"
+                                        value="{{ $dataEmployee->date_end_work }}" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="userClass">ระดับสิทธิ์ผู้ใช้งาน</label>
@@ -128,10 +154,14 @@
                                     <select id="userClass" name="userClass" class="form-select select2"
                                         autocomplete="off" data-allow-clear="true">
                                         <option value="">Select</option>
-                                        <option value="it">ฝ่าย IT</option>
-                                        <option value="mt">ฝ่ายอาคาร</option>
-                                        <option value="hr">ฝ่าย Hr</option>
-                                        <option value="userOther">ผู้ใช้งานทั่วไป</option>
+                                        <option value="it" @if ($dataEmployee->user_class == 'it') selected @endif>ฝ่าย IT
+                                        </option>
+                                        <option value="mt" @if ($dataEmployee->user_class == 'mt') selected @endif>ฝ่ายอาคาร
+                                        </option>
+                                        <option value="hr" @if ($dataEmployee->user_class == 'hr') selected @endif>ฝ่าย Hr
+                                        </option>
+                                        <option value="userOther" @if ($dataEmployee->user_class == 'userOther') selected @endif>
+                                            ผู้ใช้งานทั่วไป</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -140,8 +170,10 @@
                                     <select id="statusLogin" name="statusLogin" class="form-select select2"
                                         autocomplete="off" data-allow-clear="true">
                                         <option value="">Select</option>
-                                        <option value="1" selected>เปิดใช้งาน</option>
-                                        <option value="0">ปิดใช้งาน</option>
+                                        <option value="1" @if ($dataEmployee->status_login == 1) selected @endif>เปิดใช้งาน
+                                        </option>
+                                        <option value="0" @if ($dataEmployee->status_login == 0) selected @endif>ปิดใช้งาน
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="col-12 d-flex justify-content-between">
@@ -170,7 +202,8 @@
                                         autocomplete="off" data-allow-clear="true">
                                         <option value="">Select</option>
                                         @foreach ($dataPrefixName as $key => $value)
-                                            <option value="{{ $value->ID }}">
+                                            <option value="{{ $value->ID }}"
+                                                @if ($dataEmployee->prefix_id == $value->ID) selected @endif>
                                                 {{ $value->prefix_name }}</option>
                                         @endforeach
                                     </select>
@@ -179,37 +212,38 @@
                                 <div class="col-md-6">
                                     <label class="form-label" for="firstName">ชื่อ</label>
                                     <input type="text" id="firstName" name="firstName" class="form-control"
-                                        autocomplete="off" />
+                                        autocomplete="off" value="{{ $dataEmployee->first_name }}" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="lastName">นามสกุล</label>
                                     <input type="text" id="lastName" name="lastName" class="form-control"
-                                        autocomplete="off" />
+                                        autocomplete="off" value="{{ $dataEmployee->last_name }}" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="birthday">วัน/เดือน/ปีเกิด</label>
                                     <input type="text" name="birthday" id="birthday" class="form-control"
-                                        autocomplete="off" placeholder="YYYY-MM-DD" />
+                                        autocomplete="off" placeholder="YYYY-MM-DD"
+                                        value="{{ $dataEmployee->birthday }}" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="age">อายุ (ปี)</label>
                                     <input type="text" id="age" name="age" class="form-control"
-                                        autocomplete="off" readonly />
+                                        autocomplete="off" readonly value="{{ $dataEmployee->age }}" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="email">อีเมล</label>
                                     <input type="email" id="email" name="email" class="form-control"
-                                        autocomplete="off" />
+                                        autocomplete="off" value="{{ $dataEmployee->email }}" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="phoneNumber">เบอร์โทรศัพท์</label>
                                     <input type="text" id="phoneNumber" name="phoneNumber" class="form-control"
-                                        autocomplete="off" />
+                                        autocomplete="off" value="{{ $dataEmployee->phone_number }}" />
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="currentAddress">ที่อยู่ปัจจุบัน</label>
                                     <input type="text" id="currentAddress" name="currentAddress" class="form-control"
-                                        autocomplete="off" />
+                                        autocomplete="off" value="{{ $dataEmployee->current_address }}" />
                                 </div>
 
                                 <div class="col-md-6">
@@ -218,7 +252,8 @@
                                         autocomplete="off" data-allow-clear="true">
                                         <option value="">Select</option>
                                         @foreach ($provinceName as $key => $value)
-                                            <option value="{{ $value->province_code }}">
+                                            <option value="{{ $value->province_code }}"
+                                                @if ($dataEmployee->province_code == $value->province_code) selected @endif>
                                                 {{ $value->province }}</option>
                                         @endforeach
                                     </select>
@@ -228,6 +263,11 @@
                                     <select id="amphoe" name="amphoe" class="form-select select2" autocomplete="off"
                                         data-allow-clear="true">
                                         <option value="">Select</option>
+                                        @foreach ($getMapAmphoe as $key => $value)
+                                            <option value="{{ $value->amphoe_code }}"
+                                                @if ($dataEmployee->amphoe_code == $value->amphoe_code) selected @endif>{{ $value->amphoe }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-6">
@@ -235,26 +275,35 @@
                                     <select id="tambon" name="tambon" class="form-select select2" autocomplete="off"
                                         data-allow-clear="true">
                                         <option value="">Select</option>
+                                        @foreach ($getMapTambon as $key => $value)
+                                            <option value="{{ $value->tambon_code }}"
+                                                @if ($dataEmployee->tambon_code == $value->tambon_code) selected @endif>{{ $value->tambon }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="zipcode">หมายเลขไปรษณีย์</label>
                                     <input type="text" id="zipcode" name="zipcode" class="form-control"
-                                        autocomplete="off" readonly />
-                                    <input type="text" id="mapIDProvince" name="mapIDProvince"  autocomplete="off"
-                                         readonly />
+                                        autocomplete="off" readonly value="{{ $dataEmployee->zipcode }}" />
+                                    <input type="text" id="mapIDProvince" name="mapIDProvince"
+                                        value="{{ $dataEmployee->map_province }}" autocomplete="off" readonly />
                                 </div>
 
-                                <input type="text" name="baseimg" id="baseimg"  autocomplete="off" readonly>
+                                <input type="text" name="baseimg" id="baseimg"
+                                    value="{{ $dataEmployee->img_base }}" autocomplete="off" readonly>
+
+                                <input type="text" name="log_img" id="log_img" autocomplete="off" value="{{ $dataEmployee->img_base }}" style="border-color:red" readonly>
+                                <input type="text" name="emp_id" id="emp_id" autocomplete="off" value="{{ $dataEmployee->emp_id }}" style="border-color:red" readonly>
                                 <div class="col-12 d-flex justify-content-between">
                                     <button class="btn btn-primary btn-prev">
                                         <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                                         <span class="align-middle d-sm-inline-block d-none">ก่อนหน้า</span>
                                     </button>
 
-                                    <button type="submit" name="saveEmployee" id="saveEmployee"
-                                        class="btn btn-success btn-page-block-overlay"><i
-                                            class='menu-icon tf-icons bx bxs-save'></i> บันทึกข้อมูล</button>
+                                    <button type="submit" name="saveEditEmployee" id="saveEditEmployee"
+                                        class="btn btn-warning btn-page-block-overlay"><i
+                                            class='menu-icon tf-icons bx bxs-save'></i> แก้ไขข้อมูล</button>
                                 </div>
                             </div>
                         </div>
@@ -266,12 +315,12 @@
 @endsection
 @section('script')
     <script type="text/javascript"
-        src="{{ asset('/assets/custom/employee/employee_save.js?v=') }}@php echo date("H:i:s") @endphp"></script>
+        src="{{ asset('/assets/custom/employee/employee_edit.js?v=') }}@php echo date("H:i:s") @endphp"></script>
     <script>
-        mapSelectedProvince('#amphoe', '#province', true)
-        mapSelectedAumphoe('#tambon', '#amphoe', true)
-        mapSelectedCompanyDepartment('#department', '#company', true)
-        mapSelectedDepartmentGroup('#groupOfDepartment', '#department', true)
+        mapSelectedProvince('#amphoe', '#province', false)
+        mapSelectedAumphoe('#tambon', '#amphoe', false)
+        mapSelectedCompanyDepartment('#department', '#company', false)
+        mapSelectedDepartmentGroup('#groupOfDepartment', '#department', false)
 
         const datePickers = ['dateStart', 'dateEnd', 'birthday'];
         initializeDatePickers(datePickers);

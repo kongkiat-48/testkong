@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">แก้ไขรายการรูปแบบสถานะงาน</h5>
+        <h5 class="modal-title">แก้ไขรายการรูปแบบสถานะ</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <hr>
@@ -8,7 +8,7 @@
         <div class="modal-body">
             <div class="row g-2">
                 <div class="col-md-6">
-                    <label class="form-label" for="edit_flagName">ชื่อรายการรูปแบบสถานะงาน</label>
+                    <label class="form-label" for="edit_flagName">ชื่อรายการรูปแบบสถานะ</label>
                     <input type="text" id="edit_flagName" class="form-control" name="edit_flagName"
                         autocomplete="off" value="{{ $dataFlagType[0]->flag_name }}"/>
                 </div>

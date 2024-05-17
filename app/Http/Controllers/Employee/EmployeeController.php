@@ -17,19 +17,28 @@ class EmployeeController extends Controller
         $this->masterModel = new getDataMasterModel;
         $this->employeeModel = new EmployeeModel;
     }
-    public function getAllEmployee(){
+    public function getAllEmployee()
+    {
         $url        = request()->segments();
         $urlName    = "ข้อมูลพนักงาน";
         $urlSubLink = "list-all-employee";
 
-        return view('app.employee.getAllEmployee',[
+        return view('app.employee.getAllEmployee', [
             'url'           => $url,
             'urlName'       => $urlName,
             'urlSubLink'    => $urlSubLink,
         ]);
     }
 
-    public function addEmployee(){
+    public function showDataEmployeeCurrent(Request $request)
+    {
+        $getDataToTable = $this->employeeModel->getDataEmployeeCurrent($request);
+        // dd($getDataToTable);
+        return response()->json($getDataToTable);
+    }
+
+    public function addEmployee()
+    {
         $url        = request()->segments();
         $urlName    = "เพิ่มข้อมูลพนักงาน";
         $urlSubLink = "add-employee";
@@ -40,7 +49,7 @@ class EmployeeController extends Controller
         $getClassList   = $this->masterModel->getClassList();
         // dd($provinceName);
 
-        return view('app.employee.add-employee.addEmployee',[
+        return view('app.employee.add-employee.addEmployee', [
             'url'           => $url,
             'urlName'       => $urlName,
             'urlSubLink'    => $urlSubLink,
@@ -50,10 +59,67 @@ class EmployeeController extends Controller
             'dataClassList'     => $getClassList
         ]);
     }
-
-    public function saveEmployee(Request $request){
+    public function saveEmployee(Request $request)
+    {
         // dd($request->input());
         $saveData = $this->employeeModel->saveEmployee($request->input());
+        // dd($saveData);
         return response()->json(['status' => $saveData['status'], 'message' => $saveData['message']]);
+    }
+
+    public function showEditEmployee($employeeID)
+    {
+        $url        = request()->segments();
+        $urlName    = "แก้ไขข้อมูลพนักงาน";
+
+        $prefixName     = $this->masterModel->getDataPrefixName();
+        $provinceName   = $this->masterModel->getDataProvince();
+        $getCompany     = $this->masterModel->getDataCompany();
+        $getClassList   = $this->masterModel->getClassList();
+        $getDataEmployee = $this->employeeModel->getDataEmployee($employeeID);
+        $getDepartment  = $this->masterModel->getDataDepartmentForID($getDataEmployee->company_id);
+        $getGroup       = $this->masterModel->getDataGroupOfDepartment($getDataEmployee->department_id);
+        $getMapAmphoe = $this->masterModel->getDataAmphoe($getDataEmployee->province_code);
+        $getMapTambon = $this->masterModel->getDataTambon($getDataEmployee->amphoe_code);
+        // dd($getDataEmployee);
+
+
+        return view('app.employee.edit-employee.editEmployee', [
+            'url'           => $url,
+            'urlName'       => $urlName,
+            'dataPrefixName'    => $prefixName,
+            'provinceName'      => $provinceName,
+            'dataCompany'       => $getCompany,
+            'dataClassList'     => $getClassList,
+            'getDepartment'     => $getDepartment,
+            'getGroup'          => $getGroup,
+            'getMapAmphoe'      => $getMapAmphoe,
+            'getMapTambon'      => $getMapTambon,
+            'dataEmployee'      => $getDataEmployee
+        ]);
+    }
+
+    public function editEmployee($employeeID, Request $request){
+        // dd($request->input()['tambon']);
+        try {
+            if(empty($request->input()['baseimg'])){
+                $request->merge(['baseimg' => $request->input()['log_img']]);
+            }
+
+            $getIDProvice = $this->masterModel->getProvinceID($request->input()['tambon']);
+
+            dd($getIDProvice);
+
+
+
+
+
+            dd($request->input());
+
+            $editData = $this->employeeModel->editEmployee($employeeID, $request->input());
+            return response()->json(['status' => $editData['status'], 'message' => $editData['message']]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 }

@@ -1,12 +1,28 @@
 function handleAjaxSaveResponse(response) {
-    const isSuccess = response.status === 200;
+    let icon, text, timer;
+    switch (response.status) {
+        case 200:
+            icon = 'success';
+            text = 'บันทึกข้อมูลสำเร็จ';
+            timer = 2500;
+            break;
+        case 23000:
+            icon = 'warning';
+            text = 'พบข้อมูลซ้ำในระบบ';
+            timer = undefined;
+            break;
+        default:
+            icon = 'error';
+            text = 'เกิดข้อผิดพลาดในการบันทึกข้อมูล';
+            timer = undefined;
+    }
     Swal.fire({
-        icon: isSuccess ? 'success' : 'error',
-        text: isSuccess ? 'บันทึกข้อมูลสำเร็จ' : 'เกิดข้อผิดพลาดในการบันทึกข้อมูล',
+        icon: icon,
+        text: text,
         showConfirmButton: false,
-        timer: isSuccess ? 2500 : undefined
+        timer: timer
     });
-    if (isSuccess) {
+    if (response.status === 200) {
         reTable();
     }
 }

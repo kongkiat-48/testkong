@@ -250,7 +250,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
             Log::info($returnStatus);
@@ -284,7 +284,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -309,7 +309,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -336,7 +336,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
             Log::info($returnStatus);
@@ -370,7 +370,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -395,7 +395,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -424,7 +424,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
             Log::info($returnStatus);
@@ -459,7 +459,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -484,7 +484,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -508,7 +508,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
             Log::info($returnStatus);
@@ -541,7 +541,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -566,7 +566,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -589,7 +589,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
             Log::info($returnStatus);
@@ -620,7 +620,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {
@@ -644,7 +644,7 @@ class AboutCompanyModel extends Model
             ];
         } catch (Exception $e) {
             $returnStatus = [
-                'status'    => $e->getCode(),
+                'status'    => intval($e->getCode()),
                 'message'   => $e->getMessage()
             ];
         } finally {

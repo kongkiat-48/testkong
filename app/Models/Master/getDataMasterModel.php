@@ -63,6 +63,16 @@ class getDataMasterModel extends Model
         return $getTambon;
     }
 
+    public function getProvinceID($tambonCode) {
+        // dd($tambonCode);
+        $getProvinceID = $this->getDatabase->table('tbm_province')
+        ->select('id', 'tambon_code', 'tambon', 'zipcode')
+        ->where('tambon_code', $tambonCode)
+        ->get();
+
+        return $getProvinceID;
+    }
+
     public function getClassList()
     {
         $getClassList = $this->getDatabase->table('tbm_class_list')

@@ -25,7 +25,7 @@ const myDropzone = new Dropzone('#pic-employee', {
 });
 
 myDropzone.on("success", function (file, response) {
-    console.log(response, file['dataURL']);
+    // console.log(response, file['dataURL']);
     document.getElementById('baseimg').value = file['dataURL'];
 });
 myDropzone.on("removedfile", function (file) {
@@ -74,6 +74,11 @@ $(document).ready(function () {
         })
     })
 });
+
+function onSaveEmployeeSuccess(response) {
+    handleAjaxSaveResponse(response);
+    console.log(response)
+}
 
 function setupFormValidationEmployee(formElement) {
     const validators = {

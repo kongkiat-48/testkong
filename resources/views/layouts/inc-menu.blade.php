@@ -33,12 +33,18 @@
                             <div data-i18n="เพิ่มข้อมูลพนักงาน">เพิ่มข้อมูลพนักงาน</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ @$urlSubLink == 'request-employee' ? 'active' : '' }}">
+                    <li class="menu-item {{ @$urlSubLink == 'search-all-employee' ? 'active' : '' }}">
+                        <a href="{{ url('employee/search-employee') }}" class="menu-link">
+                            <i class='menu-icon tf-icons bx bxs-file-find'></i>
+                            <div data-i18n="ค้นหาข้อมูลพนักงาน">ค้นหาข้อมูลพนักงาน</div>
+                        </a>
+                    </li>
+                    {{-- <li class="menu-item {{ @$urlSubLink == 'request-employee' ? 'active' : '' }}">
                         <a href="{{ url('employee/request-employee') }}" class="menu-link">
                             <i class='menu-icon tf-icons bx bxs-user-voice'></i>
                             <div data-i18n="ขอเพิ่มบุคคลากร">ขอเพิ่มบุคคลากร</div>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
 

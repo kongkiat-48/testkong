@@ -179,7 +179,10 @@ class EmployeeModel extends Model
             // dd($getData);
             $saveEmpGetID = $this->getDatabase->table('tbt_employee')->insertGetId([
                 'employee_code' => $getData['employee_code'],
-                'map_company'   => $getData['mapIDGroup'],
+                'company_id'        => $getData['company'],
+                'department_id'     => $getData['department'],
+                'group_department_id'   => $getData['groupOfDepartment'],
+                'map_company'       => $getData['mapIDGroup'],
                 'position_class'    => $getData['positionClass'],
                 'position_name'     => $getData['positionName'],
                 'date_start_work'   => $getData['dateStart'],
@@ -237,13 +240,16 @@ class EmployeeModel extends Model
 
     public function editEmployee($employeeID, $dataEmployee)
     {
-        // dd($employeeID,$dataEmployee);
+        // dd($employeeID, $dataEmployee);
         try {
             $saveEditEmployeeData = $this->getDatabase->table('tbt_employee')
                 ->where('ID', $employeeID)
                 ->update([
                     'employee_code' => $dataEmployee['employee_code'],
-                    'map_company'   => $dataEmployee['mapIDGroup'],
+                    'company_id'        => $dataEmployee['company'],
+                    'department_id'     => $dataEmployee['department'],
+                    'group_department_id'   => $dataEmployee['groupOfDepartment'],
+                    'map_company'       => $dataEmployee['mapIDGroup'],
                     'position_class'    => $dataEmployee['positionClass'],
                     'position_name'     => $dataEmployee['positionName'],
                     'date_start_work'   => $dataEmployee['dateStart'],

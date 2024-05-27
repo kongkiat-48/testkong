@@ -38,6 +38,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/table-employee-disable', 'Employee\EmployeeController@showDataEmployeeDisable');
         });
 
+        Route::prefix('/search-employee')->group(function () {
+            Route::get('', 'Employee\EmployeeController@searchEmployee');
+        });
+
         Route::post('/delete-employee/{employeeID}', 'Employee\EmployeeController@deleteEmployee');
 
         Route::prefix('/edit-employee')->group(function () {

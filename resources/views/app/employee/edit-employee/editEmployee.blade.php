@@ -34,7 +34,11 @@
             <div class="bs-stepper wizard-vertical vertical wizard-vertical-icons-example mt-2">
                 <div class="bs-stepper-header">
                     <div class="mx-auto">
-                        <img src="{{ $dataEmployee->img_base }}" alt="Employee Image" width="200px" height="200px" />
+                        @if ($dataEmployee->img_base == null)
+                            <img src="{{ asset('assets/img/img-not-found.png') }}" alt="Employee Image" width="200px" height="200px" />
+                        @else
+                            <img src="{{ $dataEmployee->img_base }}" alt="Employee Image" width="200px" height="200px" />
+                        @endif
                     </div>
                     <hr>
                     <div class="step" data-target="#account-details-vertical">
@@ -116,8 +120,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <input type="text" name="mapIDGroup" id="mapIDGroup"
-                                    value="{{ $dataEmployee->map_company }}" readonly autocomplete="off">
+                                <input type="text" name="mapIDGroup" id="mapIDGroup" hidden value="{{ $dataEmployee->map_company }}" readonly autocomplete="off">
                                 <div class="col-md-6">
                                     <label class="form-label" for="positionClass">ระดับตําแหน่ง</label>
                                     <select id="positionClass" name="positionClass" class="form-select select2"
@@ -286,15 +289,14 @@
                                     <label class="form-label" for="zipcode">หมายเลขไปรษณีย์</label>
                                     <input type="text" id="zipcode" name="zipcode" class="form-control"
                                         autocomplete="off" readonly value="{{ $dataEmployee->zipcode }}" />
-                                    <input type="text" id="mapIDProvince" name="mapIDProvince"
-                                        value="{{ $dataEmployee->map_province }}" autocomplete="off" readonly />
+                                    <input type="text" id="mapIDProvince" name="mapIDProvince" hidden value="{{ $dataEmployee->map_province }}" autocomplete="off" readonly />
                                 </div>
 
-                                <input type="text" name="baseimg" id="baseimg"
-                                    value="{{ $dataEmployee->img_base }}" autocomplete="off" readonly>
+                                <input type="text" name="baseimg" id="baseimg" hidden value="{{ $dataEmployee->img_base }}" autocomplete="off" readonly>
 
-                                <input type="text" name="log_img" id="log_img" autocomplete="off" value="{{ $dataEmployee->img_base }}" style="border-color:red" readonly>
-                                <input type="text" name="emp_id" id="emp_id" autocomplete="off" value="{{ $dataEmployee->emp_id }}" style="border-color:red" readonly>
+                                <input type="text" name="log_img" id="log_img" hidden autocomplete="off" value="{{ $dataEmployee->img_base }}" style="border-color:red" readonly>
+                                <input type="text" name="emp_id" id="emp_id" hidden autocomplete="off" value="{{ $dataEmployee->emp_id }}" style="border-color:red" readonly>
+
                                 <div class="col-12 d-flex justify-content-between">
                                     <button class="btn btn-primary btn-prev">
                                         <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>

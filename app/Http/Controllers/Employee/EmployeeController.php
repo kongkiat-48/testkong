@@ -135,4 +135,16 @@ class EmployeeController extends Controller
         $deleteData = $this->employeeModel->deleteEmployee($employeeID);
         return response()->json(['status' => $deleteData['status'], 'message' => $deleteData['message']]);
     }
+
+    public function searchEmployee(){
+        $url        = request()->segments();
+        $urlName    = "ค้นหาข้อมูลพนักงาน";
+        $urlSubLink = "search-all-employee";
+
+        return view('app.employee.searchAllEmployee',[
+            'url'           => $url,
+            'urlName'       => $urlName,
+            'urlSubLink'    => $urlSubLink
+        ]);
+    }
 }

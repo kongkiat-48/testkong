@@ -94,7 +94,7 @@
                                         <option value="">Select</option>
                                     </select>
                                 </div>
-                                <input type="text" name="mapIDGroup" id="mapIDGroup" readonly  autocomplete="off" >
+                                <input type="text" name="mapIDGroup" id="mapIDGroup" readonly hidden autocomplete="off" >
                                 <div class="col-md-6">
                                     <label class="form-label" for="positionClass">ระดับตําแหน่ง</label>
                                     <select id="positionClass" name="positionClass" class="form-select select2" autocomplete="off"
@@ -241,11 +241,12 @@
                                     <label class="form-label" for="zipcode">หมายเลขไปรษณีย์</label>
                                     <input type="text" id="zipcode" name="zipcode" class="form-control"
                                         autocomplete="off" readonly />
-                                    <input type="text" id="mapIDProvince" name="mapIDProvince"  autocomplete="off"
+                                    <input type="text" id="mapIDProvince" name="mapIDProvince" hidden autocomplete="off"
                                          readonly />
                                 </div>
 
-                                <input type="text" name="baseimg" id="baseimg"  autocomplete="off" readonly>
+                                <input type="text" name="baseimg" id="baseimg" hidden autocomplete="off" readonly>
+
                                 <div class="col-12 d-flex justify-content-between">
                                     <button class="btn btn-primary btn-prev">
                                         <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
